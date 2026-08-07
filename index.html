@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html lang="hi">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>आधार सेवा केन्द्र कंजौली</title>
+
+<!-- Hindi + English Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Website CSS -->
 <link rel="stylesheet" href="style.css">
+
+<!-- PDF Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 </head>
+
 
 <body>
 
 <h1>आधार सेवा केन्द्र कंजौली</h1>
+
 <h3>Online Token Booking System</h3>
 
 <p>
@@ -25,106 +42,244 @@
 
 <hr>
 
+
 <h2>🎫 टोकन बुक करें</h2>
+
 
 <form>
 
+
 <label>ग्राहक का नाम:</label><br>
-<input type="text" id="name" placeholder="अपना नाम लिखें">
-<label>उम्र:</label><br>
-<input type="number" id="age" placeholder="उम्र लिखें" min="0" max="120">
+
+<input
+type="text"
+id="name"
+placeholder="अपना नाम लिखें"
+required
+>
+
 
 <br><br>
+
+
+<label>उम्र:</label><br>
+
+<input
+type="number"
+id="age"
+placeholder="उम्र लिखें"
+min="0"
+max="120"
+required
+>
+
+
+<br><br>
+
 
 <label>सेवा चुनें:</label><br>
 
 <select id="service">
+
 <option>नया नामांकन (0-5 वर्ष)</option>
+
 <option>नया नामांकन (5-18 वर्ष)</option>
+
 <option>नाम अपडेट</option>
+
 <option>जन्म तिथि अपडेट</option>
+
 <option>मोबाइल नंबर अपडेट</option>
+
 <option>ईमेल अपडेट</option>
+
 <option>पता अपडेट</option>
+
 <option>बायोमेट्रिक अपडेट</option>
+
 </select>
 
+
 <br><br>
+
 
 <label>तारीख चुनें:</label><br>
-<input type="date" id="bookingDate">
+
+<input
+type="date"
+id="bookingDate"
+required
+>
+
 
 <br><br>
 
+
 <label>समय स्लॉट:</label><br>
+
 
 <select id="timeSlot">
 
 <option>8:00 AM - 8:30 AM</option>
+
 <option>8:30 AM - 9:00 AM</option>
+
 <option>9:00 AM - 9:30 AM</option>
+
 <option>9:30 AM - 10:00 AM</option>
+
 <option>10:00 AM - 10:30 AM</option>
+
 <option>10:30 AM - 11:00 AM</option>
+
 <option>11:00 AM - 11:30 AM</option>
+
 <option>11:30 AM - 12:00 PM</option>
+
 <option>12:00 PM - 12:30 PM</option>
+
 <option>12:30 PM - 1:00 PM</option>
+
 <option>1:00 PM - 1:30 PM</option>
+
 <option>1:30 PM - 2:00 PM</option>
+
 <option>2:00 PM - 2:30 PM</option>
+
 <option>2:30 PM - 3:00 PM</option>
+
 <option>3:00 PM - 3:30 PM</option>
+
 <option>3:30 PM - 4:00 PM</option>
+
 <option>4:00 PM - 4:30 PM</option>
+
 <option>4:30 PM - 5:00 PM</option>
 
 </select>
 
+
 <br><br>
 
-<button type="button" onclick="bookToken()">
+
+<button
+type="button"
+onclick="bookToken()"
+>
+
 टोकन बुक करें
+
 </button>
+
 
 </form>
 
-<div id="tokenSlip" style="display:none;">
+
+<br>
+
+
+<!-- TOKEN SLIP -->
+
+<div
+id="tokenSlip"
+style="display:none;"
+>
+
+
 <div id="tokenActions">
 
-<button type="button" onclick="window.print()">
+<button
+type="button"
+onclick="window.print()"
+>
+
 🖨️ प्रिंट करें
+
 </button>
 
-<button type="button" onclick="downloadTokenSlip()">
-⬇️ डाउनलोड करें
+
+<button
+type="button"
+onclick="downloadTokenSlip()"
+>
+
+⬇️ PDF डाउनलोड करें
+
 </button>
 
 </div>
-  
+
+
+<div id="pdfContent">
+
+
 <hr>
 
-<h2>आधार सेवा केन्द्र कंजौली</h2>
-<h3>Online Token Booking System</h3>
 
-<p>आईटी केंद्र कंजौली</p>
-<p>तहसील - बालघाट, जिला - करौली (राजस्थान)</p>
+<h2>
+आधार सेवा केन्द्र कंजौली
+</h2>
 
-<h3>🎫 टोकन पर्ची</h3>
+
+<h3>
+Online Token Booking System
+</h3>
+
+
+<p>
+आईटी केंद्र कंजौली
+</p>
+
+
+<p>
+तहसील - बालघाट, जिला - करौली (राजस्थान)
+</p>
+
+
+<hr>
+
+
+<h3>
+🎫 टोकन पर्ची
+</h3>
+
 
 <h2 id="tokenNumber"></h2>
 
+
 <p id="customerName"></p>
+
 <p id="customerAge"></p>
+
 <p id="customerService"></p>
+
 <p id="customerDate"></p>
+
 <p id="customerTime"></p>
 
-<p>कृपया निर्धारित समय पर केन्द्र पर आएं।</p>
+
+<hr>
+
+
+<p>
+कृपया निर्धारित समय पर केन्द्र आएं।
+</p>
+
+
+<p>
+धन्यवाद!
+</p>
+
 
 </div>
 
+
+</div>
+
+
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
