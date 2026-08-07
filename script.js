@@ -2,27 +2,30 @@ let tokenNumber = 1;
 
 function bookToken() {
 
-let name = document.getElementById("name").value;
-let service = document.getElementById("service").value;
+    const name = document.getElementById("name").value.trim();
+    const service = document.getElementById("service").value;
+    const timeSlot = document.getElementById("timeSlot").value;
 
-if(name === ""){
-alert("कृपया अपना नाम लिखें");
-return;
-}
+    if (name === "") {
+        alert("कृपया अपना नाम लिखें।");
+        return;
+    }
 
-let token = "A-" + String(tokenNumber).padStart(3,'0');
+    const token = "A-" + String(tokenNumber).padStart(3, "0");
 
-document.getElementById("tokenSlip").style.display = "block";
+    document.getElementById("tokenNumber").textContent =
+        "टोकन नंबर: " + token;
 
-document.getElementById("tokenNumber").innerHTML =
-"टोकन नंबर: " + token;
+    document.getElementById("customerName").textContent =
+        "नाम: " + name;
 
-document.getElementById("customerName").innerHTML =
-"नाम: " + name;
+    document.getElementById("customerService").textContent =
+        "सेवा: " + service;
 
-document.getElementById("customerService").innerHTML =
-"सेवा: " + service;
+    document.getElementById("customerTime").textContent =
+        "समय: " + timeSlot;
 
-tokenNumber++;
+    document.getElementById("tokenSlip").style.display = "block";
 
+    tokenNumber++;
 }
