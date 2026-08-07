@@ -3,6 +3,7 @@ let tokenNumber = 1;
 function bookToken() {
 
     const name = document.getElementById("name").value.trim();
+    const age = document.getElementById("age").value;
     const service = document.getElementById("service").value;
     const date = document.getElementById("bookingDate").value;
     const time = document.getElementById("timeSlot").value;
@@ -24,6 +25,9 @@ function bookToken() {
 
     document.getElementById("customerName").textContent =
         "नाम: " + name;
+
+    document.getElementById("customerAge").textContent =
+    "उम्र: " + age + " वर्ष";
 
     document.getElementById("customerService").textContent =
         "सेवा: " + service;
