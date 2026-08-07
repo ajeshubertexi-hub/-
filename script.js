@@ -4,10 +4,16 @@ function bookToken() {
 
     const name = document.getElementById("name").value.trim();
     const service = document.getElementById("service").value;
-    const timeSlot = document.getElementById("timeSlot").value;
+    const date = document.getElementById("bookingDate").value;
+    const time = document.getElementById("timeSlot").value;
 
     if (name === "") {
         alert("कृपया अपना नाम लिखें।");
+        return;
+    }
+
+    if (date === "") {
+        alert("कृपया तारीख चुनें।");
         return;
     }
 
@@ -22,8 +28,11 @@ function bookToken() {
     document.getElementById("customerService").textContent =
         "सेवा: " + service;
 
+    document.getElementById("customerDate").textContent =
+        "तारीख: " + date;
+
     document.getElementById("customerTime").textContent =
-        "समय: " + timeSlot;
+        "समय: " + time;
 
     document.getElementById("tokenSlip").style.display = "block";
 
