@@ -38,3 +38,31 @@ function bookToken() {
 
     tokenNumber++;
 }
+function downloadTokenSlip() {
+
+    const slip = document.getElementById("tokenSlip");
+
+    const text =
+        "आधार सेवा केन्द्र कंजौली\n" +
+        "आईटी केंद्र कंजौली\n" +
+        "तहसील - बालघाट, जिला - करौली (राजस्थान)\n\n" +
+        document.getElementById("tokenNumber").innerText + "\n" +
+        document.getElementById("customerName").innerText + "\n" +
+        document.getElementById("customerService").innerText + "\n" +
+        document.getElementById("customerDate").innerText + "\n" +
+        document.getElementById("customerTime").innerText;
+
+    const blob = new Blob([text], {
+        type: "text/plain;charset=utf-8"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "Aadhar-Token-Slip.txt";
+
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
