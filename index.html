@@ -32,6 +32,7 @@
 <input type="text" placeholder="अपना नाम लिखें"><br><br>
 
 <label>सेवा चुनें:</label><br>
+<select id="service">
 
 <select>
 <option>नया नामांकन (0-5 वर्ष)</option>
@@ -73,7 +74,7 @@
 
 <br><br>
 
-<button type="button">
+<button type="button" onclick="bookToken()">
 टोकन बुक करें
 </button>
 <div id="tokenSlip" style="display:none;">
