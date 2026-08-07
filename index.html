@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="hi">
-<link rel="stylesheet" href="style.css">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>आधार सेवा केन्द्र कंजौली</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
-<script src="script.js"></script>
+
 <body>
 
 <h1>आधार सेवा केन्द्र कंजौली</h1>
@@ -18,7 +21,7 @@
 </p>
 
 <p>
-समय: 8:00 AM से 5:00 PM<br>
+समय: सुबह 8:00 बजे से शाम 5:00 बजे तक<br>
 मोबाइल: 8426971575
 </p>
 
@@ -29,12 +32,19 @@
 <form>
 
 <label>ग्राहक का नाम:</label><br>
-<input type="text" placeholder="अपना नाम लिखें"><br><br>
+
+<input 
+type="text" 
+id="name" 
+placeholder="अपना नाम लिखें"
+>
+
+<br><br>
 
 <label>सेवा चुनें:</label><br>
+
 <select id="service">
 
-<select>
 <option>नया नामांकन (0-5 वर्ष)</option>
 <option>नया नामांकन (5-18 वर्ष)</option>
 <option>नाम अपडेट</option>
@@ -43,11 +53,12 @@
 <option>ईमेल अपडेट</option>
 <option>पता अपडेट</option>
 <option>बायोमेट्रिक अपडेट</option>
+
 </select>
 
 <br><br>
 
-<label>समय स्लॉट चुनें:</label><br>
+<label>समय स्लॉट:</label><br>
 
 <select id="timeSlot">
 
@@ -77,17 +88,28 @@
 <button type="button" onclick="bookToken()">
 टोकन बुक करें
 </button>
-<div id="tokenSlip" style="display:none;">
-<h2>आधार सेवा केन्द्र कंजौली</h2>
-<h3>आपका टोकन</h3>
 
-<p id="tokenNumber"></p>
+</form>
+
+<div id="tokenSlip" style="display:none;">
+
+<hr>
+
+<h2>🎫 टोकन पर्ची</h2>
+
+<h3 id="tokenNumber"></h3>
+
 <p id="customerName"></p>
+
 <p id="customerService"></p>
 
-<p>कृपया अपने समय पर केन्द्र पर आएं।</p>
+<p id="customerTime"></p>
+
+<p>कृपया अपने निर्धारित समय पर केन्द्र पर आएं।</p>
+
 </div>
-</form>
+
+<script src="script.js"></script>
 
 </body>
 </html>
