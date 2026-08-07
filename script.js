@@ -13,6 +13,11 @@ function bookToken() {
         return;
     }
 
+    if (age === "") {
+        alert("कृपया उम्र लिखें।");
+        return;
+    }
+
     if (date === "") {
         alert("कृपया तारीख चुनें।");
         return;
@@ -27,7 +32,7 @@ function bookToken() {
         "नाम: " + name;
 
     document.getElementById("customerAge").textContent =
-    "उम्र: " + age + " वर्ष";
+        "उम्र: " + age + " वर्ष";
 
     document.getElementById("customerService").textContent =
         "सेवा: " + service;
@@ -42,48 +47,42 @@ function bookToken() {
 
     tokenNumber++;
 }
+
+
 function downloadTokenSlip() {
 
-    const token = document.getElementById("tokenNumber").innerText;
-    const name = document.getElementById("customerName").innerText;
-    const service = document.getElementById("customerService").innerText;
-    const date = document.getElementById("customerDate").innerText;
-    const time = document.getElementById("customerTime").innerText;
+    const slip = document.getElementById("tokenSlip");
 
-    const slip = `
-आधार सेवा केन्द्र कंजौली
-आईटी केंद्र कंजौली
-तहसील - बालघाट, जिला - करौली (राजस्थान)
+    if (!slip) {
+        alert("टोकन पर्ची नहीं मिली।");
+        return;
+    }
 
-============================
+    if (typeof html2pdf === "undefined") {
+        alert("PDF सिस्टम लोड नहीं हुआ। कृपया इंटरनेट चालू करके दोबारा कोशिश करें।");
+        return;
+    }
 
-${token}
+    const options = {
+        margin: 10,
+        filename: "Aadhar-Seva-Kendra-Kanjouli-Token.pdf",
+        image: {
+            type: "jpeg",
+            quality: 0.98
+        },
+        html2canvas: {
+            scale: 2,
+            useCORS: true
+        },
+        jsPDF: {
+            unit: "mm",
+            format: "a5",
+            orientation: "portrait"
+        }
+    };
 
-${name}
-${service}
-${date}
-${time}
-
-कृपया निर्धारित समय पर केन्द्र पर आएं।
-
-============================
-`;
-
-    const blob = new Blob([slip], {
-        type: "text/plain;charset=utf-8"
-    });
-
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "Aadhar-Token-Slip.txt";
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    setTimeout(function() {
-        URL.revokeObjectURL(url);
-    }, 1000);
+    html2pdf()
+        .set(options)
+        .from(slip)
+        .save();
 }
