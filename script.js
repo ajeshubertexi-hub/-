@@ -40,19 +40,32 @@ function bookToken() {
 }
 function downloadTokenSlip() {
 
-    const slip = document.getElementById("tokenSlip");
+    const token = document.getElementById("tokenNumber").innerText;
+    const name = document.getElementById("customerName").innerText;
+    const service = document.getElementById("customerService").innerText;
+    const date = document.getElementById("customerDate").innerText;
+    const time = document.getElementById("customerTime").innerText;
 
-    const text =
-        "आधार सेवा केन्द्र कंजौली\n" +
-        "आईटी केंद्र कंजौली\n" +
-        "तहसील - बालघाट, जिला - करौली (राजस्थान)\n\n" +
-        document.getElementById("tokenNumber").innerText + "\n" +
-        document.getElementById("customerName").innerText + "\n" +
-        document.getElementById("customerService").innerText + "\n" +
-        document.getElementById("customerDate").innerText + "\n" +
-        document.getElementById("customerTime").innerText;
+    const slip = `
+आधार सेवा केन्द्र कंजौली
+आईटी केंद्र कंजौली
+तहसील - बालघाट, जिला - करौली (राजस्थान)
 
-    const blob = new Blob([text], {
+============================
+
+${token}
+
+${name}
+${service}
+${date}
+${time}
+
+कृपया निर्धारित समय पर केन्द्र पर आएं।
+
+============================
+`;
+
+    const blob = new Blob([slip], {
         type: "text/plain;charset=utf-8"
     });
 
@@ -62,7 +75,11 @@ function downloadTokenSlip() {
     link.href = url;
     link.download = "Aadhar-Token-Slip.txt";
 
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
 
-    URL.revokeObjectURL(url);
+    setTimeout(function() {
+        URL.revokeObjectURL(url);
+    }, 1000);
 }
