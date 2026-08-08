@@ -1,19 +1,38 @@
+// ======================================================
+// AADHAAR SEVA KENDRA KANJOULI
+// ONLINE TOKEN BOOKING SYSTEM
+// COMPLETE SCRIPT.JS
+// ======================================================
+
+
+// ======================================================
+// FIREBASE IMPORT
+// ======================================================
+
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 
 import {
     getDatabase,
     ref,
     runTransaction,
     push,
-    set
+    set,
+    get
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
+
+// ======================================================
+// FIREBASE CONFIGURATION
+// ======================================================
+
 const firebaseConfig = {
 
-    apiKey: "AIzaSyAlxyXSuofz3aqDzVQfs9zmussSCUxjRpY",
+    apiKey:
+        "AIzaSyAlxyXSuofz3aqDzVQfs9zmussSCUxjRpY",
 
     authDomain:
         "aadhar-seva-kendra-kanjouli.firebaseapp.com",
@@ -35,458 +54,147 @@ const firebaseConfig = {
 
     measurementId:
         "G-PLY1V10ZQW"
+
 };
 
 
-// Firebase शुरू करें
-const app = initializeApp(firebaseConfig);
 
-const database = getDatabase(app);
+// ======================================================
+// FIREBASE START
+// ======================================================
+
+const app =
+    initializeApp(firebaseConfig);
 
 
-// ======================================
+const database =
+    getDatabase(app);
+
+
+
+// ======================================================
 // SETTINGS
-// ======================================
+// ======================================================
 
-// हर working day अधिकतम Token
 const MAX_TOKENS_PER_DAY = 30;
 
 
-// कितने working days दिखाने हैं
-const WORKING_DAYS_TO_SHOW = 3;
+// अगले कितने दिन दिखाने हैं
+const DAYS_TO_SHOW = 7;
 
 
-// ======================================
-// CENTER HOLIDAYS
-// ======================================
+// ======================================================
+// CENTRE HOLIDAYS
+// ======================================================
 //
-// यहाँ Center की छुट्टी की तारीख डालें:
+// यहाँ Centre Holiday की तारीख डाल सकते हैं.
 //
-// "2026-08-15",
-// "2026-08-20"
+// Format:
 //
-// रविवार अपने-आप Holiday रहेगा.
+// "2026-08-15": "स्वतंत्रता दिवस"
+//
+// उदाहरण:
+//
+// const CENTRE_HOLIDAYS = {
+//     "2026-08-15": "स्वतंत्रता दिवस",
+//     "2026-08-27": "केन्द्र अवकाश"
+// };
+//
+// अभी खाली रखा गया है.
 //
 
-const CENTER_HOLIDAYS = [
+const CENTRE_HOLIDAYS = {
 
-    // उदाहरण:
-    // "2026-08-15",
-    // "2026-08-20"
+    // "2026-08-15": "स्वतंत्रता दिवस",
+    // "2026-08-27": "केन्द्र अवकाश"
 
-];
+};
 
 
-// ======================================
-// DATE FUNCTIONS
-// ======================================
 
-function formatDate(date) {
+// ======================================================
+// TODAY DATE
+// ======================================================
+
+function getToday() {
+
+    const today =
+        new Date();
+
+
+    const year =
+        today.getFullYear();
+
+
+    const month =
+        String(
+            today.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    const day =
+        String(
+            today.getDate()
+        ).padStart(2, "0");
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+
+// ======================================================
+// DATE FORMAT
+// ======================================================
+
+function formatDate(dateString) {
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
 
     const year =
         date.getFullYear();
 
-    const month =
-        String(date.getMonth() + 1).padStart(2, "0");
 
-    const day =
-        String(date.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-}
-
-
-function getToday() {
-
-    return formatDate(new Date());
-
-}
-
-
-// रविवार check
-function isSunday(date) {
-
-    return date.getDay() === 0;
-
-}
-
-
-// Center Holiday check
-function isCenterHoliday(dateString) {
-
-    return CENTER_HOLIDAYS.includes(dateString);
-
-}
-
-
-// ======================================
-// WORKING DAYS
-// ======================================
-
-function getNextWorkingDays() {
-
-    const result = [];
-
-    const date =
-        new Date();
-
-
-    // आज से आगे तारीखें देखेंगे
-    while (result.length < WORKING_DAYS_TO_SHOW) {
-
-        const dateString =
-            formatDate(date);
-
-
-        // रविवार नहीं
-        const sunday =
-            isSunday(date);
-
-
-        // Center Holiday नहीं
-        const centerHoliday =
-            isCenterHoliday(dateString);
-
-
-        if (!sunday && !centerHoliday) {
-
-            result.push({
-
-                date: dateString,
-
-                dateObject:
-                    new Date(date)
-
-            });
-
-        }
-
-
-        date.setDate(
-            date.getDate() + 1
-        );
-
-    }
-
-
-    return result;
-
-}
-
-
-// ======================================
-// TOKEN COUNT
-// ======================================
-
-async function getTokenCount(date) {
-
-    const counterRef =
-        ref(
-            database,
-            "tokenCounters/" + date
-        );
-
-
-    try {
-
-        const result =
-            await runTransaction(
-                counterRef,
-                currentValue => {
-
-                    // सिर्फ current value पढ़ने के लिए
-                    // transaction को abort करना है
-
-                    return;
-
-                },
-                {
-                    applyLocally: false
-                }
-            );
-
-
-        return result.snapshot.val() || 0;
-
-    } catch (error) {
-
-        // Transaction read के कारण abort हो सकता है।
-        // इसलिए fallback नीचे Firebase REST-free तरीके से नहीं करेंगे।
-
-        console.error(
-            "Token count error:",
-            error
-        );
-
-        return 0;
-
-    }
-
-}
-
-
-// ======================================
-// DATE STATUS LOAD
-// ======================================
-
-async function loadDateOptions() {
-
-    const container =
-        document.getElementById("dateOptions");
-
-
-    if (!container) return;
-
-
-    container.innerHTML =
-        "तारीखें लोड हो रही हैं...";
-
-
-    const workingDays =
-        getNextWorkingDays();
-
-
-    container.innerHTML = "";
-
-
-    for (const item of workingDays) {
-
-        const date =
-            item.date;
-
-
-        const count =
-            await getCurrentCounter(date);
-
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "date-card";
-
-
-        card.dataset.date =
-            date;
-
-
-        const title =
-            document.createElement("div");
-
-        title.className =
-            "date-title";
-
-
-        title.textContent =
-            formatHindiDate(
-                item.dateObject
-            );
-
-
-        const status =
-            document.createElement("div");
-
-        status.className =
-            "date-status";
-
-
-        if (count >= MAX_TOKENS_PER_DAY) {
-
-            card.classList.add("full");
-
-            status.textContent =
-                "🔴 TOKEN FULL — 30/30";
-
-
-        } else {
-
-            card.classList.add("available");
-
-            const remaining =
-                MAX_TOKENS_PER_DAY - count;
-
-
-            status.textContent =
-                `🟢 AVAILABLE — ${remaining} Token बाकी`;
-
-            card.addEventListener(
-                "click",
-                () => selectDate(card, date)
-            );
-
-        }
-
-
-        card.appendChild(title);
-
-        card.appendChild(status);
-
-        container.appendChild(card);
-
-    }
-
-
-    // पहले available date को select करें
-    const firstAvailable =
-        container.querySelector(
-            ".date-card.available"
-        );
-
-
-    if (firstAvailable) {
-
-        selectDate(
-            firstAvailable,
-            firstAvailable.dataset.date
-        );
-
-    }
-
-}
-
-
-// ======================================
-// CURRENT COUNTER
-// ======================================
-
-async function getCurrentCounter(date) {
-
-    const counterRef =
-        ref(
-            database,
-            "tokenCounters/" + date
-        );
-
-
-    try {
-
-        /*
-        Firebase transaction में
-        null return करके transaction cancel
-        किया जा सकता है।
-        */
-
-        let currentValue = 0;
-
-
-        await runTransaction(
-            counterRef,
-            value => {
-
-                currentValue =
-                    value || 0;
-
-                return;
-
-            }
-        );
-
-
-        return currentValue;
-
-    } catch (error) {
-
-        console.error(
-            "Counter read error:",
-            error
-        );
-
-
-        /*
-        अगर read transaction fail हो,
-        तो 0 मानने के बजाय error दिखाएँ।
-        */
-
-        return 0;
-
-    }
-
-}
-
-
-// ======================================
-// DATE SELECT
-// ======================================
-
-async function selectDate(card, date) {
-
-    document
-        .querySelectorAll(".date-card")
-        .forEach(item => {
-
-            item.classList.remove(
-                "selected"
-            );
-
-        });
-
-
-    card.classList.add(
-        "selected"
+    return (
+        day +
+        "/" +
+        month +
+        "/" +
+        year
     );
 
-
-    document.getElementById(
-        "bookingDate"
-    ).value = date;
-
-
-    await updateNextToken(date);
-
 }
 
 
-// ======================================
-// NEXT TOKEN
-// ======================================
 
-async function updateNextToken(date) {
+// ======================================================
+// HINDI DAY NAME
+// ======================================================
 
-    const box =
-        document.getElementById(
-            "nextTokenInfo"
-        );
-
-
-    if (!box) return;
-
-
-    const count =
-        await getCurrentCounter(date);
-
-
-    if (count >= MAX_TOKENS_PER_DAY) {
-
-        box.innerHTML =
-            "🔴 इस तारीख के सभी 30 Token Book हो चुके हैं।";
-
-
-        return;
-
-    }
-
-
-    const nextNumber =
-        count + 1;
-
-
-    const nextToken =
-        "A-" +
-        String(nextNumber).padStart(3, "0");
-
-
-    box.innerHTML =
-        `🔢 अगला Token: <strong>${nextToken}</strong>`;
-
-}
-
-
-// ======================================
-// HINDI DATE
-// ======================================
-
-function formatHindiDate(date) {
+function getHindiDay(date) {
 
     const days = [
 
@@ -501,159 +209,898 @@ function formatHindiDate(date) {
     ];
 
 
-    const months = [
-
-        "जनवरी",
-        "फरवरी",
-        "मार्च",
-        "अप्रैल",
-        "मई",
-        "जून",
-        "जुलाई",
-        "अगस्त",
-        "सितंबर",
-        "अक्टूबर",
-        "नवंबर",
-        "दिसंबर"
-
+    return days[
+        date.getDay()
     ];
-
-
-    return `${days[date.getDay()]} — ${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 
 }
 
 
-// ======================================
-// TOKEN BOOKING
-// ======================================
 
-async function bookToken() {
+// ======================================================
+// DATE IS SUNDAY?
+// ======================================================
 
-    const name =
-        document.getElementById(
-            "name"
-        ).value.trim();
-
-
-    const age =
-        document.getElementById(
-            "age"
-        ).value;
-
-
-    const service =
-        document.getElementById(
-            "service"
-        ).value;
-
+function isSunday(dateString) {
 
     const date =
-        document.getElementById(
-            "bookingDate"
-        ).value;
-
-
-    const time =
-        document.getElementById(
-            "timeSlot"
-        ).value;
-
-
-    // ==================================
-    // VALIDATION
-    // ==================================
-
-    if (name === "") {
-
-        alert(
-            "कृपया अपना नाम लिखें।"
-        );
-
-        return;
-
-    }
-
-
-    if (age === "") {
-
-        alert(
-            "कृपया अपनी उम्र लिखें।"
-        );
-
-        return;
-
-    }
-
-
-    if (date === "") {
-
-        alert(
-            "कृपया उपलब्ध तारीख चुनें।"
-        );
-
-        return;
-
-    }
-
-
-    // Sunday check
-    const selectedDate =
         new Date(
-            date + "T00:00:00"
+            dateString + "T00:00:00"
         );
 
+
+    return (
+        date.getDay() === 0
+    );
+
+}
+
+
+
+// ======================================================
+// DATE IS CENTRE HOLIDAY?
+// ======================================================
+
+function isCentreHoliday(dateString) {
+
+    return Object.prototype.hasOwnProperty.call(
+        CENTRE_HOLIDAYS,
+        dateString
+    );
+
+}
+
+
+
+// ======================================================
+// GET DATE AFTER N DAYS
+// ======================================================
+
+function getDateAfterDays(days) {
+
+    const date =
+        new Date();
+
+
+    date.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    date.setDate(
+        date.getDate() + days
+    );
+
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+
+// ======================================================
+// CHECK OFF DAY
+// ======================================================
+
+function getOffReason(dateString) {
 
     if (
-        isSunday(selectedDate)
+        isSunday(dateString)
     ) {
 
-        alert(
-            "रविवार को Center बंद रहता है।"
-        );
-
-        return;
+        return "रविवार\nCentre OFF";
 
     }
 
 
-    // Center holiday check
     if (
-        isCenterHoliday(date)
+        isCentreHoliday(dateString)
     ) {
 
-        alert(
-            "इस तारीख को Center Holiday है।"
+        return (
+            "Centre OFF\n" +
+            CENTRE_HOLIDAYS[dateString]
         );
-
-        return;
 
     }
 
+
+    return null;
+
+}
+
+
+
+// ======================================================
+// GET TOKEN COUNTER
+// ======================================================
+
+async function getTokenCount(dateString) {
 
     try {
-
-        // ==================================
-        // TOKEN COUNTER
-        // ==================================
 
         const counterRef =
             ref(
                 database,
-                "tokenCounters/" + date
+                "tokenCounters/" +
+                dateString
             );
 
+
+        const snapshot =
+            await get(
+                counterRef
+            );
+
+
+        if (
+            !snapshot.exists()
+        ) {
+
+            return 0;
+
+        }
+
+
+        const value =
+            Number(
+                snapshot.val()
+            );
+
+
+        if (
+            Number.isNaN(value)
+        ) {
+
+            return 0;
+
+        }
+
+
+        return value;
+
+    } catch (error) {
+
+        console.error(
+            "Token count error:",
+            error
+        );
+
+
+        return 0;
+
+    }
+
+}
+
+
+
+// ======================================================
+// GET NEXT TOKEN NUMBER
+// ======================================================
+
+async function getNextTokenNumber(
+    dateString
+) {
+
+    const currentCount =
+        await getTokenCount(
+            dateString
+        );
+
+
+    return (
+        currentCount + 1
+    );
+
+}
+
+
+
+// ======================================================
+// UPDATE NEXT TOKEN DISPLAY
+// ======================================================
+
+async function updateNextToken(
+    dateString
+) {
+
+    const nextTokenElement =
+        document.getElementById(
+            "nextTokenInfo"
+        );
+
+
+    if (
+        !nextTokenElement
+    ) {
+
+        return;
+
+    }
+
+
+    const offReason =
+        getOffReason(
+            dateString
+        );
+
+
+    if (offReason) {
+
+        nextTokenElement.textContent =
+            "OFF";
+
+
+        nextTokenElement.style.color =
+            "#6c7680";
+
+
+        return;
+
+    }
+
+
+    const count =
+        await getTokenCount(
+            dateString
+        );
+
+
+    if (
+        count >= MAX_TOKENS_PER_DAY
+    ) {
+
+        nextTokenElement.textContent =
+            "FULL";
+
+
+        nextTokenElement.style.color =
+            "#d64250";
+
+
+        return;
+
+    }
+
+
+    const next =
+        count + 1;
+
+
+    nextTokenElement.textContent =
+        "A-" +
+        String(next).padStart(
+            3,
+            "0"
+        );
+
+
+    nextTokenElement.style.color =
+        "#087f4d";
+
+}
+
+
+
+// ======================================================
+// CREATE DATE CARD
+// ======================================================
+
+async function createDateCard(
+    dateString
+) {
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
+    const count =
+        await getTokenCount(
+            dateString
+        );
+
+
+    const offReason =
+        getOffReason(
+            dateString
+        );
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "date-card";
+
+
+    card.dataset.date =
+        dateString;
+
+
+
+    // ==================================================
+    // OFF
+    // ==================================================
+
+    if (offReason) {
+
+        card.classList.add(
+            "off"
+        );
+
+
+        card.innerHTML = `
+
+            <div class="date-day">
+                ${getHindiDay(date)}
+            </div>
+
+            <div class="date-date">
+                ${formatDate(dateString)}
+            </div>
+
+            <div class="date-status">
+                ${offReason}
+            </div>
+
+        `;
+
+
+        return card;
+
+    }
+
+
+
+    // ==================================================
+    // FULL
+    // ==================================================
+
+    if (
+        count >= MAX_TOKENS_PER_DAY
+    ) {
+
+        card.classList.add(
+            "full"
+        );
+
+
+        card.innerHTML = `
+
+            <div class="date-day">
+                ${getHindiDay(date)}
+            </div>
+
+            <div class="date-date">
+                ${formatDate(dateString)}
+            </div>
+
+            <div class="date-status">
+                🔴 FULL<br>
+                30/30 Token
+            </div>
+
+        `;
+
+
+        return card;
+
+    }
+
+
+
+    // ==================================================
+    // AVAILABLE
+    // ==================================================
+
+    card.classList.add(
+        "available"
+    );
+
+
+    const remaining =
+        MAX_TOKENS_PER_DAY -
+        count;
+
+
+    card.innerHTML = `
+
+        <div class="date-day">
+            ${getHindiDay(date)}
+        </div>
+
+        <div class="date-date">
+            ${formatDate(dateString)}
+        </div>
+
+        <div class="date-status">
+            🟢 Available<br>
+            ${remaining} Token बाकी
+        </div>
+
+    `;
+
+
+
+    // ==================================================
+    // CLICK EVENT
+    // ==================================================
+
+    card.addEventListener(
+        "click",
+        async function () {
+
+            selectDate(
+                dateString
+            );
+
+        }
+    );
+
+
+    return card;
+
+}
+
+
+
+// ======================================================
+// LOAD DATE OPTIONS
+// ======================================================
+
+async function loadDateOptions() {
+
+    const container =
+        document.getElementById(
+            "dateOptions"
+        );
+
+
+    if (
+        !container
+    ) {
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    let firstAvailableDate =
+        null;
+
+
+
+    // ==================================================
+    // SHOW NEXT 7 DAYS
+    // ==================================================
+
+    for (
+        let i = 0;
+        i < DAYS_TO_SHOW;
+        i++
+    ) {
+
+        const dateString =
+            getDateAfterDays(i);
+
+
+        const card =
+            await createDateCard(
+                dateString
+            );
+
+
+        container.appendChild(
+            card
+        );
+
+
+        // पहले available दिन को याद रखें
+        if (
+            !firstAvailableDate &&
+            card.classList.contains(
+                "available"
+            )
+        ) {
+
+            firstAvailableDate =
+                dateString;
+
+        }
+
+    }
+
+
+
+    // ==================================================
+    // AUTO SELECT AVAILABLE DATE
+    // ==================================================
+
+    if (
+        firstAvailableDate
+    ) {
+
+        selectDate(
+            firstAvailableDate
+        );
+
+    } else {
+
+        const info =
+            document.getElementById(
+                "selectedDateInfo"
+            );
+
+
+        if (info) {
+
+            info.textContent =
+                "अभी कोई Working Day उपलब्ध नहीं है।";
+
+        }
+
+    }
+
+}
+
+
+
+// ======================================================
+// SELECT DATE
+// ======================================================
+
+async function selectDate(
+    dateString
+) {
+
+    const offReason =
+        getOffReason(
+            dateString
+        );
+
+
+    if (offReason) {
+
+        alert(
+            "यह तारीख Centre OFF है।"
+        );
+
+
+        return;
+
+    }
+
+
+    const count =
+        await getTokenCount(
+            dateString
+        );
+
+
+    if (
+        count >= MAX_TOKENS_PER_DAY
+    ) {
+
+        alert(
+            "इस तारीख के सभी 30 Token पहले ही बुक हो चुके हैं।"
+        );
+
+
+        return;
+
+    }
+
+
+
+    // Hidden date input
+
+    const bookingDate =
+        document.getElementById(
+            "bookingDate"
+        );
+
+
+    if (
+        bookingDate
+    ) {
+
+        bookingDate.value =
+            dateString;
+
+    }
+
+
+
+    // Remove old selected
+
+    document
+        .querySelectorAll(
+            ".date-card"
+        )
+        .forEach(
+            card => {
+
+                card.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+
+    // Select current
+
+    const selectedCard =
+        document.querySelector(
+            `.date-card[data-date="${dateString}"]`
+        );
+
+
+    if (
+        selectedCard
+    ) {
+
+        selectedCard.classList.add(
+            "selected"
+        );
+
+    }
+
+
+
+    // Information
+
+    const info =
+        document.getElementById(
+            "selectedDateInfo"
+        );
+
+
+    if (
+        info
+    ) {
+
+        const remaining =
+            MAX_TOKENS_PER_DAY -
+            count;
+
+
+        info.innerHTML = `
+
+            📅 चयनित तारीख:
+            <strong>
+                ${formatDate(dateString)}
+            </strong>
+
+            &nbsp; | &nbsp;
+
+            🟢 Available:
+            <strong>
+                ${remaining}
+            </strong>
+            Token
+
+        `;
+
+    }
+
+
+
+    // Update next token
+
+    await updateNextToken(
+        dateString
+    );
+
+}
+
+
+
+// ======================================================
+// BOOK TOKEN
+// ======================================================
+
+async function bookToken() {
+
+
+    const name =
+        document
+            .getElementById(
+                "name"
+            )
+            .value
+            .trim();
+
+
+    const age =
+        document
+            .getElementById(
+                "age"
+            )
+            .value;
+
+
+    const service =
+        document
+            .getElementById(
+                "service"
+            )
+            .value;
+
+
+    const date =
+        document
+            .getElementById(
+                "bookingDate"
+            )
+            .value;
+
+
+    const time =
+        document
+            .getElementById(
+                "timeSlot"
+            )
+            .value;
+
+
+
+    // ==================================================
+    // VALIDATION
+    // ==================================================
+
+    if (
+        name === ""
+    ) {
+
+        alert(
+            "कृपया ग्राहक का नाम लिखें।"
+        );
+
+
+        return;
+
+    }
+
+
+
+    if (
+        age === ""
+    ) {
+
+        alert(
+            "कृपया उम्र लिखें।"
+        );
+
+
+        return;
+
+    }
+
+
+
+    if (
+        date === ""
+    ) {
+
+        alert(
+            "कृपया पहले तारीख चुनें।"
+        );
+
+
+        return;
+
+    }
+
+
+
+    // ==================================================
+    // SUNDAY / HOLIDAY CHECK
+    // ==================================================
+
+    const offReason =
+        getOffReason(
+            date
+        );
+
+
+    if (
+        offReason
+    ) {
+
+        alert(
+            "इस तारीख को Centre OFF है।"
+        );
+
+
+        await loadDateOptions();
+
+
+        return;
+
+    }
+
+
+
+    try {
+
+
+        // ==============================================
+        // COUNTER REFERENCE
+        // ==============================================
+
+        const counterRef =
+            ref(
+                database,
+                "tokenCounters/" +
+                date
+            );
+
+
+
+        // ==============================================
+        // IMPORTANT:
+        // TRANSACTION ENSURES MAX 30
+        // ==============================================
 
         const result =
             await runTransaction(
                 counterRef,
                 currentValue => {
 
-                    const current =
-                        currentValue || 0;
+                    let current =
+                        Number(
+                            currentValue
+                        );
 
 
-                    // 30 Token पूरे
+                    if (
+                        Number.isNaN(
+                            current
+                        )
+                    ) {
+
+                        current = 0;
+
+                    }
+
+
+                    // 30 से अधिक नहीं
                     if (
                         current >=
                         MAX_TOKENS_PER_DAY
@@ -670,51 +1117,72 @@ async function bookToken() {
             );
 
 
+
+        // ==============================================
+        // TRANSACTION FAILED
+        // ==============================================
+
         if (
             !result.committed
         ) {
 
             alert(
-                "🔴 TOKEN FULL\n\n" +
-                "इस तारीख के सभी 30 Token Book हो चुके हैं।"
+                "इस तारीख के सभी 30 Token पहले ही बुक हो चुके हैं।"
             );
 
 
             await loadDateOptions();
+
 
             return;
 
         }
 
 
+
+        // ==============================================
+        // TOKEN NUMBER
+        // ==============================================
+
         const tokenNumber =
-            result.snapshot.val();
+            Number(
+                result.snapshot.val()
+            );
 
 
-        // Safety check
         if (
             tokenNumber >
             MAX_TOKENS_PER_DAY
         ) {
 
             alert(
-                "इस तारीख के सभी Token Full हैं।"
+                "आज के सभी Token पूरे हो चुके हैं।"
             );
+
+
+            await loadDateOptions();
+
 
             return;
 
         }
 
 
+
         const token =
             "A-" +
-            String(tokenNumber)
-                .padStart(3, "0");
+            String(
+                tokenNumber
+            ).padStart(
+                3,
+                "0"
+            );
 
 
-        // ==================================
-        // BOOKING DATA
-        // ==================================
+
+        // ==============================================
+        // BOOKING OBJECT
+        // ==============================================
 
         const booking = {
 
@@ -745,9 +1213,10 @@ async function bookToken() {
         };
 
 
-        // ==================================
-        // FIREBASE BOOKING
-        // ==================================
+
+        // ==============================================
+        // SAVE BOOKING
+        // ==============================================
 
         const bookingRef =
             push(
@@ -764,60 +1233,165 @@ async function bookToken() {
         );
 
 
-        // ==================================
-        // TOKEN SLIP
-        // ==================================
 
-        document.getElementById(
-            "tokenNumber"
-        ).textContent =
-            "टोकन नंबर: " + token;
+        // ==============================================
+        // SHOW TOKEN SLIP
+        // ==============================================
 
-
-        document.getElementById(
-            "customerName"
-        ).textContent =
-            "नाम: " + name;
+        const tokenNumberElement =
+            document.getElementById(
+                "tokenNumber"
+            );
 
 
-        document.getElementById(
-            "customerAge"
-        ).textContent =
-            "उम्र: " + age + " वर्ष";
+        if (
+            tokenNumberElement
+        ) {
+
+            tokenNumberElement.textContent =
+                "टोकन नंबर: " +
+                token;
+
+        }
 
 
-        document.getElementById(
-            "customerService"
-        ).textContent =
-            "सेवा: " + service;
+
+        const customerName =
+            document.getElementById(
+                "customerName"
+            );
 
 
-        document.getElementById(
-            "customerDate"
-        ).textContent =
-            "तारीख: " + date;
+        if (
+            customerName
+        ) {
+
+            customerName.textContent =
+                "नाम: " +
+                name;
+
+        }
 
 
-        document.getElementById(
-            "customerTime"
-        ).textContent =
-            "समय: " + time;
+
+        const customerAge =
+            document.getElementById(
+                "customerAge"
+            );
 
 
-        document.getElementById(
-            "tokenSlip"
-        ).style.display =
-            "block";
+        if (
+            customerAge
+        ) {
 
+            customerAge.textContent =
+                "उम्र: " +
+                age +
+                " वर्ष";
+        }
+
+
+
+        const customerService =
+            document.getElementById(
+                "customerService"
+            );
+
+
+        if (
+            customerService
+        ) {
+
+            customerService.textContent =
+                "सेवा: " +
+                service;
+
+        }
+
+
+
+        const customerDate =
+            document.getElementById(
+                "customerDate"
+            );
+
+
+        if (
+            customerDate
+        ) {
+
+            customerDate.textContent =
+                "तारीख: " +
+                formatDate(date);
+
+        }
+
+
+
+        const customerTime =
+            document.getElementById(
+                "customerTime"
+            );
+
+
+        if (
+            customerTime
+        ) {
+
+            customerTime.textContent =
+                "समय: " +
+                time;
+
+        }
+
+
+
+        // ==============================================
+        // SHOW SLIP
+        // ==============================================
+
+        const tokenSlip =
+            document.getElementById(
+                "tokenSlip"
+            );
+
+
+        if (
+            tokenSlip
+        ) {
+
+            tokenSlip.style.display =
+                "block";
+
+
+            tokenSlip.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+
+        // ==============================================
+        // SUCCESS MESSAGE
+        // ==============================================
 
         alert(
-            "✅ Booking सफलतापूर्वक हो गई।\n\n" +
+
+            "Booking सफलतापूर्वक हो गई।\n\n" +
+
             "आपका Token Number: " +
             token
+
         );
 
 
-        // Form साफ करें
+
+        // ==============================================
+        // CLEAR FORM
+        // ==============================================
+
         document.getElementById(
             "name"
         ).value = "";
@@ -828,10 +1402,16 @@ async function bookToken() {
         ).value = "";
 
 
-        // Status फिर से अपडेट करें
+
+        // ==============================================
+        // REFRESH DATE STATUS
+        // ==============================================
+
         await loadDateOptions();
 
+
     } catch (error) {
+
 
         console.error(
             "Firebase Error:",
@@ -840,8 +1420,11 @@ async function bookToken() {
 
 
         alert(
-            "❌ Booking सेव नहीं हुई।\n\n" +
-            "कृपया इंटरनेट और Firebase Database Rules जाँचें।"
+
+            "Booking सेव नहीं हुई।\n\n" +
+
+            "Firebase Database Rules, Internet या Firebase configuration जाँचें।"
+
         );
 
     }
@@ -849,11 +1432,13 @@ async function bookToken() {
 }
 
 
-// ======================================
+
+// ======================================================
 // PDF DOWNLOAD
-// ======================================
+// ======================================================
 
 async function downloadTokenSlip() {
+
 
     const pdfContent =
         document.getElementById(
@@ -861,15 +1446,19 @@ async function downloadTokenSlip() {
         );
 
 
-    if (!pdfContent) {
+    if (
+        !pdfContent
+    ) {
 
         alert(
-            "टोकन पर्ची नहीं मिली।"
+            "Token Slip नहीं मिली।"
         );
+
 
         return;
 
     }
+
 
 
     if (
@@ -878,14 +1467,17 @@ async function downloadTokenSlip() {
     ) {
 
         alert(
-            "PDF सिस्टम लोड नहीं हुआ। " +
-            "इंटरनेट चालू करके दोबारा प्रयास करें।"
+            "PDF सिस्टम लोड नहीं हुआ। Internet चालू करके दोबारा प्रयास करें।"
         );
+
 
         return;
 
     }
 
+
+
+    // Original styles
 
     const oldDisplay =
         pdfContent.style.display;
@@ -895,111 +1487,192 @@ async function downloadTokenSlip() {
         pdfContent.style.visibility;
 
 
-    pdfContent.style.display =
-        "block";
+
+    try {
 
 
-    pdfContent.style.visibility =
-        "visible";
+        pdfContent.style.display =
+            "block";
 
 
-    pdfContent.style.background =
-        "#ffffff";
+        pdfContent.style.visibility =
+            "visible";
 
 
-    pdfContent.style.color =
-        "#000000";
+        pdfContent.style.background =
+            "#ffffff";
 
 
-    pdfContent.style.fontFamily =
-        '"Noto Sans Devanagari", Arial, sans-serif';
+        pdfContent.style.color =
+            "#000000";
 
 
-    pdfContent.style.padding =
-        "20px";
+        pdfContent.style.fontFamily =
+            '"Noto Sans Devanagari", Arial, sans-serif';
 
 
-    if (
-        document.fonts &&
-        document.fonts.ready
-    ) {
-
-        await document.fonts.ready;
-
-    }
+        pdfContent.style.padding =
+            "20px";
 
 
-    const options = {
 
-        margin: 10,
+        // Wait for fonts
 
-        filename:
-            "Aadhar-Seva-Kendra-Kanjouli-Token.pdf",
+        if (
+            document.fonts &&
+            document.fonts.ready
+        ) {
 
-        image: {
-
-            type: "jpeg",
-
-            quality: 1
-
-        },
-
-        html2canvas: {
-
-            scale: 3,
-
-            useCORS: true,
-
-            backgroundColor:
-                "#ffffff"
-
-        },
-
-        jsPDF: {
-
-            unit: "mm",
-
-            format: "a5",
-
-            orientation:
-                "portrait"
+            await document.fonts.ready;
 
         }
 
-    };
 
 
-    try {
+        const options = {
+
+            margin:
+                10,
+
+            filename:
+                "Aadhar-Seva-Kendra-Kanjouli-Token.pdf",
+
+            image: {
+
+                type:
+                    "jpeg",
+
+                quality:
+                    1
+
+            },
+
+            html2canvas: {
+
+                scale:
+                    3,
+
+                useCORS:
+                    true,
+
+                backgroundColor:
+                    "#ffffff"
+
+            },
+
+            jsPDF: {
+
+                unit:
+                    "mm",
+
+                format:
+                    "a5",
+
+                orientation:
+                    "portrait"
+
+            }
+
+        };
+
+
 
         await html2pdf()
             .set(options)
             .from(pdfContent)
             .save();
 
+
     } catch (error) {
 
-        console.error(error);
+
+        console.error(
+            "PDF Error:",
+            error
+        );
+
 
         alert(
             "PDF डाउनलोड करने में समस्या हुई।"
         );
 
+
+    } finally {
+
+
+        pdfContent.style.display =
+            oldDisplay;
+
+
+        pdfContent.style.visibility =
+            oldVisibility;
+
     }
-
-
-    pdfContent.style.display =
-        oldDisplay;
-
-
-    pdfContent.style.visibility =
-        oldVisibility;
 
 }
 
 
-// ======================================
-// WINDOW FUNCTIONS
-// ======================================
+
+// ======================================================
+// AUTO REFRESH
+// ======================================================
+//
+// हर 30 सेकंड में Token status refresh होगा।
+// इससे अगर किसी दूसरे ग्राहक ने Token बुक किया,
+// तो Available / FULL status जल्दी update होगा.
+//
+
+setInterval(
+    async function () {
+
+        try {
+
+            await loadDateOptions();
+
+        } catch (error) {
+
+            console.error(
+                "Auto refresh error:",
+                error
+            );
+
+        }
+
+    },
+    30000
+);
+
+
+
+// ======================================================
+// PAGE LOAD
+// ======================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        try {
+
+            await loadDateOptions();
+
+        } catch (error) {
+
+            console.error(
+                "Page load error:",
+                error
+            );
+
+        }
+
+    }
+);
+
+
+
+// ======================================================
+// MAKE FUNCTIONS AVAILABLE TO HTML
+// ======================================================
 
 window.bookToken =
     bookToken;
@@ -1007,17 +1680,3 @@ window.bookToken =
 
 window.downloadTokenSlip =
     downloadTokenSlip;
-
-
-// ======================================
-// PAGE LOAD
-// ======================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        loadDateOptions();
-
-    }
-);
