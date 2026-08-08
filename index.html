@@ -1,101 +1,591 @@
-p<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>आधार सेवा केन्द्र कंजौली</title>
 
-<!-- Hindi + English Font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Hindi + English Font -->
+
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+
 
 <!-- Website CSS -->
-<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+      href="style.css">
+
 
 <!-- PDF Library -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
+<style>
+
+/* ================================
+   GENERAL
+================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    padding: 20px;
+
+    font-family:
+        "Noto Sans Devanagari",
+        Arial,
+        sans-serif;
+
+    background: #f4f7fb;
+
+    color: #222;
+
+}
+
+
+h1 {
+
+    text-align: center;
+
+    margin-bottom: 5px;
+
+    font-size: 30px;
+
+}
+
+
+h3 {
+
+    text-align: center;
+
+}
+
+
+p {
+
+    text-align: center;
+
+    line-height: 1.7;
+
+}
+
+
+/* ================================
+   MAIN CONTAINER
+================================ */
+
+body > form,
+body > h1,
+body > h3,
+body > p,
+body > hr,
+body > h2,
+body > div {
+
+    max-width: 650px;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+}
+
+
+form {
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,0.08);
+
+}
+
+
+label {
+
+    font-weight: 700;
+
+}
+
+
+input,
+select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 7px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+}
+
+
+button {
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 12px 18px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+form button {
+
+    width: 100%;
+
+    background: #198754;
+
+    color: white;
+
+}
+
+
+form button:hover {
+
+    background: #146c43;
+
+}
+
+
+/* ================================
+   DATE OPTIONS
+================================ */
+
+#dateOptions {
+
+    margin-top: 10px;
+
+}
+
+
+.date-card {
+
+    border: 2px solid #ddd;
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    margin: 10px 0;
+
+    background: white;
+
+    transition: 0.2s;
+
+}
+
+
+.date-card.available {
+
+    border-color: #198754;
+
+    background: #eafff0;
+
+    color: #146c43;
+
+    cursor: pointer;
+
+}
+
+
+.date-card.available:hover {
+
+    transform: scale(1.01);
+
+    box-shadow:
+        0 3px 12px rgba(25,135,84,0.15);
+
+}
+
+
+.date-card.full {
+
+    border-color: #dc3545;
+
+    background: #ffe9ec;
+
+    color: #b02a37;
+
+    cursor: not-allowed;
+
+}
+
+
+.date-card.holiday {
+
+    border-color: #777;
+
+    background: #eeeeee;
+
+    color: #555;
+
+    cursor: not-allowed;
+
+}
+
+
+.date-card.selected {
+
+    box-shadow:
+        0 0 0 4px rgba(25,135,84,0.20);
+
+}
+
+
+.date-title {
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.date-status {
+
+    margin-top: 6px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+
+/* ================================
+   NEXT TOKEN
+================================ */
+
+#nextTokenInfo {
+
+    margin-top: 12px;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+
+    text-align: center;
+
+    font-size: 17px;
+
+}
+
+
+/* ================================
+   TOKEN SLIP
+================================ */
+
+#tokenSlip {
+
+    margin-top: 25px;
+
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,0.08);
+
+}
+
+
+#tokenActions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+}
+
+
+#tokenActions button {
+
+    flex: 1;
+
+    background: #0d6efd;
+
+    color: white;
+
+}
+
+
+#tokenActions button:last-child {
+
+    background: #198754;
+
+}
+
+
+#pdfContent {
+
+    background: white;
+
+    padding: 20px;
+
+}
+
+
+#pdfContent h2,
+#pdfContent h3 {
+
+    text-align: center;
+
+}
+
+
+#pdfContent p {
+
+    text-align: center;
+
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    body {
+
+        padding: 12px;
+
+    }
+
+    h1 {
+
+        font-size: 24px;
+
+    }
+
+    #tokenActions {
+
+        flex-direction: column;
+
+    }
+
+}
+
+
+/* ================================
+   PRINT
+================================ */
+
+@media print {
+
+    body > *:not(#tokenSlip) {
+
+        display: none !important;
+
+    }
+
+
+    #tokenSlip {
+
+        display: block !important;
+
+        box-shadow: none;
+
+        margin: 0;
+
+        padding: 0;
+
+    }
+
+
+    #tokenActions {
+
+        display: none !important;
+
+    }
+
+}
+
+</style>
 
 </head>
 
 
 <body>
 
-<h1>आधार सेवा केन्द्र कंजौली</h1>
 
-<h3>Online Token Booking System</h3>
+<!-- ================================
+     HEADER
+================================ -->
+
+<h1>
+    आधार सेवा केन्द्र कंजौली
+</h1>
+
+
+<h3>
+    Online Token Booking System
+</h3>
+
 
 <p>
-आईटी केंद्र कंजौली<br>
-तहसील - बालघाट, जिला - करौली (राजस्थान)
+
+    <strong>आईटी केंद्र कंजौली</strong><br>
+
+    तहसील - बालघाट,
+    जिला - करौली (राजस्थान)
+
 </p>
 
+
 <p>
-समय: सुबह 8:00 बजे से शाम 5:00 बजे तक<br>
-मोबाइल: 8426971575
+
+    🕗 समय:
+    सुबह 8:00 बजे से शाम 5:00 बजे तक
+
+    <br>
+
+    📱 मोबाइल:
+    8426971575
+
 </p>
+
 
 <hr>
 
 
-<h2>🎫 टोकन बुक करें</h2>
+<!-- ================================
+     TOKEN BOOKING
+================================ -->
+
+<h2>
+    🎫 टोकन बुक करें
+</h2>
 
 
-<form>
+<form id="bookingForm">
 
 
-<label>ग्राहक का नाम:</label><br>
+<!-- NAME -->
+
+<label for="name">
+    ग्राहक का नाम:
+</label>
+
 
 <input
-type="text"
-id="name"
-placeholder="अपना नाम लिखें"
-required
+    type="text"
+    id="name"
+    placeholder="अपना नाम लिखें"
+    autocomplete="name"
+    required
 >
 
 
 <br><br>
 
 
-<label>उम्र:</label><br>
+<!-- AGE -->
+
+<label for="age">
+    उम्र:
+</label>
+
 
 <input
-type="number"
-id="age"
-placeholder="उम्र लिखें"
-min="0"
-max="120"
-required
+    type="number"
+    id="age"
+    placeholder="उम्र लिखें"
+    min="0"
+    max="120"
+    required
 >
 
 
 <br><br>
 
 
-<label>सेवा चुनें:</label><br>
+<!-- SERVICE -->
+
+<label for="service">
+    सेवा चुनें:
+</label>
+
 
 <select id="service">
 
-<option>नया नामांकन (0-5 वर्ष)</option>
+    <option>
+        नया नामांकन (0-5 वर्ष)
+    </option>
 
-<option>नया नामांकन (5-18 वर्ष)</option>
+    <option>
+        नया नामांकन (5-18 वर्ष)
+    </option>
 
-<option>नाम अपडेट</option>
+    <option>
+        नाम अपडेट
+    </option>
 
-<option>जन्म तिथि अपडेट</option>
+    <option>
+        जन्म तिथि अपडेट
+    </option>
 
-<option>मोबाइल नंबर अपडेट</option>
+    <option>
+        मोबाइल नंबर अपडेट
+    </option>
 
-<option>ईमेल अपडेट</option>
+    <option>
+        ईमेल अपडेट
+    </option>
 
-<option>पता अपडेट</option>
+    <option>
+        पता अपडेट
+    </option>
 
-<option>बायोमेट्रिक अपडेट</option>
+    <option>
+        बायोमेट्रिक अपडेट
+    </option>
 
 </select>
 
@@ -103,58 +593,135 @@ required
 <br><br>
 
 
-<label>तारीख चुनें:</label><br>
+<!-- DATE -->
+
+<label>
+    📅 तारीख चुनें:
+</label>
+
+
+<p style="
+    text-align:left;
+    margin:5px 0;
+    font-size:14px;
+">
+
+    अगले 3 उपलब्ध Working Days दिखाई देंगे।
+    रविवार एवं Center Holiday पर Booking बंद रहेगी।
+
+</p>
+
+
+<!-- DATE CARDS -->
+
+<div id="dateOptions">
+
+    तारीखें लोड हो रही हैं...
+
+</div>
+
+
+<!-- SELECTED DATE -->
 
 <input
-type="date"
-id="bookingDate"
-required
+    type="hidden"
+    id="bookingDate"
+    required
 >
 
 
-<br><br>
+<!-- NEXT TOKEN -->
+
+<div id="nextTokenInfo">
+
+    तारीख चुनने के बाद अगला Token यहाँ दिखाई देगा।
+
+</div>
 
 
-<label>समय स्लॉट:</label><br>
+<br>
+
+
+<!-- TIME SLOT -->
+
+<label for="timeSlot">
+    🕐 समय स्लॉट:
+</label>
 
 
 <select id="timeSlot">
 
-<option>8:00 AM - 8:30 AM</option>
+    <option>
+        8:00 AM - 8:30 AM
+    </option>
 
-<option>8:30 AM - 9:00 AM</option>
+    <option>
+        8:30 AM - 9:00 AM
+    </option>
 
-<option>9:00 AM - 9:30 AM</option>
+    <option>
+        9:00 AM - 9:30 AM
+    </option>
 
-<option>9:30 AM - 10:00 AM</option>
+    <option>
+        9:30 AM - 10:00 AM
+    </option>
 
-<option>10:00 AM - 10:30 AM</option>
+    <option>
+        10:00 AM - 10:30 AM
+    </option>
 
-<option>10:30 AM - 11:00 AM</option>
+    <option>
+        10:30 AM - 11:00 AM
+    </option>
 
-<option>11:00 AM - 11:30 AM</option>
+    <option>
+        11:00 AM - 11:30 AM
+    </option>
 
-<option>11:30 AM - 12:00 PM</option>
+    <option>
+        11:30 AM - 12:00 PM
+    </option>
 
-<option>12:00 PM - 12:30 PM</option>
+    <option>
+        12:00 PM - 12:30 PM
+    </option>
 
-<option>12:30 PM - 1:00 PM</option>
+    <option>
+        12:30 PM - 1:00 PM
+    </option>
 
-<option>1:00 PM - 1:30 PM</option>
+    <option>
+        1:00 PM - 1:30 PM
+    </option>
 
-<option>1:30 PM - 2:00 PM</option>
+    <option>
+        1:30 PM - 2:00 PM
+    </option>
 
-<option>2:00 PM - 2:30 PM</option>
+    <option>
+        2:00 PM - 2:30 PM
+    </option>
 
-<option>2:30 PM - 3:00 PM</option>
+    <option>
+        2:30 PM - 3:00 PM
+    </option>
 
-<option>3:00 PM - 3:30 PM</option>
+    <option>
+        3:00 PM - 3:30 PM
+    </option>
 
-<option>3:30 PM - 4:00 PM</option>
+    <option>
+        3:30 PM - 4:00 PM
+    </option>
 
-<option>4:00 PM - 4:30 PM</option>
+    <option>
+        4:00 PM - 4:30 PM
+    </option>
 
-<option>4:30 PM - 5:00 PM</option>
+    <option>
+        4:30 PM - 5:00 PM
+    </option>
 
 </select>
 
@@ -162,12 +729,14 @@ required
 <br><br>
 
 
+<!-- BOOK BUTTON -->
+
 <button
-type="button"
-onclick="bookToken()"
+    type="button"
+    onclick="bookToken()"
 >
 
-टोकन बुक करें
+    🎫 टोकन बुक करें
 
 </button>
 
@@ -175,109 +744,143 @@ onclick="bookToken()"
 </form>
 
 
-<br>
-
-
-<!-- TOKEN SLIP -->
+<!-- ================================
+     TOKEN SLIP
+================================ -->
 
 <div
-id="tokenSlip"
-style="display:none;"
+    id="tokenSlip"
+    style="display:none;"
 >
 
 
-<div id="tokenActions">
+    <!-- ACTION BUTTONS -->
 
-<button
-type="button"
-onclick="window.print()"
->
-
-🖨️ प्रिंट करें
-
-</button>
+    <div id="tokenActions">
 
 
-<button
-type="button"
-onclick="downloadTokenSlip()"
->
+        <button
+            type="button"
+            onclick="window.print()"
+        >
 
-⬇️ PDF डाउनलोड करें
+            🖨️ प्रिंट करें
 
-</button>
+        </button>
+
+
+        <button
+            type="button"
+            onclick="downloadTokenSlip()"
+        >
+
+            ⬇️ PDF डाउनलोड करें
+
+        </button>
+
+
+    </div>
+
+
+    <!-- PDF CONTENT -->
+
+    <div id="pdfContent">
+
+
+        <hr>
+
+
+        <h2>
+            आधार सेवा केन्द्र कंजौली
+        </h2>
+
+
+        <h3>
+            Online Token Booking System
+        </h3>
+
+
+        <p>
+            आईटी केंद्र कंजौली
+        </p>
+
+
+        <p>
+            तहसील - बालघाट,
+            जिला - करौली (राजस्थान)
+        </p>
+
+
+        <p>
+            मोबाइल: 8426971575
+        </p>
+
+
+        <hr>
+
+
+        <h3>
+            🎫 टोकन पर्ची
+        </h3>
+
+
+        <h2 id="tokenNumber">
+        </h2>
+
+
+        <p id="customerName">
+        </p>
+
+
+        <p id="customerAge">
+        </p>
+
+
+        <p id="customerService">
+        </p>
+
+
+        <p id="customerDate">
+        </p>
+
+
+        <p id="customerTime">
+        </p>
+
+
+        <hr>
+
+
+        <p>
+            कृपया निर्धारित तारीख एवं समय पर
+            केन्द्र आएं।
+        </p>
+
+
+        <p>
+            समय: सुबह 8:00 बजे से शाम 5:00 बजे तक
+        </p>
+
+
+        <p>
+            धन्यवाद!
+        </p>
+
+
+    </div>
+
 
 </div>
 
 
-<div id="pdfContent">
+<!-- ================================
+     FIREBASE / JAVASCRIPT
+================================ -->
 
-
-<hr>
-
-
-<h2>
-आधार सेवा केन्द्र कंजौली
-</h2>
-
-
-<h3>
-Online Token Booking System
-</h3>
-
-
-<p>
-आईटी केंद्र कंजौली
-</p>
-
-
-<p>
-तहसील - बालघाट, जिला - करौली (राजस्थान)
-</p>
-
-
-<hr>
-
-
-<h3>
-🎫 टोकन पर्ची
-</h3>
-
-
-<h2 id="tokenNumber"></h2>
-
-
-<p id="customerName"></p>
-
-<p id="customerAge"></p>
-
-<p id="customerService"></p>
-
-<p id="customerDate"></p>
-
-<p id="customerTime"></p>
-
-
-<hr>
-
-
-<p>
-कृपया निर्धारित समय पर केन्द्र आएं।
-</p>
-
-
-<p>
-धन्यवाद!
-</p>
-
-
-</div>
-
-
-</div>
-
-
-<script type="module" src="script.js"></script>
+<script
+    type="module"
+    src="script.js">
+</script>
 
 
 </body>
