@@ -1,45 +1,821 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f2f7ff;
-    text-align: center;
+/* =====================================================
+   आधार सेवा केन्द्र कंजौली
+   ONLINE TOKEN BOOKING SYSTEM
+   COMPLETE STYLE.CSS
+===================================================== */
+
+
+/* =====================================================
+   BASIC RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
-h1 {
-    color: #0056b3;
+
+html {
+    scroll-behavior: smooth;
 }
 
-h2, h3 {
-    color: #333;
+
+body {
+
+    font-family:
+        "Noto Sans Devanagari",
+        Arial,
+        sans-serif;
+
+    background: #f4f8fb;
+
+    color: #1e2933;
+
+    line-height: 1.6;
+
 }
 
-form {
-    background: white;
-    max-width: 400px;
+
+/* =====================================================
+   COLOR VARIABLES
+===================================================== */
+
+:root {
+
+    --blue: #064a78;
+
+    --dark-blue: #003b62;
+
+    --green: #087f4d;
+
+    --light-green: #effcf4;
+
+    --red: #d64250;
+
+    --light-red: #fff3f4;
+
+    --gray: #6c7680;
+
+    --light-gray: #f2f5f7;
+
+    --border: #d9e2ea;
+
+    --white: #ffffff;
+
+    --shadow:
+        0 10px 30px rgba(16, 45, 65, 0.12);
+
+}
+
+
+/* =====================================================
+   TOP HEADER
+===================================================== */
+
+.topbar {
+
+    width: 100%;
+
+    min-height: 72px;
+
+    padding:
+        10px 5%;
+
+    background: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom:
+        1px solid #e5e9ed;
+
+}
+
+
+/* BRAND */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+/* LOGO */
+
+.brand-mark {
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #087f4d,
+            #0aa060
+        );
+
+    color: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+}
+
+
+/* BRAND TEXT */
+
+.brand-hi {
+
+    color: #075b7e;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+}
+
+
+.brand-en {
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+}
+
+
+/* CONTACT */
+
+.top-contact {
+
+    color: #075b7e;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.nav {
+
+    width: 100%;
+
+    min-height: 44px;
+
+    padding:
+        0 5%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #063e63,
+            #075477
+        );
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 24px;
+
+    overflow-x: auto;
+
+    white-space: nowrap;
+
+}
+
+
+/* NAV LINKS */
+
+.nav a {
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    padding:
+        13px 0;
+
+}
+
+
+.nav a:hover {
+
+    color: #b9f5dc;
+
+}
+
+
+/* NAV RIGHT */
+
+.nav-right {
+
+    margin-left: auto;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   HERO / MAIN BACKGROUND
+===================================================== */
+
+.hero {
+
+    width: 100%;
+
+    padding:
+        55px 4% 70px;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 10%,
+            #ffffff 0,
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #edf5fa,
+            #e9f1f6
+        );
+
+}
+
+
+/* =====================================================
+   BOOKING CARD
+===================================================== */
+
+.booking-card {
+
+    width: 100%;
+
+    max-width: 1100px;
+
     margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ccc;
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border-radius: 15px;
+
+    box-shadow: var(--shadow);
+
 }
 
-input, select {
-    width: 90%;
-    padding: 10px;
-    margin-top: 8px;
-    border-radius: 5px;
-    border: 1px solid #aaa;
-}
 
-button {
-    background: #007bff;
-    color: white;
-    padding: 12px 25px;
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+.back-btn {
+
     border: none;
-    border-radius: 5px;
+
+    border-radius: 8px;
+
+    background: #202327;
+
+    color: #ffffff;
+
+    padding:
+        10px 17px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
     cursor: pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,0.12);
+
 }
 
-button:hover {
-    background: #0056b3;
+
+.back-btn:hover {
+
+    background: #000000;
+
 }
+
+
+/* =====================================================
+   BOOKING HEADING
+===================================================== */
+
+.booking-heading {
+
+    text-align: center;
+
+    margin:
+        15px 0 25px;
+
+}
+
+
+.booking-heading h1 {
+
+    color: #007d72;
+
+    font-size: 26px;
+
+    font-weight: 800;
+
+    margin-bottom: 5px;
+
+}
+
+
+.booking-heading p {
+
+    color: #176c67;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   DATE STRIP
+===================================================== */
+
+.date-strip-wrap {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    padding:
+        5px 0 14px;
+
+    scrollbar-width: thin;
+
+}
+
+
+/* DATE STRIP */
+
+.date-strip {
+
+    display: flex;
+
+    gap: 10px;
+
+    min-width: max-content;
+
+}
+
+
+/* =====================================================
+   DATE CARD
+===================================================== */
+
+.date-card {
+
+    width: 128px;
+
+    min-height: 105px;
+
+    padding: 11px 8px;
+
+    border:
+        2px solid var(--border);
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+    transition:
+        all 0.2s ease;
+
+    user-select: none;
+
+}
+
+
+/* AVAILABLE */
+
+.date-card.available {
+
+    border-color: #72bf98;
+
+    background:
+        #f2fff7;
+
+    color: #087f4d;
+
+    cursor: pointer;
+
+}
+
+
+.date-card.available:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 6px 16px
+        rgba(8,127,77,0.16);
+
+}
+
+
+/* FULL */
+
+.date-card.full {
+
+    border-color: #efb2b9;
+
+    background:
+        #fff4f5;
+
+    color: #c44550;
+
+    cursor: not-allowed;
+
+}
+
+
+/* CENTRE OFF */
+
+.date-card.off {
+
+    border-color: #c8d2db;
+
+    background:
+        #f2f5f7;
+
+    color: #5e6a73;
+
+    cursor: not-allowed;
+
+}
+
+
+/* SELECTED */
+
+.date-card.selected {
+
+    box-shadow:
+        0 0 0 4px
+        rgba(8,127,77,0.18);
+
+}
+
+
+/* DAY */
+
+.date-day {
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+}
+
+
+/* DATE */
+
+.date-date {
+
+    margin:
+        3px 0 7px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+/* STATUS */
+
+.date-status {
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    line-height: 1.4;
+
+    white-space: pre-line;
+
+}
+
+
+/* =====================================================
+   LEGEND
+===================================================== */
+
+.legend {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+    margin:
+        10px 0 12px;
+
+    color: #4b5563;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+/* DOT */
+
+.dot {
+
+    display: inline-block;
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    margin-right: 5px;
+
+}
+
+
+.dot.green {
+
+    background: #0a9b5e;
+
+}
+
+
+.dot.red {
+
+    background: #d64250;
+
+}
+
+
+.dot.gray {
+
+    background: #7b8790;
+
+}
+
+
+/* =====================================================
+   SELECTED DATE INFO
+===================================================== */
+
+.selected-info {
+
+    width: 100%;
+
+    max-width: 850px;
+
+    margin:
+        12px auto;
+
+    padding: 12px;
+
+    border-radius: 9px;
+
+    background:
+        #f4faf7;
+
+    border:
+        1px solid #cce9d9;
+
+    color: #075b43;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-card {
+
+    width: 100%;
+
+    max-width: 850px;
+
+    margin:
+        18px auto 0;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid #e5e7eb;
+
+}
+
+
+/* FORM GRID */
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 16px;
+
+}
+
+
+/* FIELD */
+
+.field {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+}
+
+
+/* FULL FIELD */
+
+.field.full {
+
+    grid-column:
+        1 / -1;
+
+}
+
+
+/* LABEL */
+
+.field label {
+
+    color: #293845;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+/* INPUT + SELECT */
+
+.field input,
+.field select {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid #cbd5df;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #1e2933;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+
+}
+
+
+/* FOCUS */
+
+.field input:focus,
+.field select:focus {
+
+    border-color:
+        #087f4d;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(8,127,77,0.10);
+
+}
+
+
+/* =====================================================
+   NEXT TOKEN
+===================================================== */
+
+.next-token {
+
+    height: 46px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid #bfe5d0;
+
+    border-radius: 8px;
+
+    background:
+        #effcf4;
+
+    color: #087f4d;
+
+    display: flex;
+
+    align-items: center;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+}
+
+
+/* =====================================================
+   BOOK BUTTON
+===================================================== */
+
+.book-btn {
+
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #087f4d,
+            #0a9b5e
+        );
+
+   
