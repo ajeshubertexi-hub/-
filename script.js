@@ -1,1259 +1,2701 @@
-```css
+```javascript
 /* =========================================================
    KANJOULI ONLINE TOKEN
-   COMPLETE style.css
+   COMPLETE script.js
+
+   FEATURES
+   ---------------------------------------------------------
+   • 8:00 AM से Booking
+   • प्रत्येक Token = 18 मिनट
+   • अधिकतम 30 Token प्रति Working Day
+   • Same Date + Same Time Slot = Duplicate Booking बंद
+   • Sunday OFF
+   • Centre Holidays OFF
+   • Present IST Time
+   • Automatic Token Number
+   • Token Slip
+   • Print
+   • PDF Download
+   • LocalStorage Booking Data
 ========================================================= */
 
 
 /* =========================================================
-   RESET
+   SETTINGS
 ========================================================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+const MAX_TOKENS_PER_DAY = 30;
 
-html {
-    scroll-behavior: smooth;
-}
+const SLOT_MINUTES = 18;
 
-body {
-    margin: 0;
-    padding: 0;
+const START_HOUR = 8;
 
-    font-family:
-        Arial,
-        "Noto Sans Devanagari",
-        "Mangal",
-        sans-serif;
+const START_MINUTE = 0;
 
-    background: #f4f7fb;
+const END_HOUR = 17;
 
-    color: #172033;
+const END_MINUTE = 0;
 
-    line-height: 1.6;
 
-    min-height: 100vh;
-}
+/*
+   अपनी Centre Holiday यहाँ डाल सकते हैं।
+
+   Format:
+
+   "YYYY-MM-DD"
+
+   Example:
+
+   "2026-08-15"
+*/
+
+const CENTRE_HOLIDAYS = [
+
+    // "2026-08-15",
+    // "2026-08-20"
+
+];
 
 
 /* =========================================================
-   COMMON
+   STORAGE KEY
 ========================================================= */
 
-button,
-input,
-select {
-    font-family: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
-a {
-    text-decoration: none;
-}
-
-img {
-    max-width: 100%;
-    display: block;
-}
-
-section {
-    scroll-margin-top: 80px;
-}
+const STORAGE_KEY =
+    "kanjouli_online_token_bookings";
 
 
 /* =========================================================
-   HEADER
+   PAGE LOAD
 ========================================================= */
 
-header {
-    width: 100%;
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    background:
-        linear-gradient(
-            135deg,
-            #064e3b 0%,
-            #047857 50%,
-            #059669 100%
+        initializePortal();
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+function initializePortal() {
+
+    updatePresentTime();
+
+    setInterval(
+        updatePresentTime,
+        1000
+    );
+
+
+    loadDates();
+
+
+    setupBookingForm();
+
+
+    updateNextToken();
+
+
+    /*
+       Time slot changes होने पर
+       next token information update होगी।
+    */
+
+    const timeSlot =
+        document.getElementById(
+            "timeSlot"
         );
 
-    color: #ffffff;
+    if (timeSlot) {
 
-    padding: 15px 5%;
+        timeSlot.addEventListener(
+            "change",
+            function () {
 
-    display: flex;
+                updateNextToken();
 
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 20px;
-
-    flex-wrap: wrap;
-
-    box-shadow:
-        0 4px 18px
-        rgba(0, 0, 0, 0.16);
-}
-
-
-/* =========================================================
-   BRAND
-========================================================= */
-
-.brand {
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    min-width: 250px;
-}
-
-.brand-mark {
-    width: 54px;
-
-    height: 54px;
-
-    min-width: 54px;
-
-    border-radius: 50%;
-
-    background: #ffffff;
-
-    color: #047857;
-
-    border:
-        3px solid
-        #facc15;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 29px;
-
-    font-weight: 900;
-
-    box-shadow:
-        0 3px 10px
-        rgba(0, 0, 0, 0.18);
-}
-
-.brand-text {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 1px;
-}
-
-.brand-hi {
-    font-size: 21px;
-
-    font-weight: 800;
-
-    line-height: 1.3;
-}
-
-.brand-en {
-    font-size: 14px;
-
-    font-weight: 600;
-
-    opacity: 0.92;
-
-    letter-spacing: 0.2px;
-}
-
-
-/* =========================================================
-   TOP CONTACT
-========================================================= */
-
-.top-contact {
-    font-size: 16px;
-
-    font-weight: 700;
-
-    white-space: nowrap;
-
-    background:
-        rgba(255, 255, 255, 0.12);
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.25);
-
-    padding: 8px 14px;
-
-    border-radius: 8px;
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-nav {
-    width: 100%;
-
-    min-height: 55px;
-
-    background: #ffffff;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    padding: 8px 5%;
-
-    flex-wrap: wrap;
-
-    position: sticky;
-
-    top: 0;
-
-    z-index: 1000;
-
-    box-shadow:
-        0 2px 12px
-        rgba(0, 0, 0, 0.08);
-}
-
-nav a {
-    color: #064e3b;
-
-    font-size: 14px;
-
-    font-weight: 800;
-
-    padding: 8px 12px;
-
-    border-radius: 7px;
-
-    transition:
-        0.2s ease;
-}
-
-nav a:hover {
-    background: #dcfce7;
-
-    color: #065f46;
-}
-
-.nav-right {
-    margin-left: auto;
-
-    color: #555555;
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    padding: 6px 10px;
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-main {
-    width:
-        min(1100px, 92%);
-
-    margin:
-        30px auto 45px;
-}
-
-.section {
-    margin-bottom: 42px;
-}
-
-
-/* =========================================================
-   HEADINGS
-========================================================= */
-
-h1,
-h2,
-h3 {
-    line-height: 1.3;
-}
-
-h1 {
-    color: #064e3b;
-}
-
-h2 {
-    text-align: center;
-
-    color: #064e3b;
-
-    font-size: 28px;
-
-    margin-bottom: 22px;
-}
-
-h3 {
-    color: #064e3b;
-}
-
-
-/* =========================================================
-   BOOKING CARD
-========================================================= */
-
-.booking-card {
-    width: 100%;
-
-    background: #ffffff;
-
-    border-radius: 18px;
-
-    padding: 27px;
-
-    box-shadow:
-        0 8px 32px
-        rgba(0, 0, 0, 0.08);
-
-    border:
-        1px solid
-        #e5e7eb;
-}
-
-
-/* =========================================================
-   BACK BUTTON
-========================================================= */
-
-.back-btn {
-    border: none;
-
-    background: #eef2f7;
-
-    color: #374151;
-
-    padding: 9px 15px;
-
-    border-radius: 8px;
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    transition: 0.2s;
-}
-
-.back-btn:hover {
-    background: #e2e8f0;
-
-    transform:
-        translateX(-2px);
-}
-
-
-/* =========================================================
-   BOOKING HEADING
-========================================================= */
-
-.booking-heading {
-    text-align: center;
-
-    margin-bottom: 25px;
-}
-
-.booking-heading h1 {
-    font-size: 28px;
-
-    margin-bottom: 7px;
-}
-
-.booking-heading p {
-    color: #6b7280;
-
-    font-size: 14px;
-
-    margin-bottom: 13px;
-}
-
-
-/* =========================================================
-   PRESENT TIME
-========================================================= */
-
-.present-time {
-    display: inline-block;
-
-    min-width: 240px;
-
-    padding: 9px 16px;
-
-    background: #ecfdf5;
-
-    color: #065f46;
-
-    border:
-        1px solid
-        #a7f3d0;
-
-    border-radius: 9px;
-
-    font-size: 14px;
-
-    font-weight: 800;
-
-    line-height: 1.7;
-
-    box-shadow:
-        0 3px 10px
-        rgba(5, 150, 105, 0.08);
-}
-
-
-/* =========================================================
-   DATE STRIP WRAPPER
-========================================================= */
-
-.date-strip-wrap {
-    width: 100%;
-
-    overflow-x: auto;
-
-    overflow-y: hidden;
-
-    padding:
-        4px 2px 13px;
-
-    scrollbar-width: thin;
-}
-
-.date-strip-wrap::-webkit-scrollbar {
-    height: 7px;
-}
-
-.date-strip-wrap::-webkit-scrollbar-track {
-    background: #eef2f7;
-
-    border-radius: 20px;
-}
-
-.date-strip-wrap::-webkit-scrollbar-thumb {
-    background: #9ca3af;
-
-    border-radius: 20px;
-}
-
-
-/* =========================================================
-   DATE STRIP
-========================================================= */
-
-.date-strip {
-    display: flex;
-
-    gap: 11px;
-
-    width: max-content;
-
-    min-width: 100%;
-}
-
-
-/* =========================================================
-   DATE CARD
-========================================================= */
-
-.date-card {
-    width: 108px;
-
-    min-width: 108px;
-
-    min-height: 108px;
-
-    padding: 11px 8px;
-
-    border:
-        2px solid
-        #d1d5db;
-
-    border-radius: 13px;
-
-    background: #ffffff;
-
-    text-align: center;
-
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s,
-        border-color 0.2s;
-}
-
-
-/* AVAILABLE */
-
-.date-card.available {
-    border-color: #16a34a;
-
-    background: #f0fdf4;
-
-    color: #14532d;
-
-    cursor: pointer;
-}
-
-.date-card.available:hover {
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 5px 14px
-        rgba(22, 163, 74, 0.18);
-}
-
-
-/* FULL */
-
-.date-card.full {
-    border-color: #dc2626;
-
-    background: #fef2f2;
-
-    color: #991b1b;
-
-    cursor: not-allowed;
-
-    opacity: 0.78;
-}
-
-
-/* OFF */
-
-.date-card.off {
-    border-color: #9ca3af;
-
-    background: #f3f4f6;
-
-    color: #4b5563;
-
-    cursor: not-allowed;
-
-    opacity: 0.72;
-}
-
-
-/* SELECTED */
-
-.date-card.selected {
-    background:
-        linear-gradient(
-            135deg,
-            #047857,
-            #059669
+            }
         );
 
-    border-color: #047857;
+    }
 
-    color: #ffffff;
-
-    box-shadow:
-        0 5px 16px
-        rgba(4, 120, 87, 0.25);
-}
-
-
-/* DATE CONTENT */
-
-.date-day {
-    font-size: 13px;
-
-    font-weight: 800;
-
-    margin-bottom: 2px;
-}
-
-.date-number {
-    font-size: 27px;
-
-    line-height: 1.15;
-
-    font-weight: 900;
-}
-
-.date-month {
-    font-size: 12px;
-
-    margin-top: 2px;
-
-    font-weight: 700;
-}
-
-.date-card small {
-    display: block;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    margin-top: 5px;
-}
-
-.loading {
-    width: 100%;
-
-    text-align: center;
-
-    padding: 18px;
-
-    color: #6b7280;
 }
 
 
 /* =========================================================
-   LEGEND
+   BOOKING FORM
 ========================================================= */
 
-.legend {
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 25px;
-
-    flex-wrap: wrap;
-
-    margin: 19px 0;
-
-    color: #4b5563;
-
-    font-size: 14px;
-}
-
-.legend span {
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-}
-
-.dot {
-    display: inline-block;
-
-    width: 11px;
-
-    height: 11px;
-
-    border-radius: 50%;
-}
-
-.dot.green {
-    background: #16a34a;
-}
-
-.dot.red {
-    background: #dc2626;
-}
-
-.dot.gray {
-    background: #9ca3af;
-}
-
-
-/* =========================================================
-   SELECTED DATE
-========================================================= */
-
-.selected-info {
-    width: 100%;
-
-    padding: 12px 15px;
-
-    margin:
-        0 0 20px;
-
-    border:
-        1px solid
-        #a7f3d0;
-
-    background: #ecfdf5;
-
-    color: #065f46;
-
-    border-radius: 10px;
-
-    text-align: center;
-
-    font-weight: 800;
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.form-card {
-    width: 100%;
-
-    background: #f8fafc;
-
-    border:
-        1px solid
-        #e5e7eb;
-
-    border-radius: 15px;
-
-    padding: 21px;
-}
-
-.form-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 18px;
-}
-
-.field {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 7px;
-}
-
-.field.full {
-    grid-column:
-        1 / -1;
-}
-
-.field label {
-    color: #374151;
-
-    font-size: 14px;
-
-    font-weight: 800;
-}
-
-
-/* =========================================================
-   INPUTS
-========================================================= */
-
-input,
-select {
-    width: 100%;
-
-    min-height: 46px;
-
-    border:
-        1px solid
-        #cbd5e1;
-
-    border-radius: 9px;
-
-    background: #ffffff;
-
-    color: #172033;
-
-    padding: 10px 13px;
-
-    font-size: 15px;
-
-    outline: none;
-
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
-}
-
-input::placeholder {
-    color: #9ca3af;
-}
-
-input:hover,
-select:hover {
-    border-color: #94a3b8;
-}
-
-input:focus,
-select:focus {
-    border-color: #059669;
-
-    box-shadow:
-        0 0 0 3px
-        rgba(5, 150, 105, 0.12);
-}
-
-
-/* =========================================================
-   TIME SLOT
-========================================================= */
-
-#timeSlot {
-    font-weight: 700;
-}
-
-#timeSlot option {
-    padding: 8px;
-}
-
-
-/* =========================================================
-   NEXT TOKEN
-========================================================= */
-
-.next-token {
-    width: 100%;
-
-    min-height: 46px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 9px 12px;
-
-    background: #ecfdf5;
-
-    border:
-        1px solid
-        #a7f3d0;
-
-    color: #047857;
-
-    border-radius: 9px;
-
-    font-weight: 900;
-
-    text-align: center;
-}
-
-
-/* =========================================================
-   BOOK BUTTON
-========================================================= */
-
-.book-btn {
-    width: 100%;
-
-    margin-top: 22px;
-
-    min-height: 52px;
-
-    padding: 13px 20px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #047857,
-            #059669
+function setupBookingForm() {
+
+    const form =
+        document.getElementById(
+            "bookingForm"
         );
 
-    color: #ffffff;
 
-    font-size: 17px;
+    if (!form) {
+        return;
+    }
 
-    font-weight: 900;
 
-    box-shadow:
-        0 4px 12px
-        rgba(4, 120, 87, 0.18);
+    form.addEventListener(
+        "submit",
+        function (event) {
 
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s;
-}
+            event.preventDefault();
 
-.book-btn:hover {
-    transform:
-        translateY(-1px);
+            bookToken();
 
-    box-shadow:
-        0 7px 18px
-        rgba(4, 120, 87, 0.25);
-}
+        }
+    );
 
-.book-btn:active {
-    transform:
-        translateY(0);
 }
 
 
 /* =========================================================
-   SERVICES
+   CURRENT IST DATE/TIME
 ========================================================= */
 
-.service-grid {
-    display: grid;
+function getCurrentISTDateTime() {
 
-    grid-template-columns:
-        repeat(3, 1fr);
+    const now =
+        new Date();
 
-    gap: 20px;
-}
 
-.service-card {
-    background: #ffffff;
+    const parts =
+        new Intl.DateTimeFormat(
+            "en-GB",
+            {
+                timeZone:
+                    "Asia/Kolkata",
 
-    border:
-        1px solid
-        #e5e7eb;
+                year: "numeric",
 
-    border-radius: 15px;
+                month: "2-digit",
 
-    padding: 25px;
+                day: "2-digit",
 
-    text-align: center;
+                hour: "2-digit",
 
-    box-shadow:
-        0 6px 22px
-        rgba(0, 0, 0, 0.06);
+                minute: "2-digit",
 
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s;
-}
+                second: "2-digit",
 
-.service-card:hover {
-    transform:
-        translateY(-3px);
+                hourCycle: "h23"
+            }
+        ).formatToParts(now);
 
-    box-shadow:
-        0 10px 28px
-        rgba(0, 0, 0, 0.09);
-}
 
-.service-card.featured {
-    border:
-        2px solid
-        #10b981;
-}
+    const values = {};
 
-.service-icon {
-    font-size: 40px;
 
-    line-height: 1;
+    parts.forEach(
+        part => {
 
-    margin-bottom: 14px;
-}
+            if (
+                part.type !==
+                "literal"
+            ) {
 
-.service-card h3 {
-    margin-bottom: 8px;
+                values[
+                    part.type
+                ] =
+                    part.value;
 
-    font-size: 19px;
-}
+            }
 
-.service-card p {
-    color: #6b7280;
+        }
+    );
 
-    font-size: 14px;
 
-    min-height: 65px;
-}
+    const date =
+        values.year +
+        "-" +
+        values.month +
+        "-" +
+        values.day;
 
-.secondary-btn {
-    margin-top: 15px;
 
-    padding: 10px 18px;
+    const time =
+        values.hour +
+        ":" +
+        values.minute +
+        ":" +
+        values.second;
 
-    border:
-        1px solid
-        #047857;
 
-    border-radius: 8px;
+    return {
 
-    background: #ffffff;
+        date: date,
 
-    color: #047857;
+        time: time,
 
-    font-weight: 800;
+        dateTime:
+            date +
+            " " +
+            time
 
-    transition: 0.2s;
-}
+    };
 
-.secondary-btn:hover {
-    background: #ecfdf5;
-}
-
-.green-btn {
-    background: #047857;
-
-    color: #ffffff;
-}
-
-.green-btn:hover {
-    background: #065f46;
 }
 
 
 /* =========================================================
-   RULES
+   PRESENT TIME DISPLAY
 ========================================================= */
 
-.rules-box {
-    background: #ffffff;
+function updatePresentTime() {
 
-    border:
-        1px solid
-        #e5e7eb;
+    const element =
+        document.getElementById(
+            "presentTime"
+        );
 
-    border-left:
-        5px solid
-        #047857;
 
-    border-radius: 10px;
+    if (!element) {
+        return;
+    }
 
-    padding:
-        20px 22px;
 
-    box-shadow:
-        0 5px 18px
-        rgba(0, 0, 0, 0.06);
-}
+    const current =
+        getCurrentISTDateTime();
 
-.rules-box p {
-    margin: 8px 0;
 
-    color: #374151;
+    const dateObject =
+        new Date(
+            current.date +
+            "T" +
+            current.time
+        );
 
-    font-size: 15px;
-}
 
-.rules-box strong {
-    color: #dc2626;
+    const dateText =
+        dateObject.toLocaleDateString(
+            "hi-IN",
+            {
+                timeZone:
+                    "Asia/Kolkata",
+
+                weekday:
+                    "long",
+
+                day:
+                    "2-digit",
+
+                month:
+                    "long",
+
+                year:
+                    "numeric"
+            }
+        );
+
+
+    const timeText =
+        dateObject.toLocaleTimeString(
+            "en-IN",
+            {
+                timeZone:
+                    "Asia/Kolkata",
+
+                hour:
+                    "2-digit",
+
+                minute:
+                    "2-digit",
+
+                second:
+                    "2-digit",
+
+                hour12:
+                    true
+            }
+        );
+
+
+    element.innerHTML =
+
+        "📅 " +
+        dateText +
+        "<br>" +
+
+        "🕐 वर्तमान समय: " +
+        timeText +
+        " IST";
+
 }
 
 
 /* =========================================================
-   TOKEN SLIP
+   GET BOOKINGS
 ========================================================= */
 
-#tokenSlip {
-    margin-top: 40px;
-}
+function getBookings() {
 
-.slip-box {
-    width: 100%;
+    try {
 
-    background: #ffffff;
+        const data =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
 
-    border:
-        1px solid
-        #e5e7eb;
 
-    border-radius: 15px;
+        if (!data) {
 
-    padding: 25px;
+            return [];
 
-    box-shadow:
-        0 7px 25px
-        rgba(0, 0, 0, 0.07);
+        }
+
+
+        const bookings =
+            JSON.parse(
+                data
+            );
+
+
+        if (
+            !Array.isArray(
+                bookings
+            )
+        ) {
+
+            return [];
+
+        }
+
+
+        return bookings;
+
+    }
+    catch (error) {
+
+        console.error(
+            "Booking data read error:",
+            error
+        );
+
+
+        return [];
+
+    }
+
 }
 
 
 /* =========================================================
-   SLIP ACTIONS
+   SAVE BOOKINGS
 ========================================================= */
 
-.slip-actions {
-    display: flex;
+function saveBookings(
+    bookings
+) {
 
-    justify-content: center;
+    try {
 
-    align-items: center;
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(
+                bookings
+            )
+        );
 
-    gap: 12px;
 
-    flex-wrap: wrap;
+        return true;
 
-    margin-bottom: 22px;
-}
+    }
+    catch (error) {
 
-.slip-actions button {
-    min-height: 44px;
+        console.error(
+            "Booking save error:",
+            error
+        );
 
-    border: none;
 
-    border-radius: 8px;
+        alert(
+            "Booking save नहीं हो सकी। कृपया browser storage check करें।"
+        );
 
-    padding: 10px 18px;
 
-    background: #047857;
+        return false;
 
-    color: #ffffff;
+    }
 
-    font-weight: 800;
-
-    transition: 0.2s;
-}
-
-.slip-actions button:hover {
-    background: #065f46;
-
-    transform:
-        translateY(-1px);
 }
 
 
 /* =========================================================
-   PDF CONTENT
+   CENTRE OFF CHECK
 ========================================================= */
 
-.pdf-content {
-    width: 100%;
+function isCentreOff(
+    date
+) {
 
-    max-width: 650px;
+    /*
+       Sunday
 
-    margin: 0 auto;
+       JavaScript:
+       0 = Sunday
+    */
 
-    padding: 27px;
+    const day =
+        getDayOfWeek(
+            date
+        );
 
-    background: #ffffff;
 
-    border:
-        2px solid
-        #047857;
+    if (day === 0) {
 
-    border-radius: 12px;
+        return true;
 
-    text-align: center;
-}
+    }
 
-.slip-logo {
-    width: 62px;
 
-    height: 62px;
+    /*
+       Holiday
+    */
 
-    margin:
-        0 auto 12px;
+    if (
+        CENTRE_HOLIDAYS.includes(
+            date
+        )
+    ) {
 
-    border-radius: 50%;
+        return true;
 
-    background: #047857;
+    }
 
-    color: #ffffff;
 
-    border:
-        3px solid
-        #facc15;
+    return false;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 31px;
-
-    font-weight: 900;
-}
-
-.pdf-content h2 {
-    font-size: 23px;
-
-    margin-bottom: 5px;
-}
-
-.pdf-content h3 {
-    margin-bottom: 5px;
-}
-
-.pdf-content p {
-    color: #374151;
-
-    margin: 5px 0;
-
-    font-size: 14px;
-}
-
-.pdf-content hr {
-    border: none;
-
-    border-top:
-        1px solid
-        #d1d5db;
-
-    margin:
-        16px 0;
 }
 
 
 /* =========================================================
-   BIG TOKEN
+   DAY OF WEEK
 ========================================================= */
 
-.big-token {
-    display: block;
+function getDayOfWeek(
+    date
+) {
 
-    width: 100%;
+    const parts =
+        date.split("-");
 
-    margin: 16px 0;
 
-    padding: 12px;
+    const year =
+        Number(
+            parts[0]
+        );
 
-    background: #ecfdf5;
+    const month =
+        Number(
+            parts[1]
+        ) - 1;
 
-    border:
-        1px solid
-        #a7f3d0;
+    const day =
+        Number(
+            parts[2]
+        );
 
-    border-radius: 10px;
 
-    color: #047857;
+    return new Date(
+        year,
+        month,
+        day
+    ).getDay();
 
-    font-size: 46px;
-
-    line-height: 1.2;
-
-    font-weight: 900;
-
-    letter-spacing: 1px;
 }
 
 
 /* =========================================================
-   FOOTER
+   LOAD DATE CARDS
 ========================================================= */
 
-footer {
-    width: 100%;
+function loadDates() {
 
-    margin-top: 50px;
+    const container =
+        document.getElementById(
+            "dateOptions"
+        );
 
-    padding: 25px 15px;
 
-    background: #064e3b;
+    if (!container) {
+        return;
+    }
 
-    color: #ffffff;
 
-    text-align: center;
+    container.innerHTML = "";
 
-    font-size: 14px;
 
-    font-weight: 600;
+    const today =
+        getCurrentISTDateTime();
+
+
+    /*
+       अगले 10 दिन दिखाएँ
+    */
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        const date =
+            addDays(
+                today.date,
+                i
+            );
+
+
+        createDateCard(
+            container,
+            date
+        );
+
+    }
+
+
+    /*
+       पहले available date को
+       automatically select करें
+    */
+
+    autoSelectFirstAvailableDate();
+
+}
+
+
+/* =========================================================
+   ADD DAYS
+========================================================= */
+
+function addDays(
+    dateString,
+    days
+) {
+
+    const parts =
+        dateString.split("-");
+
+
+    const date =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+        );
+
+
+    date.setDate(
+        date.getDate() +
+        days
+    );
+
+
+    return formatDateForStorage(
+        date
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT DATE FOR STORAGE
+========================================================= */
+
+function formatDateForStorage(
+    date
+) {
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
+}
+
+
+/* =========================================================
+   CREATE DATE CARD
+========================================================= */
+
+function createDateCard(
+    container,
+    date
+) {
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "date-card";
+
+
+    const day =
+        getDayOfWeek(
+            date
+        );
+
+
+    const bookings =
+        getBookings();
+
+
+    const count =
+        bookings.filter(
+            booking =>
+                booking.date ===
+                date
+        ).length;
+
+
+    const off =
+        isCentreOff(
+            date
+        );
+
+
+    const full =
+        count >=
+        MAX_TOKENS_PER_DAY;
+
+
+    /*
+       DATE OBJECT
+    */
+
+    const parts =
+        date.split("-");
+
+
+    const dateObject =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+        );
+
+
+    const weekday =
+        dateObject.toLocaleDateString(
+            "hi-IN",
+            {
+                weekday:
+                    "short"
+            }
+        );
+
+
+    const month =
+        dateObject.toLocaleDateString(
+            "hi-IN",
+            {
+                month:
+                    "short"
+            }
+        );
+
+
+    const dayNumber =
+        dateObject.getDate();
+
+
+    /*
+       CARD CLASS
+    */
+
+    if (off) {
+
+        card.classList.add(
+            "off"
+        );
+
+    }
+    else if (full) {
+
+        card.classList.add(
+            "full"
+        );
+
+    }
+    else {
+
+        card.classList.add(
+            "available"
+        );
+
+    }
+
+
+    /*
+       HTML
+    */
+
+    card.innerHTML = `
+
+        <div class="date-day">
+            ${weekday}
+        </div>
+
+        <div class="date-number">
+            ${dayNumber}
+        </div>
+
+        <div class="date-month">
+            ${month}
+        </div>
+
+        <small>
+
+            ${
+                off
+                    ? "Centre OFF"
+                    : full
+                        ? "FULL"
+                        : `${count}/${MAX_TOKENS_PER_DAY} Booked`
+            }
+
+        </small>
+
+    `;
+
+
+    /*
+       CLICK
+    */
+
+    if (
+        !off &&
+        !full
+    ) {
+
+        card.addEventListener(
+            "click",
+            function () {
+
+                selectDate(
+                    date,
+                    card
+                );
+
+            }
+        );
+
+    }
+
+
+    container.appendChild(
+        card
+    );
+
+}
+
+
+/* =========================================================
+   AUTO SELECT FIRST AVAILABLE DATE
+========================================================= */
+
+function autoSelectFirstAvailableDate() {
+
+    const today =
+        getCurrentISTDateTime();
+
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+        const date =
+            addDays(
+                today.date,
+                i
+            );
+
+
+        const bookings =
+            getBookings();
+
+
+        const count =
+            bookings.filter(
+                booking =>
+                    booking.date ===
+                    date
+            ).length;
+
+
+        if (
+            !isCentreOff(date) &&
+            count < MAX_TOKENS_PER_DAY
+        ) {
+
+            const cards =
+                document.querySelectorAll(
+                    ".date-card.available"
+                );
+
+
+            for (
+                const card of cards
+            ) {
+
+                /*
+                   Card text देखकर
+                   date select करने के बजाय
+                   directly function call करना
+                   बेहतर है।
+                */
+
+                card.classList.remove(
+                    "selected"
+                );
+
+            }
+
+
+            selectDateByValue(
+                date
+            );
+
+
+            return;
+
+        }
+
+    }
+
+
+    const info =
+        document.getElementById(
+            "selectedDateInfo"
+        );
+
+
+    if (info) {
+
+        info.textContent =
+            "अभी कोई उपलब्ध तारीख नहीं मिली।";
+
+    }
+
+}
+
+
+/* =========================================================
+   SELECT DATE BY VALUE
+========================================================= */
+
+function selectDateByValue(
+    date
+) {
+
+    const cards =
+        document.querySelectorAll(
+            ".date-card"
+        );
+
+
+    let targetCard =
+        null;
+
+
+    cards.forEach(
+        card => {
+
+            const small =
+                card.querySelector(
+                    ".date-month"
+                );
+
+            /*
+               Date directly store करने के लिए
+               dataset बनाया जा रहा है।
+            */
+
+        }
+    );
+
+
+    /*
+       Existing card को date dataset से खोजें
+    */
+
+    cards.forEach(
+        card => {
+
+            if (
+                card.dataset.date ===
+                date
+            ) {
+
+                targetCard =
+                    card;
+
+            }
+
+        }
+    );
+
+
+    /*
+       पुराने cards में dataset न हो तो
+       recreate करने की जरूरत नहीं।
+       इसलिए नीचे date cards में dataset
+       सुनिश्चित किया जाता है।
+    */
+
+    if (
+        targetCard
+    ) {
+
+        selectDate(
+            date,
+            targetCard
+        );
+
+    }
+    else {
+
+        /*
+           fallback
+        */
+
+        selectDate(
+            date,
+            null
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SELECT DATE
+========================================================= */
+
+function selectDate(
+    date,
+    card
+) {
+
+    const bookingDate =
+        document.getElementById(
+            "bookingDate"
+        );
+
+
+    if (bookingDate) {
+
+        bookingDate.value =
+            date;
+
+    }
+
+
+    /*
+       Selected card
+    */
+
+    document
+        .querySelectorAll(
+            ".date-card"
+        )
+        .forEach(
+            item => {
+
+                item.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+    if (card) {
+
+        card.classList.add(
+            "selected"
+        );
+
+    }
+    else {
+
+        /*
+           fallback card search
+        */
+
+        document
+            .querySelectorAll(
+                ".date-card"
+            )
+            .forEach(
+                item => {
+
+                    if (
+                        item.dataset.date ===
+                        date
+                    ) {
+
+                        item.classList.add(
+                            "selected"
+                        );
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /*
+       Selected date information
+    */
+
+    updateSelectedDateInfo(
+        date
+    );
+
+
+    /*
+       Generate 18-minute slots
+    */
+
+    generateTimeSlots(
+        date
+    );
+
+
+    /*
+       Next token
+    */
+
+    updateNextToken();
+
+}
+
+
+/* =========================================================
+   SELECTED DATE INFORMATION
+========================================================= */
+
+function updateSelectedDateInfo(
+    date
+) {
+
+    const element =
+        document.getElementById(
+            "selectedDateInfo"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    const parts =
+        date.split("-");
+
+
+    const dateObject =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+        );
+
+
+    const text =
+        dateObject.toLocaleDateString(
+            "hi-IN",
+            {
+                weekday:
+                    "long",
+
+                day:
+                    "numeric",
+
+                month:
+                    "long",
+
+                year:
+                    "numeric"
+            }
+        );
+
+
+    const bookings =
+        getBookings();
+
+
+    const count =
+        bookings.filter(
+            booking =>
+                booking.date ===
+                date
+        ).length;
+
+
+    element.innerHTML =
+
+        "📅 Selected Date: " +
+        text +
+        "<br>" +
+
+        "🎫 " +
+        count +
+        "/" +
+        MAX_TOKENS_PER_DAY +
+        " Token Booked";
+
+}
+
+
+/* =========================================================
+   GENERATE 18 MINUTE TIME SLOTS
+========================================================= */
+
+function generateTimeSlots(
+    date
+) {
+
+    const select =
+        document.getElementById(
+            "timeSlot"
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    select.innerHTML = "";
+
+
+    if (
+        isCentreOff(date)
+    ) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.textContent =
+            "Centre OFF";
+
+
+        option.value = "";
+
+
+        select.appendChild(
+            option
+        );
+
+
+        return;
+
+    }
+
+
+    const bookings =
+        getBookings();
+
+
+    /*
+       30 slots
+
+       8:00
+       8:18
+       8:36
+       ...
+       16:42
+       17:00
+    */
+
+    for (
+        let i = 0;
+        i < MAX_TOKENS_PER_DAY;
+        i++
+    ) {
+
+        const totalMinutes =
+            (
+                START_HOUR * 60
+            ) +
+            START_MINUTE +
+            (
+                i *
+                SLOT_MINUTES
+            );
+
+
+        const startHour =
+            Math.floor(
+                totalMinutes / 60
+            );
+
+
+        const startMinute =
+            totalMinutes % 60;
+
+
+        const endTotal =
+            totalMinutes +
+            SLOT_MINUTES;
+
+
+        const endHour =
+            Math.floor(
+                endTotal / 60
+            );
+
+
+        const endMinute =
+            endTotal % 60;
+
+
+        /*
+           यदि अंतिम slot 5 PM से
+           आगे जा रहा हो तो stop करें।
+        */
+
+        if (
+            endHour >
+                END_HOUR ||
+            (
+                endHour ===
+                    END_HOUR &&
+                endMinute >
+                    END_MINUTE
+            )
+        ) {
+
+            break;
+
+        }
+
+
+        const startText =
+            formatTime12Hour(
+                startHour,
+                startMinute
+            );
+
+
+        const endText =
+            formatTime12Hour(
+                endHour,
+                endMinute
+            );
+
+
+        const slotText =
+            startText +
+            " - " +
+            endText;
+
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            slotText;
+
+
+        option.textContent =
+            slotText;
+
+
+        /*
+           Same Date + Same Slot
+           पहले से booked है या नहीं
+        */
+
+        const alreadyBooked =
+            bookings.some(
+                booking =>
+
+                    booking.date ===
+                    date &&
+
+                    booking.timeSlot ===
+                    slotText
+            );
+
+
+        if (
+            alreadyBooked
+        ) {
+
+            option.disabled =
+                true;
+
+
+            option.textContent =
+                slotText +
+                " — BOOKED";
+
+
+            option.dataset.booked =
+                "true";
+
+        }
+
+
+        select.appendChild(
+            option
+        );
+
+    }
+
+
+    /*
+       Available slot select करें
+    */
+
+    const firstAvailable =
+        Array.from(
+            select.options
+        ).find(
+            option =>
+                !option.disabled
+        );
+
+
+    if (
+        firstAvailable
+    ) {
+
+        select.value =
+            firstAvailable.value;
+
+    }
+    else {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            "";
+
+
+        option.textContent =
+            "सभी स्लॉट BOOKED हैं";
+
+
+        select.appendChild(
+            option
+        );
+
+
+        select.value =
+            "";
+
+    }
+
+
+}
+
+
+/* =========================================================
+   FORMAT 12 HOUR TIME
+========================================================= */
+
+function formatTime12Hour(
+    hour,
+    minute
+) {
+
+    const suffix =
+        hour >= 12
+            ? "PM"
+            : "AM";
+
+
+    let displayHour =
+        hour % 12;
+
+
+    if (
+        displayHour === 0
+    ) {
+
+        displayHour =
+            12;
+
+    }
+
+
+    return (
+
+        displayHour +
+        ":" +
+        String(
+            minute
+        ).padStart(
+            2,
+            "0"
+        ) +
+        " " +
+        suffix
+
+    );
+
+}
+
+
+/* =========================================================
+   VALIDATE BOOKING FORM
+========================================================= */
+
+function validateBookingForm() {
+
+    const name =
+        document.getElementById(
+            "name"
+        );
+
+
+    const age =
+        document.getElementById(
+            "age"
+        );
+
+
+    const service =
+        document.getElementById(
+            "service"
+        );
+
+
+    const bookingDate =
+        document.getElementById(
+            "bookingDate"
+        );
+
+
+    const timeSlot =
+        document.getElementById(
+            "timeSlot"
+        );
+
+
+    if (
+        !name ||
+        !name.value.trim()
+    ) {
+
+        alert(
+            "कृपया ग्राहक का नाम भरें।"
+        );
+
+        name.focus();
+
+        return false;
+
+    }
+
+
+    if (
+        !age ||
+        age.value === ""
+    ) {
+
+        alert(
+            "कृपया उम्र भरें।"
+        );
+
+        age.focus();
+
+        return false;
+
+    }
+
+
+    const ageNumber =
+        Number(
+            age.value
+        );
+
+
+    if (
+        ageNumber < 0 ||
+        ageNumber > 120
+    ) {
+
+        alert(
+            "कृपया सही उम्र दर्ज करें।"
+        );
+
+        age.focus();
+
+        return false;
+
+    }
+
+
+    if (
+        !service ||
+        !service.value
+    ) {
+
+        alert(
+            "कृपया सेवा चुनें।"
+        );
+
+        service.focus();
+
+        return false;
+
+    }
+
+
+    if (
+        !bookingDate ||
+        !bookingDate.value
+    ) {
+
+        alert(
+            "कृपया Booking की तारीख चुनें।"
+        );
+
+        return false;
+
+    }
+
+
+    if (
+        !timeSlot ||
+        !timeSlot.value
+    ) {
+
+        alert(
+            "कृपया उपलब्ध Time Slot चुनें।"
+        );
+
+        timeSlot.focus();
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   BOOK TOKEN
+========================================================= */
+
+function bookToken() {
+
+    /*
+       FORM VALIDATION
+    */
+
+    if (
+        !validateBookingForm()
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+       VALUES
+    */
+
+    const name =
+        document.getElementById(
+            "name"
+        ).value.trim();
+
+
+    const age =
+        Number(
+            document.getElementById(
+                "age"
+            ).value
+        );
+
+
+    const service =
+        document.getElementById(
+            "service"
+        ).value;
+
+
+    const timeSlot =
+        document.getElementById(
+            "timeSlot"
+        ).value;
+
+
+    const date =
+        document.getElementById(
+            "bookingDate"
+        ).value;
+
+
+    /*
+       CURRENT IST
+    */
+
+    const current =
+        getCurrentISTDateTime();
+
+
+    /*
+       OFF CHECK
+    */
+
+    if (
+        isCentreOff(date)
+    ) {
+
+        alert(
+            "इस तारीख को Centre OFF है।"
+        );
+
+
+        loadDates();
+
+
+        return;
+
+    }
+
+
+    /*
+       GET BOOKINGS
+    */
+
+    const bookings =
+        getBookings();
+
+
+    /*
+       DAILY COUNT
+    */
+
+    const dayBookings =
+        bookings.filter(
+            booking =>
+                booking.date ===
+                date
+        );
+
+
+    /*
+       30 TOKEN LIMIT
+    */
+
+    if (
+        dayBookings.length >=
+        MAX_TOKENS_PER_DAY
+    ) {
+
+        alert(
+            "इस तारीख के सभी 30 Token बुक हो चुके हैं।"
+        );
+
+
+        loadDates();
+
+
+        return;
+
+    }
+
+
+    /*
+       =====================================================
+       MOST IMPORTANT CHECK
+
+       SAME DATE + SAME 18 MINUTE SLOT
+       DUPLICATE BOOKING NOT ALLOWED
+       =====================================================
+    */
+
+    const duplicate =
+        bookings.some(
+            booking =>
+
+                booking.date ===
+                date &&
+
+                booking.timeSlot ===
+                timeSlot
+        );
+
+
+    if (
+        duplicate
+    ) {
+
+        alert(
+
+            "⚠️ यह Time Slot पहले से BOOK है।\n\n" +
+
+            "📅 तारीख: " +
+            formatDate(
+                date
+            ) +
+            "\n" +
+
+            "⏰ समय: " +
+            timeSlot +
+            "\n\n" +
+
+            "कृपया दूसरा Time Slot चुनें।"
+
+        );
+
+
+        /*
+           Slots फिर से refresh
+        */
+
+        generateTimeSlots(
+            date
+        );
+
+
+        updateNextToken();
+
+
+        return;
+
+    }
+
+
+    /*
+       TOKEN NUMBER
+
+       दिन की booking count + 1
+    */
+
+    const tokenNumber =
+        "A-" +
+        String(
+            dayBookings.length + 1
+        ).padStart(
+            3,
+            "0"
+        );
+
+
+    /*
+       CREATE BOOKING
+    */
+
+    const booking = {
+
+        id:
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 8),
+
+        token:
+            tokenNumber,
+
+        name:
+            name,
+
+        age:
+            age,
+
+        service:
+            service,
+
+        date:
+            date,
+
+        timeSlot:
+            timeSlot,
+
+        bookingDate:
+            current.date,
+
+        bookingTime:
+            current.time,
+
+        bookingDateTime:
+            current.dateTime,
+
+        createdAt:
+            new Date()
+                .toISOString()
+
+    };
+
+
+    /*
+       SAVE
+    */
+
+    bookings.push(
+        booking
+    );
+
+
+    const saved =
+        saveBookings(
+            bookings
+        );
+
+
+    if (
+        !saved
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+       SHOW TOKEN SLIP
+    */
+
+    showTokenSlip(
+        booking
+    );
+
+
+    /*
+       REFRESH DATE CARDS
+    */
+
+    loadDates();
+
+
+    /*
+       RESET FORM FIELDS
+    */
+
+    document
+        .getElementById(
+            "name"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "age"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "service"
+        )
+        .selectedIndex = 0;
+
+
+    /*
+       FORM DATE
+       selected date को वापस रखना है
+    */
+
+    const bookingDate =
+        document.getElementById(
+            "bookingDate"
+        );
+
+
+    if (
+        bookingDate
+    ) {
+
+        bookingDate.value =
+            date;
+
+    }
+
+
+    /*
+       Regenerate slots
+    */
+
+    generateTimeSlots(
+        date
+    );
+
+
+    updateNextToken();
+
+
+    /*
+       SUCCESS MESSAGE
+    */
+
+    showToast(
+
+        "🎫 Token " +
+        tokenNumber +
+        " successfully booked"
+
+    );
+
+
+    /*
+       Scroll to slip
+    */
+
+    const slip =
+        document.getElementById(
+            "tokenSlip"
+        );
+
+
+    if (
+        slip
+    ) {
+
+        setTimeout(
+            function () {
+
+                slip.scrollIntoView({
+                    behavior:
+                        "smooth"
+                });
+
+            },
+            150
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SHOW TOKEN SLIP
+========================================================= */
+
+function showTokenSlip(
+    booking
+) {
+
+    const token =
+        document.getElementById(
+            "tokenNumber"
+        );
+
+
+    const name =
+        document.getElementById(
+            "customerName"
+        );
+
+
+    const age =
+        document.getElementById(
+            "customerAge"
+        );
+
+
+    const service =
+        document.getElementById(
+            "customerService"
+        );
+
+
+    const date =
+        document.getElementById(
+            "customerDate"
+        );
+
+
+    const time =
+        document.getElementById(
+            "customerTime"
+        );
+
+
+    const bookingTime =
+        document.getElementById(
+            "bookingTime"
+        );
+
+
+    if (token) {
+
+        token.textContent =
+            booking.token;
+
+    }
+
+
+    if (name) {
+
+        name.textContent =
+            booking.name;
+
+    }
+
+
+    if (age) {
+
+        age.textContent =
+            booking.age +
+            " वर्ष";
+
+    }
+
+
+    if (service) {
+
+        service.textContent =
+            booking.service;
+
+    }
+
+
+    if (date) {
+
+        date.textContent =
+            formatDate(
+                booking.date
+            );
+
+    }
+
+
+    if (time) {
+
+        time.textContent =
+            booking.timeSlot;
+
+    }
+
+
+    if (bookingTime) {
+
+        bookingTime.textContent =
+            formatBookingDateTime(
+                booking.bookingDateTime
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE NEXT TOKEN
+========================================================= */
+
+function updateNextToken() {
+
+    const element =
+        document.getElementById(
+            "nextTokenInfo"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    const dateElement =
+        document.getElementById(
+            "bookingDate"
+        );
+
+
+    if (
+        !dateElement ||
+        !dateElement.value
+    ) {
+
+        element.textContent =
+            "A-001";
+
+        return;
+
+    }
+
+
+    const date =
+        dateElement.value;
+
+
+    const bookings =
+        getBookings();
+
+
+    const count =
+        bookings.filter(
+            booking =>
+                booking.date ===
+                date
+        ).length;
+
+
+    if (
+        count >=
+        MAX_TOKENS_PER_DAY
+    ) {
+
+        element.textContent =
+            "FULL";
+
+        return;
+
+    }
+
+
+    const next =
+        count + 1;
+
+
+    element.textContent =
+        "A-" +
+        String(
+            next
+        ).padStart(
+            3,
+            "0"
+        );
+
+}
+
+
+/* =========================================================
+   FORMAT DATE
+========================================================= */
+
+function formatDate(
+    date
+) {
+
+    if (!date) {
+        return "--";
+    }
+
+
+    const parts =
+        date.split("-");
+
+
+    const dateObject =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+        );
+
+
+    return dateObject.toLocaleDateString(
+        "hi-IN",
+        {
+            day:
+                "2-digit",
+
+            month:
+                "long",
+
+            year:
+                "numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT BOOKING DATETIME
+========================================================= */
+
+function formatBookingDateTime(
+    dateTime
+) {
+
+    if (!dateTime) {
+
+        return "--";
+
+    }
+
+
+    const parts =
+        dateTime.split(" ");
+
+
+    if (
+        parts.length < 2
+    ) {
+
+        return dateTime;
+
+    }
+
+
+    const date =
+        parts[0];
+
+
+    const time =
+        parts[1];
+
+
+    return (
+
+        formatDate(
+            date
+        ) +
+
+        " • " +
+
+        formatTimeString(
+            time
+        ) +
+
+        " IST"
+
+    );
+
+}
+
+
+/* =========================================================
+   FORMAT TIME STRING
+========================================================= */
+
+function formatTimeString(
+    time
+) {
+
+    const parts =
+        time.split(":");
+
+
+    let hour =
+        Number(
+            parts[0]
+        );
+
+
+    const minute =
+        parts[1];
+
+
+    const second =
+        parts[2] ||
+        "00";
+
+
+    const suffix =
+        hour >= 12
+            ? "PM"
+            : "AM";
+
+
+    hour =
+        hour % 12;
+
+
+    if (
+        hour === 0
+    ) {
+
+        hour = 12;
+
+    }
+
+
+    return (
+
+        hour +
+        ":" +
+        minute +
+        ":" +
+        second +
+        " " +
+        suffix
+
+    );
+
+}
+
+
+/* =========================================================
+   PRINT TOKEN SLIP
+========================================================= */
+
+function printTokenSlip() {
+
+    const token =
+        document.getElementById(
+            "tokenNumber"
+        );
+
+
+    if (
+        !token ||
+        token.textContent.trim() ===
+            "--"
+    ) {
+
+        alert(
+            "पहले कोई Token Book करें।"
+        );
+
+        return;
+
+    }
+
+
+    window.print();
+
+}
+
+
+/* =========================================================
+   DOWNLOAD TOKEN SLIP PDF
+========================================================= */
+
+function downloadTokenSlip() {
+
+    const content =
+        document.getElementById(
+            "pdfContent"
+        );
+
+
+    const token =
+        document.getElementById(
+            "tokenNumber"
+        );
+
+
+    if (
+        !content ||
+        !token ||
+        token.textContent.trim() ===
+            "--"
+    ) {
+
+        alert(
+            "पहले कोई Token Book करें।"
+        );
+
+        return;
+
+    }
+
+
+    /*
+       jsPDF + html2canvas available है तो
+       PDF generate करें।
+    */
+
+    if (
+        typeof html2canvas ===
+            "undefined" ||
+        typeof window.jspdf ===
+            "undefined"
+    ) {
+
+        /*
+           External library न होने पर
+           print dialog से PDF save
+           करने का विकल्प।
+        */
+
+        alert(
+
+            "PDF library उपलब्ध नहीं है।\n\n" +
+
+            "Print window खोलकर " +
+            "\"Save as PDF\" चुन सकते हैं।"
+
+        );
+
+
+        window.print();
+
+
+        return;
+
+    }
+
+
+    html2canvas(
+        content,
+        {
+            scale: 2,
+
+            backgroundColor:
+                "#ffffff"
+        }
+    )
+    .then(
+        function (canvas) {
+
+            const {
+                jsPDF
+            } =
+                window.jspdf;
+
+
+            const pdf =
+                new jsPDF(
+                    "p",
+                    "mm",
+                    "a4"
+                );
+
+
+            const imgData =
+                canvas.toDataURL(
+                    "image/png"
+                );
+
+
+            const pageWidth =
+                pdf.internal
+                    .pageSize
+                    .getWidth();
+
+
+            const pageHeight =
+                pdf.internal
+                    .pageSize
+                    .getHeight();
+
+
+            const margin =
+                10;
+
+
+            const usableWidth =
+                pageWidth -
+                margin * 2;
+
+
+            const imageHeight =
+                (
+                    canvas.height *
+                    usableWidth
+                ) /
+                canvas.width;
+
+
+            let finalHeight =
+                imageHeight;
+
+
+            if (
+                finalHeight >
+                pageHeight -
+                margin * 2
+            ) {
+
+                finalHeight =
+                    pageHeight -
+                    margin * 2;
+
+            }
+
+
+            pdf.addImage(
+                imgData,
+                "PNG",
+                margin,
+                margin,
+                usableWidth,
+                finalHeight
+            );
+
+
+            const tokenNumber =
+                token.textContent
+                    .trim();
+
+
+            pdf.save(
+                "Token-" +
+                tokenNumber +
+                ".pdf"
+            );
+
+        }
+    )
+    .catch(
+        function (error) {
+
+            console.error(
+                "PDF error:",
+                error
+            );
+
+
+            alert(
+                "PDF बनाने में समस्या आई। Print करके Save as PDF करें।"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CHECK STATUS
+========================================================= */
+
+function checkStatus() {
+
+    const bookings =
+        getBookings();
+
+
+    if (
+        bookings.length === 0
+    ) {
+
+        alert(
+            "अभी कोई Booking उपलब्ध नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    const token =
+        prompt(
+            "अपना Token Number डालें।\n\nउदाहरण: A-001"
+        );
+
+
+    if (!token) {
+
+        return;
+
+    }
+
+
+    const searchToken =
+        token
+            .trim()
+            .toUpperCase();
+
+
+    const booking =
+        bookings.find(
+            item =>
+                String(
+                    item.token
+                ).toUpperCase() ===
+                searchToken
+        );
+
+
+    if (!booking) {
+
+        alert(
+            "❌ यह Token नहीं मिला।"
+        );
+
+        return;
+
+    }
+
+
+    alert(
+
+        "🎫 Token: " +
+        booking.token +
+        "\n\n" +
+
+        "👤 नाम: " +
+        booking.name +
+        "\n" +
+
+        "🎂 उम्र: " +
+        booking.age +
+        " वर्ष\n\n" +
+
+        "🪪 सेवा: " +
+        booking.service +
+        "\n\n" +
+
+        "📅 तारीख: " +
+        formatDate(
+            booking.date
+        ) +
+        "\n" +
+
+        "⏰ समय: " +
+        booking.timeSlot +
+        "\n\n" +
+
+        "📌 Status: BOOKED"
+
+    );
+
 }
 
 
@@ -1261,410 +2703,192 @@ footer {
    TOAST
 ========================================================= */
 
-.toast {
-    position: fixed;
-
-    right: 25px;
-
-    bottom: 25px;
-
-    z-index: 9999;
-
-    max-width:
-        calc(100% - 50px);
-
-    background: #064e3b;
-
-    color: #ffffff;
-
-    padding: 13px 18px;
-
-    border-radius: 10px;
-
-    box-shadow:
-        0 6px 25px
-        rgba(0, 0, 0, 0.22);
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform:
-        translateY(15px);
-
-    transition:
-        0.25s ease;
-}
-
-.toast.show {
-    opacity: 1;
-
-    visibility: visible;
-
-    transform:
-        translateY(0);
-}
+let toastTimer = null;
 
 
-/* =========================================================
-   SELECTION
-========================================================= */
+function showToast(
+    message
+) {
 
-::selection {
-    background: #a7f3d0;
-
-    color: #064e3b;
-}
-
-
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-::-webkit-scrollbar {
-    width: 9px;
-
-    height: 9px;
-}
-
-::-webkit-scrollbar-track {
-    background: #eef2f7;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #94a3b8;
-
-    border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-}
+    const toast =
+        document.getElementById(
+            "toast"
+        );
 
 
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 900px) {
-
-    .service-grid {
-        grid-template-columns:
-            repeat(2, 1fr);
+    if (!toast) {
+        return;
     }
 
-    .nav-right {
-        margin-left: 0;
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    if (
+        toastTimer
+    ) {
+
+        clearTimeout(
+            toastTimer
+        );
+
     }
+
+
+    toastTimer =
+        setTimeout(
+            function () {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            3500
+        );
 
 }
 
 
 /* =========================================================
-   MOBILE
+   FIX DATE CARD DATASET
 ========================================================= */
 
-@media (max-width: 700px) {
+/*
+   Date cards create होने के बाद
+   उनका actual date dataset में store करें।
 
-    header {
-        justify-content: center;
+   यह function loadDates() के बाद चलाया जाता है।
+*/
 
-        text-align: center;
-
-        padding:
-            14px 4%;
-    }
-
-
-    .brand {
-        justify-content: center;
-
-        width: 100%;
-    }
+const originalLoadDates =
+    loadDates;
 
 
-    .top-contact {
-        width: 100%;
+loadDates =
+    function () {
 
-        text-align: center;
-    }
-
-
-    nav {
-        padding:
-            8px 3%;
-
-        justify-content: center;
-    }
+        originalLoadDates();
 
 
-    nav a {
-        font-size: 13px;
-
-        padding:
-            7px 9px;
-    }
+        const cards =
+            document.querySelectorAll(
+                ".date-card"
+            );
 
 
-    .nav-right {
-        width: 100%;
-
-        text-align: center;
-    }
+        const today =
+            getCurrentISTDateTime();
 
 
-    main {
-        width: 94%;
+        cards.forEach(
+            (
+                card,
+                index
+            ) => {
 
-        margin-top: 20px;
-    }
+                card.dataset.date =
+                    addDays(
+                        today.date,
+                        index
+                    );
 
+            }
+        );
 
-    .booking-card {
-        padding: 17px;
-
-        border-radius: 14px;
-    }
-
-
-    .booking-heading h1 {
-        font-size: 23px;
-    }
-
-
-    .booking-heading p {
-        font-size: 13px;
-    }
-
-
-    .present-time {
-        width: 100%;
-
-        min-width: 0;
-
-        font-size: 13px;
-    }
-
-
-    .form-grid {
-        grid-template-columns:
-            1fr;
-
-        gap: 15px;
-    }
-
-
-    .field.full {
-        grid-column: auto;
-    }
-
-
-    .service-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .service-card {
-        padding: 22px;
-    }
-
-
-    .rules-box {
-        padding:
-            17px;
-    }
-
-
-    .pdf-content {
-        padding: 18px;
-    }
-
-}
+    };
 
 
 /* =========================================================
-   SMALL MOBILE
+   INITIAL DATE DATASET FIX
 ========================================================= */
 
-@media (max-width: 450px) {
+setTimeout(
+    function () {
 
-    .brand-mark {
-        width: 48px;
-
-        height: 48px;
-
-        min-width: 48px;
-
-        font-size: 25px;
-    }
+        const cards =
+            document.querySelectorAll(
+                ".date-card"
+            );
 
 
-    .brand-hi {
-        font-size: 17px;
-    }
+        if (
+            cards.length
+        ) {
+
+            const today =
+                getCurrentISTDateTime();
 
 
-    .brand-en {
-        font-size: 12px;
-    }
+            cards.forEach(
+                (
+                    card,
+                    index
+                ) => {
 
+                    card.dataset.date =
+                        addDays(
+                            today.date,
+                            index
+                        );
 
-    .top-contact {
-        font-size: 14px;
-    }
+                }
+            );
 
+        }
 
-    nav {
-        gap: 4px;
-    }
-
-
-    nav a {
-        font-size: 12px;
-
-        padding:
-            6px 7px;
-    }
-
-
-    .booking-card {
-        padding: 13px;
-    }
-
-
-    .booking-heading h1 {
-        font-size: 21px;
-    }
-
-
-    .date-card {
-        width: 96px;
-
-        min-width: 96px;
-
-        min-height: 100px;
-    }
-
-
-    .form-card {
-        padding: 14px;
-    }
-
-
-    .book-btn {
-        font-size: 15px;
-    }
-
-
-    .big-token {
-        font-size: 38px;
-    }
-
-
-    .slip-box {
-        padding: 14px;
-    }
-
-
-    .pdf-content {
-        padding: 14px;
-    }
-
-}
+    },
+    300
+);
 
 
 /* =========================================================
-   PRINT
+   AUTO REFRESH
 ========================================================= */
 
-@media print {
+/*
+   हर 30 सेकंड में date cards और
+   available slots refresh करें।
 
-    @page {
-        size: A4;
+   इससे एक ही browser में
+   booking करने के बाद status
+   जल्दी update होगा।
+*/
 
-        margin: 12mm;
-    }
+setInterval(
+    function () {
 
-
-    body {
-        background: #ffffff;
-    }
-
-
-    body * {
-        visibility: hidden;
-    }
+        loadDates();
 
 
-    #tokenSlip,
-    #tokenSlip *,
-    #pdfContent,
-    #pdfContent * {
-        visibility: visible;
-    }
+        const bookingDate =
+            document.getElementById(
+                "bookingDate"
+            );
 
 
-    #tokenSlip {
-        position: absolute;
+        if (
+            bookingDate &&
+            bookingDate.value
+        ) {
 
-        left: 0;
+            generateTimeSlots(
+                bookingDate.value
+            );
 
-        top: 0;
+            updateNextToken();
 
-        width: 100%;
+        }
 
-        margin: 0;
-
-        padding: 0;
-    }
-
-
-    #tokenSlip > h2,
-    .slip-actions {
-        display: none !important;
-    }
-
-
-    .slip-box {
-        padding: 0;
-
-        box-shadow: none;
-
-        border: none;
-    }
-
-
-    #pdfContent {
-        position: relative;
-
-        left: auto;
-
-        top: auto;
-
-        width: 100%;
-
-        max-width: 100%;
-
-        border:
-            2px solid
-            #047857;
-
-        box-shadow: none;
-
-        margin: 0;
-    }
-
-
-    .toast {
-        display: none !important;
-    }
-
-}
+    },
+    30000
+);
 
 
 /* =========================================================
