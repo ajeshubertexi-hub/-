@@ -1,1826 +1,1673 @@
-```javascript
+```css
 /* =========================================================
    KANJOULI ONLINE TOKEN
-   script.js
+   COMPLETE style.css
 ========================================================= */
 
 
 /* =========================================================
-   SETTINGS
+   RESET
 ========================================================= */
 
-const MAX_TOKENS_PER_DAY = 30;
-
-const TIME_ZONE = "Asia/Kolkata";
-
-
-/*
-   Centre Holidays
-   YYYY-MM-DD format में तारीख डालें।
-
-   Example:
-   const holidays = [
-       "2026-08-15",
-       "2026-08-20"
-   ];
-*/
-
-const holidays = [];
-
-
-/* =========================================================
-   STORAGE KEY
-========================================================= */
-
-const STORAGE_KEY = "kanjouliBookings";
-
-
-/* =========================================================
-   GET BOOKINGS
-========================================================= */
-
-function getBookings() {
-
-    try {
-
-        const data =
-            localStorage.getItem(STORAGE_KEY);
-
-        if (!data) {
-            return [];
-        }
-
-        const bookings =
-            JSON.parse(data);
-
-        return Array.isArray(bookings)
-            ? bookings
-            : [];
-
-    } catch (error) {
-
-        console.error(
-            "Booking data read error:",
-            error
-        );
-
-        return [];
-
-    }
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-
-/* =========================================================
-   SAVE BOOKINGS
-========================================================= */
-
-function saveBookings(bookings) {
-
-    try {
-
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(bookings)
-        );
-
-        return true;
-
-    } catch (error) {
-
-        console.error(
-            "Booking data save error:",
-            error
-        );
-
-        alert(
-            "Booking data save नहीं हो पाया।"
-        );
-
-        return false;
-
-    }
-
+html {
+    scroll-behavior: smooth;
 }
 
-
-/* =========================================================
-   CURRENT IST DATE
-========================================================= */
-
-function getISTDate() {
-
-    const now =
-        new Date();
-
-    const parts =
-        new Intl.DateTimeFormat(
-            "en-CA",
-            {
-                timeZone: TIME_ZONE,
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit"
-            }
-        ).formatToParts(now);
-
-    const values = {};
-
-    parts.forEach(
-        part => {
-
-            if (part.type !== "literal") {
-
-                values[part.type] =
-                    part.value;
-
-            }
-
-        }
-    );
-
-    return (
-        values.year +
-        "-" +
-        values.month +
-        "-" +
-        values.day
-    );
-
-}
-
-
-/* =========================================================
-   CURRENT IST DATE + TIME
-========================================================= */
-
-function getCurrentISTDateTime() {
-
-    const now =
-        new Date();
-
-    const date =
-        now.toLocaleDateString(
-            "en-IN",
-            {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                timeZone: TIME_ZONE
-            }
-        );
-
-    const time =
-        now.toLocaleTimeString(
-            "en-IN",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: true,
-                timeZone: TIME_ZONE
-            }
-        );
-
-    return {
-        date: date,
-        time: time,
-        dateTime:
-            date + " • " + time
-    };
-
-}
-
-
-/* =========================================================
-   FORMAT DATE
-========================================================= */
-
-function formatDate(dateString) {
-
-    if (!dateString) {
-        return "--";
-    }
-
-    const date =
-        new Date(
-            dateString + "T00:00:00"
-        );
-
-    if (isNaN(date.getTime())) {
-        return dateString;
-    }
-
-    return date.toLocaleDateString(
-        "hi-IN",
-        {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        }
-    );
-
-}
-
-
-/* =========================================================
-   GET DATE BOOKING COUNT
-========================================================= */
-
-function getDateBookingCount(date) {
-
-    const bookings =
-        getBookings();
-
-    return bookings.filter(
-        booking =>
-            booking.date === date
-    ).length;
-
-}
-
-
-/* =========================================================
-   CHECK SUNDAY
-========================================================= */
-
-function isSunday(dateString) {
-
-    const date =
-        new Date(
-            dateString + "T00:00:00"
-        );
-
-    return date.getDay() === 0;
-
-}
-
-
-/* =========================================================
-   CHECK HOLIDAY
-========================================================= */
-
-function isHoliday(dateString) {
-
-    return holidays.includes(
-        dateString
-    );
-
-}
-
-
-/* =========================================================
-   CHECK CENTRE OFF
-========================================================= */
-
-function isCentreOff(dateString) {
-
-    return (
-        isSunday(dateString) ||
-        isHoliday(dateString)
-    );
-
-}
-
-
-/* =========================================================
-   CHECK FULL
-========================================================= */
-
-function isDateFull(dateString) {
-
-    return (
-        getDateBookingCount(
-            dateString
-        ) >= MAX_TOKENS_PER_DAY
-    );
-
-}
-
-
-/* =========================================================
-   GET NEXT TOKEN
-========================================================= */
-
-function getNextTokenNumber(date) {
-
-    const count =
-        getDateBookingCount(date);
-
-    return (
-        "A-" +
-        String(
-            count + 1
-        ).padStart(
-            3,
-            "0"
-        )
-    );
-
-}
-
-
-/* =========================================================
-   UPDATE PRESENT TIME
-========================================================= */
-
-function updatePresentTime() {
-
-    const element =
-        document.getElementById(
-            "presentTime"
-        );
-
-    if (!element) {
-        return;
-    }
-
-    const current =
-        getCurrentISTDateTime();
-
-    element.innerHTML =
-
-        "📅 " +
-        current.date +
-        "<br>" +
-
-        "⏰ " +
-        current.time;
-
-}
-
-
-/* =========================================================
-   LOAD DATE CARDS
-========================================================= */
-
-function loadDates() {
-
-    const container =
-        document.getElementById(
-            "dateOptions"
-        );
-
-    if (!container) {
-        return;
-    }
-
-    container.innerHTML = "";
-
-
-    const todayString =
-        getISTDate();
-
-
-    const today =
-        new Date(
-            todayString +
-            "T00:00:00"
-        );
-
-
-    let firstAvailable = null;
-
-
-    /*
-       अगले 14 दिन दिखाएँ
-    */
-
-    for (
-        let i = 0;
-        i < 14;
-        i++
-    ) {
-
-        const date =
-            new Date(today);
-
-        date.setDate(
-            today.getDate() + i
-        );
-
-
-        const year =
-            date.getFullYear();
-
-        const month =
-            String(
-                date.getMonth() + 1
-            ).padStart(
-                2,
-                "0"
-            );
-
-        const day =
-            String(
-                date.getDate()
-            ).padStart(
-                2,
-                "0"
-            );
-
-
-        const dateString =
-            year +
-            "-" +
-            month +
-            "-" +
-            day;
-
-
-        const dayName =
-            date.toLocaleDateString(
-                "hi-IN",
-                {
-                    weekday: "short"
-                }
-            );
-
-
-        const monthName =
-            date.toLocaleDateString(
-                "hi-IN",
-                {
-                    month: "short"
-                }
-            );
-
-
-        const bookingCount =
-            getDateBookingCount(
-                dateString
-            );
-
-
-        const remaining =
-            MAX_TOKENS_PER_DAY -
-            bookingCount;
-
-
-        const sunday =
-            isSunday(
-                dateString
-            );
-
-
-        const holiday =
-            isHoliday(
-                dateString
-            );
-
-
-        const full =
-            remaining <= 0;
-
-
-        const card =
-            document.createElement(
-                "div"
-            );
-
-
-        card.className =
-            "date-card";
-
-
-        /* =========================
-           CENTRE OFF
-        ========================= */
-
-        if (
-            sunday ||
-            holiday
-        ) {
-
-            card.classList.add(
-                "off"
-            );
-
-
-            let offText =
-                "Centre OFF";
-
-
-            if (sunday) {
-
-                offText =
-                    "Sunday OFF";
-
-            }
-
-
-            if (
-                holiday &&
-                !sunday
-            ) {
-
-                offText =
-                    "Holiday OFF";
-
-            }
-
-
-            card.innerHTML = `
-
-                <div class="date-day">
-                    ${dayName}
-                </div>
-
-                <div class="date-number">
-                    ${day}
-                </div>
-
-                <div class="date-month">
-                    ${monthName}
-                </div>
-
-                <small>
-                    ${offText}
-                </small>
-
-            `;
-
-        }
-
-
-        /* =========================
-           FULL
-        ========================= */
-
-        else if (full) {
-
-            card.classList.add(
-                "full"
-            );
-
-
-            card.innerHTML = `
-
-                <div class="date-day">
-                    ${dayName}
-                </div>
-
-                <div class="date-number">
-                    ${day}
-                </div>
-
-                <div class="date-month">
-                    ${monthName}
-                </div>
-
-                <small>
-                    FULL
-                </small>
-
-            `;
-
-        }
-
-
-        /* =========================
-           AVAILABLE
-        ========================= */
-
-        else {
-
-            card.classList.add(
-                "available"
-            );
-
-
-            card.innerHTML = `
-
-                <div class="date-day">
-                    ${dayName}
-                </div>
-
-                <div class="date-number">
-                    ${day}
-                </div>
-
-                <div class="date-month">
-                    ${monthName}
-                </div>
-
-                <small>
-                    ${remaining} Token
-                </small>
-
-            `;
-
-
-            card.addEventListener(
-                "click",
-                function () {
-
-                    selectDate(
-                        dateString,
-                        card
-                    );
-
-                }
-            );
-
-
-            if (
-                !firstAvailable
-            ) {
-
-                firstAvailable = {
-
-                    date:
-                        dateString,
-
-                    card:
-                        card
-
-                };
-
-            }
-
-        }
-
-
-        container.appendChild(
-            card
-        );
-
-    }
-
-
-    /*
-       पहले Available दिन को select करें
-    */
-
-    if (firstAvailable) {
-
-        selectDate(
-            firstAvailable.date,
-            firstAvailable.card
-        );
-
-    }
-
-    else {
-
-        const info =
-            document.getElementById(
-                "selectedDateInfo"
-            );
-
-        if (info) {
-
-            info.innerHTML =
-                "अभी कोई Available date नहीं है।";
-
-        }
-
-    }
-
-}
-
-
-/* =========================================================
-   SELECT DATE
-========================================================= */
-
-function selectDate(
-    date,
-    card
-) {
-
-    if (!date || !card) {
-        return;
-    }
-
-
-    if (
-        isCentreOff(date)
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        isDateFull(date)
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-       Remove previous selected
-    */
-
-    document
-        .querySelectorAll(
-            ".date-card"
-        )
-        .forEach(
-            item => {
-
-                item.classList.remove(
-                    "selected"
-                );
-
-            }
-        );
-
-
-    card.classList.add(
-        "selected"
-    );
-
-
-    const bookingDate =
-        document.getElementById(
-            "bookingDate"
-        );
-
-
-    if (bookingDate) {
-
-        bookingDate.value =
-            date;
-
-    }
-
-
-    const count =
-        getDateBookingCount(
-            date
-        );
-
-
-    const remaining =
-        MAX_TOKENS_PER_DAY -
-        count;
-
-
-    const info =
-        document.getElementById(
-            "selectedDateInfo"
-        );
-
-
-    if (info) {
-
-        info.innerHTML =
-
-            "📅 " +
-            formatDate(date) +
-
-            " • " +
-
-            remaining +
-
-            " Token Available";
-
-    }
-
-
-    updateNextToken();
-
-}
-
-
-/* =========================================================
-   UPDATE NEXT TOKEN
-========================================================= */
-
-function updateNextToken() {
-
-    const bookingDate =
-        document.getElementById(
-            "bookingDate"
-        );
-
-
-    const nextToken =
-        document.getElementById(
-            "nextTokenInfo"
-        );
-
-
-    if (
-        !bookingDate ||
-        !nextToken
-    ) {
-
-        return;
-
-    }
-
-
-    const date =
-        bookingDate.value;
-
-
-    if (!date) {
-
-        nextToken.textContent =
-            "A-001";
-
-        return;
-
-    }
-
-
-    if (
-        isCentreOff(date)
-    ) {
-
-        nextToken.textContent =
-            "OFF";
-
-        return;
-
-    }
-
-
-    if (
-        isDateFull(date)
-    ) {
-
-        nextToken.textContent =
-            "FULL";
-
-        return;
-
-    }
-
-
-    nextToken.textContent =
-        getNextTokenNumber(
-            date
-        );
-
-}
-
-
-/* =========================================================
-   VALIDATE BOOKING FORM
-========================================================= */
-
-function validateBookingForm() {
-
-    const name =
-        document.getElementById(
-            "name"
-        );
-
-    const age =
-        document.getElementById(
-            "age"
-        );
-
-    const service =
-        document.getElementById(
-            "service"
-        );
-
-    const timeSlot =
-        document.getElementById(
-            "timeSlot"
-        );
-
-    const bookingDate =
-        document.getElementById(
-            "bookingDate"
-        );
-
-
-    if (!bookingDate?.value) {
-
-        alert(
-            "कृपया पहले Booking की तारीख चुनें।"
-        );
-
-        return false;
-
-    }
-
-
-    if (!name?.value.trim()) {
-
-        alert(
-            "कृपया ग्राहक का नाम लिखें।"
-        );
-
-        name?.focus();
-
-        return false;
-
-    }
-
-
-    if (
-        age?.value === "" ||
-        Number(age.value) < 0 ||
-        Number(age.value) > 120
-    ) {
-
-        alert(
-            "कृपया सही उम्र दर्ज करें।"
-        );
-
-        age?.focus();
-
-        return false;
-
-    }
-
-
-    if (!service?.value) {
-
-        alert(
-            "कृपया सेवा चुनें।"
-        );
-
-        return false;
-
-    }
-
-
-    if (!timeSlot?.value) {
-
-        alert(
-            "कृपया समय स्लॉट चुनें।"
-        );
-
-        return false;
-
-    }
-
-
-    return true;
-
-}
-
-
-/* =========================================================
-   BOOK TOKEN
-========================================================= */
-
-function bookToken() {
-
-    /*
-       Form validation
-    */
-
-    if (
-        !validateBookingForm()
-    ) {
-
-        return;
-
-    }
-
-
-    const name =
-        document.getElementById(
-            "name"
-        ).value.trim();
-
-
-    const age =
-        document.getElementById(
-            "age"
-        ).value;
-
-
-    const service =
-        document.getElementById(
-            "service"
-        ).value;
-
-
-    const timeSlot =
-        document.getElementById(
-            "timeSlot"
-        ).value;
-
-
-    const date =
-        document.getElementById(
-            "bookingDate"
-        ).value;
-
-
-    /*
-       Centre OFF check
-    */
-
-    if (
-        isCentreOff(date)
-    ) {
-
-        alert(
-            "इस तारीख को Centre OFF है।"
-        );
-
-        loadDates();
-
-        return;
-
-    }
-
-
-    /*
-       Current booking count
-    */
-
-    const bookings =
-        getBookings();
-
-
-    const currentCount =
-        bookings.filter(
-            booking =>
-                booking.date === date
-        ).length;
-
-
-    /*
-       30 Token limit
-    */
-
-    if (
-        currentCount >=
-        MAX_TOKENS_PER_DAY
-    ) {
-
-        alert(
-            "इस तारीख के सभी 30 Token बुक हो चुके हैं।"
-        );
-
-        loadDates();
-
-        return;
-
-    }
-
-
-    /*
-       EXACT CURRENT IST TIME
-    */
-
-    const current =
-        getCurrentISTDateTime();
-
-
-    /*
-       TOKEN NUMBER
-    */
-
-    const tokenNumber =
-        "A-" +
-        String(
-            currentCount + 1
-        ).padStart(
-            3,
-            "0"
-        );
-
-
-    /*
-       BOOKING OBJECT
-    */
-
-    const booking = {
-
-        id:
-            Date.now(),
-
-        token:
-            tokenNumber,
-
-        name:
-            name,
-
-        age:
-            Number(age),
-
-        service:
-            service,
-
-        date:
-            date,
-
-        timeSlot:
-            timeSlot,
-
-        bookingDate:
-            current.date,
-
-        bookingTime:
-            current.time,
-
-        bookingDateTime:
-            current.dateTime,
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-
-    /*
-       SAVE
-    */
-
-    bookings.push(
-        booking
-    );
-
-
-    const saved =
-        saveBookings(
-            bookings
-        );
-
-
-    if (!saved) {
-
-        return;
-
-    }
-
-
-    /*
-       SHOW TOKEN SLIP
-    */
-
-    showTokenSlip(
-        booking
-    );
-
-
-    /*
-       RESET FORM
-    */
-
-    const form =
-        document.getElementById(
-            "bookingForm"
-        );
-
-
-    if (form) {
-
-        form.reset();
-
-    }
-
-
-    /*
-       Reload dates
-    */
-
-    loadDates();
-
-
-    /*
-       Scroll to slip
-    */
-
-    const slip =
-        document.getElementById(
-            "tokenSlip"
-        );
-
-
-    if (slip) {
-
-        slip.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    }
-
-
-    /*
-       Toast
-    */
-
-    showToast(
-        "🎫 Token " +
-        tokenNumber +
-        " successfully booked"
-    );
-
-}
-
-
-/* =========================================================
-   SHOW TOKEN SLIP
-========================================================= */
-
-function showTokenSlip(
-    booking
-) {
-
-    const tokenNumber =
-        document.getElementById(
-            "tokenNumber"
-        );
-
-    const customerName =
-        document.getElementById(
-            "customerName"
-        );
-
-    const customerAge =
-        document.getElementById(
-            "customerAge"
-        );
-
-    const customerService =
-        document.getElementById(
-            "customerService"
-        );
-
-    const customerDate =
-        document.getElementById(
-            "customerDate"
-        );
-
-    const customerTime =
-        document.getElementById(
-            "customerTime"
-        );
-
-    const bookingTime =
-        document.getElementById(
-            "bookingTime"
-        );
-
-
-    if (tokenNumber) {
-
-        tokenNumber.textContent =
-            booking.token;
-
-    }
-
-
-    if (customerName) {
-
-        customerName.textContent =
-            booking.name;
-
-    }
-
-
-    if (customerAge) {
-
-        customerAge.textContent =
-            booking.age +
-            " वर्ष";
-
-    }
-
-
-    if (customerService) {
-
-        customerService.textContent =
-            booking.service;
-
-    }
-
-
-    if (customerDate) {
-
-        customerDate.textContent =
-            formatDate(
-                booking.date
-            );
-
-    }
-
-
-    if (customerTime) {
-
-        customerTime.textContent =
-            booking.timeSlot;
-
-    }
-
-
-    if (bookingTime) {
-
-        bookingTime.textContent =
-            booking.bookingDateTime;
-
-    }
-
-}
-
-
-/* =========================================================
-   CHECK STATUS
-========================================================= */
-
-function checkStatus() {
-
-    const bookings =
-        getBookings();
-
-
-    if (
-        bookings.length === 0
-    ) {
-
-        alert(
-            "अभी कोई Booking उपलब्ध नहीं है।"
-        );
-
-        return;
-
-    }
-
-
-    const token =
-        prompt(
-            "अपना Token Number डालें:\nExample: A-001"
-        );
-
-
-    if (!token) {
-
-        return;
-
-    }
-
-
-    const search =
-        token
-            .trim()
-            .toUpperCase();
-
-
-    const booking =
-        bookings.find(
-            item =>
-                item.token
-                    .toUpperCase() ===
-                search
-        );
-
-
-    if (!booking) {
-
-        alert(
-            "यह Token Number नहीं मिला।"
-        );
-
-        return;
-
-    }
-
-
-    alert(
-
-        "🎫 Token Status\n\n" +
-
-        "Token: " +
-        booking.token +
-        "\n" +
-
-        "नाम: " +
-        booking.name +
-        "\n" +
-
-        "उम्र: " +
-        booking.age +
-        "\n" +
-
-        "सेवा: " +
-        booking.service +
-        "\n" +
-
-        "तारीख: " +
-        formatDate(
-            booking.date
-        ) +
-        "\n" +
-
-        "समय स्लॉट: " +
-        booking.timeSlot +
-        "\n" +
-
-        "Booking Time: " +
-        booking.bookingDateTime
-
-    );
-
-}
-
-
-/* =========================================================
-   LOAD LAST BOOKING
-========================================================= */
-
-function loadLastBooking() {
-
-    const bookings =
-        getBookings();
-
-
-    if (
-        bookings.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const last =
-        bookings[
-            bookings.length - 1
-        ];
-
-
-    showTokenSlip(
-        last
-    );
-
-}
-
-
-/* =========================================================
-   PRINT TOKEN SLIP
-========================================================= */
-
-function printTokenSlip() {
-
-    const token =
-        document.getElementById(
-            "tokenNumber"
-        );
-
-
-    if (
-        !token ||
-        token.textContent === "--"
-    ) {
-
-        alert(
-            "पहले Token Book करें।"
-        );
-
-        return;
-
-    }
-
-
-    window.print();
-
-}
-
-
-/* =========================================================
-   DOWNLOAD TOKEN SLIP
-========================================================= */
-
-function downloadTokenSlip() {
-
-    const content =
-        document.getElementById(
-            "pdfContent"
-        );
-
-
-    const token =
-        document.getElementById(
-            "tokenNumber"
-        );
-
-
-    if (
-        !content ||
-        !token ||
-        token.textContent === "--"
-    ) {
-
-        alert(
-            "पहले Token Book करें।"
-        );
-
-        return;
-
-    }
-
-
-    /*
-       NOTE:
-       यह browser से HTML slip download करता है।
-       Actual PDF बनाने के लिए jsPDF जैसी
-       PDF library की जरूरत होगी।
-    */
-
-
-    const html = `
-
-<!DOCTYPE html>
-
-<html lang="hi">
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>Kanjouli Token Slip</title>
-
-<style>
-
-body{
+body {
+    margin: 0;
+    padding: 0;
 
     font-family:
         Arial,
         "Noto Sans Devanagari",
+        "Mangal",
         sans-serif;
 
-    background:#f4f4f4;
+    background: #f4f7fb;
 
-    padding:20px;
+    color: #172033;
 
+    line-height: 1.6;
+
+    min-height: 100vh;
 }
 
-.slip{
 
-    max-width:600px;
+/* =========================================================
+   COMMON
+========================================================= */
 
-    margin:auto;
-
-    background:white;
-
-    border:2px solid #047857;
-
-    border-radius:12px;
-
-    padding:25px;
-
-    text-align:center;
-
+button,
+input,
+select {
+    font-family: inherit;
 }
 
-.token{
-
-    font-size:45px;
-
-    font-weight:bold;
-
-    color:#047857;
-
-    margin:20px 0;
-
+button {
+    cursor: pointer;
 }
 
-hr{
+a {
+    text-decoration: none;
+}
 
-    border:none;
+img {
+    max-width: 100%;
+    display: block;
+}
+
+section {
+    scroll-margin-top: 80px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    width: 100%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #064e3b 0%,
+            #047857 50%,
+            #059669 100%
+        );
+
+    color: #ffffff;
+
+    padding: 15px 5%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+    box-shadow:
+        0 4px 18px
+        rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-width: 250px;
+}
+
+.brand-mark {
+    width: 54px;
+
+    height: 54px;
+
+    min-width: 54px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #047857;
+
+    border:
+        3px solid
+        #facc15;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 29px;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.18);
+}
+
+.brand-text {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1px;
+}
+
+.brand-hi {
+    font-size: 21px;
+
+    font-weight: 800;
+
+    line-height: 1.3;
+}
+
+.brand-en {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    opacity: 0.92;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   TOP CONTACT
+========================================================= */
+
+.top-contact {
+    font-size: 16px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.25);
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav {
+    width: 100%;
+
+    min-height: 55px;
+
+    background: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 5%;
+
+    flex-wrap: wrap;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    box-shadow:
+        0 2px 12px
+        rgba(0, 0, 0, 0.08);
+}
+
+nav a {
+    color: #064e3b;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    padding: 8px 12px;
+
+    border-radius: 7px;
+
+    transition:
+        0.2s ease;
+}
+
+nav a:hover {
+    background: #dcfce7;
+
+    color: #065f46;
+}
+
+.nav-right {
+    margin-left: auto;
+
+    color: #555555;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    padding: 6px 10px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width:
+        min(1100px, 92%);
+
+    margin:
+        30px auto 45px;
+}
+
+.section {
+    margin-bottom: 42px;
+}
+
+
+/* =========================================================
+   HEADINGS
+========================================================= */
+
+h1,
+h2,
+h3 {
+    line-height: 1.3;
+}
+
+h1 {
+    color: #064e3b;
+}
+
+h2 {
+    text-align: center;
+
+    color: #064e3b;
+
+    font-size: 28px;
+
+    margin-bottom: 22px;
+}
+
+h3 {
+    color: #064e3b;
+}
+
+
+/* =========================================================
+   BOOKING CARD
+========================================================= */
+
+.booking-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 27px;
+
+    box-shadow:
+        0 8px 32px
+        rgba(0, 0, 0, 0.08);
+
+    border:
+        1px solid
+        #e5e7eb;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-btn {
+    border: none;
+
+    background: #eef2f7;
+
+    color: #374151;
+
+    padding: 9px 15px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    background: #e2e8f0;
+
+    transform:
+        translateX(-2px);
+}
+
+
+/* =========================================================
+   BOOKING HEADING
+========================================================= */
+
+.booking-heading {
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+.booking-heading h1 {
+    font-size: 28px;
+
+    margin-bottom: 7px;
+}
+
+.booking-heading p {
+    color: #6b7280;
+
+    font-size: 14px;
+
+    margin-bottom: 13px;
+}
+
+
+/* =========================================================
+   PRESENT TIME
+========================================================= */
+
+.present-time {
+    display: inline-block;
+
+    min-width: 240px;
+
+    padding: 9px 16px;
+
+    background: #ecfdf5;
+
+    color: #065f46;
+
+    border:
+        1px solid
+        #a7f3d0;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    line-height: 1.7;
+
+    box-shadow:
+        0 3px 10px
+        rgba(5, 150, 105, 0.08);
+}
+
+
+/* =========================================================
+   DATE STRIP WRAPPER
+========================================================= */
+
+.date-strip-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    padding:
+        4px 2px 13px;
+
+    scrollbar-width: thin;
+}
+
+.date-strip-wrap::-webkit-scrollbar {
+    height: 7px;
+}
+
+.date-strip-wrap::-webkit-scrollbar-track {
+    background: #eef2f7;
+
+    border-radius: 20px;
+}
+
+.date-strip-wrap::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   DATE STRIP
+========================================================= */
+
+.date-strip {
+    display: flex;
+
+    gap: 11px;
+
+    width: max-content;
+
+    min-width: 100%;
+}
+
+
+/* =========================================================
+   DATE CARD
+========================================================= */
+
+.date-card {
+    width: 108px;
+
+    min-width: 108px;
+
+    min-height: 108px;
+
+    padding: 11px 8px;
+
+    border:
+        2px solid
+        #d1d5db;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        border-color 0.2s;
+}
+
+
+/* AVAILABLE */
+
+.date-card.available {
+    border-color: #16a34a;
+
+    background: #f0fdf4;
+
+    color: #14532d;
+
+    cursor: pointer;
+}
+
+.date-card.available:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 5px 14px
+        rgba(22, 163, 74, 0.18);
+}
+
+
+/* FULL */
+
+.date-card.full {
+    border-color: #dc2626;
+
+    background: #fef2f2;
+
+    color: #991b1b;
+
+    cursor: not-allowed;
+
+    opacity: 0.78;
+}
+
+
+/* OFF */
+
+.date-card.off {
+    border-color: #9ca3af;
+
+    background: #f3f4f6;
+
+    color: #4b5563;
+
+    cursor: not-allowed;
+
+    opacity: 0.72;
+}
+
+
+/* SELECTED */
+
+.date-card.selected {
+    background:
+        linear-gradient(
+            135deg,
+            #047857,
+            #059669
+        );
+
+    border-color: #047857;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 16px
+        rgba(4, 120, 87, 0.25);
+}
+
+
+/* DATE CONTENT */
+
+.date-day {
+    font-size: 13px;
+
+    font-weight: 800;
+
+    margin-bottom: 2px;
+}
+
+.date-number {
+    font-size: 27px;
+
+    line-height: 1.15;
+
+    font-weight: 900;
+}
+
+.date-month {
+    font-size: 12px;
+
+    margin-top: 2px;
+
+    font-weight: 700;
+}
+
+.date-card small {
+    display: block;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    margin-top: 5px;
+}
+
+.loading {
+    width: 100%;
+
+    text-align: center;
+
+    padding: 18px;
+
+    color: #6b7280;
+}
+
+
+/* =========================================================
+   LEGEND
+========================================================= */
+
+.legend {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 25px;
+
+    flex-wrap: wrap;
+
+    margin: 19px 0;
+
+    color: #4b5563;
+
+    font-size: 14px;
+}
+
+.legend span {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+.dot {
+    display: inline-block;
+
+    width: 11px;
+
+    height: 11px;
+
+    border-radius: 50%;
+}
+
+.dot.green {
+    background: #16a34a;
+}
+
+.dot.red {
+    background: #dc2626;
+}
+
+.dot.gray {
+    background: #9ca3af;
+}
+
+
+/* =========================================================
+   SELECTED DATE
+========================================================= */
+
+.selected-info {
+    width: 100%;
+
+    padding: 12px 15px;
+
+    margin:
+        0 0 20px;
+
+    border:
+        1px solid
+        #a7f3d0;
+
+    background: #ecfdf5;
+
+    color: #065f46;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    font-weight: 800;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-card {
+    width: 100%;
+
+    background: #f8fafc;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius: 15px;
+
+    padding: 21px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+.field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.field.full {
+    grid-column:
+        1 / -1;
+}
+
+.field label {
+    color: #374151;
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+input,
+select {
+    width: 100%;
+
+    min-height: 46px;
+
+    border:
+        1px solid
+        #cbd5e1;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    padding: 10px 13px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+input::placeholder {
+    color: #9ca3af;
+}
+
+input:hover,
+select:hover {
+    border-color: #94a3b8;
+}
+
+input:focus,
+select:focus {
+    border-color: #059669;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(5, 150, 105, 0.12);
+}
+
+
+/* =========================================================
+   TIME SLOT
+========================================================= */
+
+#timeSlot {
+    font-weight: 700;
+}
+
+#timeSlot option {
+    padding: 8px;
+}
+
+
+/* =========================================================
+   NEXT TOKEN
+========================================================= */
+
+.next-token {
+    width: 100%;
+
+    min-height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 9px 12px;
+
+    background: #ecfdf5;
+
+    border:
+        1px solid
+        #a7f3d0;
+
+    color: #047857;
+
+    border-radius: 9px;
+
+    font-weight: 900;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   BOOK BUTTON
+========================================================= */
+
+.book-btn {
+    width: 100%;
+
+    margin-top: 22px;
+
+    min-height: 52px;
+
+    padding: 13px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #047857,
+            #059669
+        );
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 4px 12px
+        rgba(4, 120, 87, 0.18);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.book-btn:hover {
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 7px 18px
+        rgba(4, 120, 87, 0.25);
+}
+
+.book-btn:active {
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.service-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.service-card {
+    background: #ffffff;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    text-align: center;
+
+    box-shadow:
+        0 6px 22px
+        rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.service-card:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 28px
+        rgba(0, 0, 0, 0.09);
+}
+
+.service-card.featured {
+    border:
+        2px solid
+        #10b981;
+}
+
+.service-icon {
+    font-size: 40px;
+
+    line-height: 1;
+
+    margin-bottom: 14px;
+}
+
+.service-card h3 {
+    margin-bottom: 8px;
+
+    font-size: 19px;
+}
+
+.service-card p {
+    color: #6b7280;
+
+    font-size: 14px;
+
+    min-height: 65px;
+}
+
+.secondary-btn {
+    margin-top: 15px;
+
+    padding: 10px 18px;
+
+    border:
+        1px solid
+        #047857;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #047857;
+
+    font-weight: 800;
+
+    transition: 0.2s;
+}
+
+.secondary-btn:hover {
+    background: #ecfdf5;
+}
+
+.green-btn {
+    background: #047857;
+
+    color: #ffffff;
+}
+
+.green-btn:hover {
+    background: #065f46;
+}
+
+
+/* =========================================================
+   RULES
+========================================================= */
+
+.rules-box {
+    background: #ffffff;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-left:
+        5px solid
+        #047857;
+
+    border-radius: 10px;
+
+    padding:
+        20px 22px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0, 0, 0, 0.06);
+}
+
+.rules-box p {
+    margin: 8px 0;
+
+    color: #374151;
+
+    font-size: 15px;
+}
+
+.rules-box strong {
+    color: #dc2626;
+}
+
+
+/* =========================================================
+   TOKEN SLIP
+========================================================= */
+
+#tokenSlip {
+    margin-top: 40px;
+}
+
+.slip-box {
+    width: 100%;
+
+    background: #ffffff;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 7px 25px
+        rgba(0, 0, 0, 0.07);
+}
+
+
+/* =========================================================
+   SLIP ACTIONS
+========================================================= */
+
+.slip-actions {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 22px;
+}
+
+.slip-actions button {
+    min-height: 44px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 18px;
+
+    background: #047857;
+
+    color: #ffffff;
+
+    font-weight: 800;
+
+    transition: 0.2s;
+}
+
+.slip-actions button:hover {
+    background: #065f46;
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   PDF CONTENT
+========================================================= */
+
+.pdf-content {
+    width: 100%;
+
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    padding: 27px;
+
+    background: #ffffff;
+
+    border:
+        2px solid
+        #047857;
+
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.slip-logo {
+    width: 62px;
+
+    height: 62px;
+
+    margin:
+        0 auto 12px;
+
+    border-radius: 50%;
+
+    background: #047857;
+
+    color: #ffffff;
+
+    border:
+        3px solid
+        #facc15;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 31px;
+
+    font-weight: 900;
+}
+
+.pdf-content h2 {
+    font-size: 23px;
+
+    margin-bottom: 5px;
+}
+
+.pdf-content h3 {
+    margin-bottom: 5px;
+}
+
+.pdf-content p {
+    color: #374151;
+
+    margin: 5px 0;
+
+    font-size: 14px;
+}
+
+.pdf-content hr {
+    border: none;
 
     border-top:
-        1px solid #aaa;
+        1px solid
+        #d1d5db;
 
+    margin:
+        16px 0;
 }
 
-</style>
 
-</head>
+/* =========================================================
+   BIG TOKEN
+========================================================= */
 
-<body>
+.big-token {
+    display: block;
 
-<div class="slip">
+    width: 100%;
 
-${content.innerHTML}
+    margin: 16px 0;
 
-</div>
+    padding: 12px;
 
-</body>
+    background: #ecfdf5;
 
-</html>
+    border:
+        1px solid
+        #a7f3d0;
 
-`;
+    border-radius: 10px;
 
+    color: #047857;
 
-    const blob =
-        new Blob(
-            [html],
-            {
-                type:
-                    "text/html;charset=utf-8"
-            }
-        );
+    font-size: 46px;
 
+    line-height: 1.2;
 
-    const url =
-        URL.createObjectURL(
-            blob
-        );
+    font-weight: 900;
 
-
-    const link =
-        document.createElement(
-            "a"
-        );
+    letter-spacing: 1px;
+}
 
 
-    link.href =
-        url;
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    width: 100%;
+
+    margin-top: 50px;
+
+    padding: 25px 15px;
+
+    background: #064e3b;
+
+    color: #ffffff;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
 
 
-    link.download =
-        "Kanjouli-Token-Slip-" +
-        token.textContent +
-        ".html";
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    z-index: 9999;
+
+    max-width:
+        calc(100% - 50px);
+
+    background: #064e3b;
+
+    color: #ffffff;
+
+    padding: 13px 18px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 6px 25px
+        rgba(0, 0, 0, 0.22);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform:
+        translateY(15px);
+
+    transition:
+        0.25s ease;
+}
+
+.toast.show {
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translateY(0);
+}
 
 
-    document.body.appendChild(
-        link
-    );
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+    background: #a7f3d0;
+
+    color: #064e3b;
+}
 
 
-    link.click();
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+
+    height: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #eef2f7;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
 
 
-    document.body.removeChild(
-        link
-    );
+/* =========================================================
+   TABLET
+========================================================= */
 
+@media (max-width: 900px) {
 
-    setTimeout(
-        function () {
+    .service-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
 
-            URL.revokeObjectURL(
-                url
-            );
-
-        },
-        1000
-    );
+    .nav-right {
+        margin-left: 0;
+    }
 
 }
 
 
 /* =========================================================
-   TOAST MESSAGE
+   MOBILE
 ========================================================= */
 
-function showToast(
-    message
-) {
+@media (max-width: 700px) {
 
-    const toast =
-        document.getElementById(
-            "toast"
-        );
+    header {
+        justify-content: center;
 
+        text-align: center;
 
-    if (!toast) {
-
-        alert(message);
-
-        return;
-
+        padding:
+            14px 4%;
     }
 
 
-    toast.textContent =
-        message;
+    .brand {
+        justify-content: center;
+
+        width: 100%;
+    }
 
 
-    toast.classList.add(
-        "show"
-    );
+    .top-contact {
+        width: 100%;
+
+        text-align: center;
+    }
 
 
-    setTimeout(
-        function () {
+    nav {
+        padding:
+            8px 3%;
 
-            toast.classList.remove(
-                "show"
-            );
+        justify-content: center;
+    }
 
-        },
-        3000
-    );
+
+    nav a {
+        font-size: 13px;
+
+        padding:
+            7px 9px;
+    }
+
+
+    .nav-right {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    main {
+        width: 94%;
+
+        margin-top: 20px;
+    }
+
+
+    .booking-card {
+        padding: 17px;
+
+        border-radius: 14px;
+    }
+
+
+    .booking-heading h1 {
+        font-size: 23px;
+    }
+
+
+    .booking-heading p {
+        font-size: 13px;
+    }
+
+
+    .present-time {
+        width: 100%;
+
+        min-width: 0;
+
+        font-size: 13px;
+    }
+
+
+    .form-grid {
+        grid-template-columns:
+            1fr;
+
+        gap: 15px;
+    }
+
+
+    .field.full {
+        grid-column: auto;
+    }
+
+
+    .service-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .service-card {
+        padding: 22px;
+    }
+
+
+    .rules-box {
+        padding:
+            17px;
+    }
+
+
+    .pdf-content {
+        padding: 18px;
+    }
 
 }
 
 
 /* =========================================================
-   CLEAR ALL BOOKINGS
-   केवल Admin/testing के लिए
+   SMALL MOBILE
 ========================================================= */
 
-function clearAllBookings() {
+@media (max-width: 450px) {
 
-    const confirmDelete =
-        confirm(
-            "क्या आप सभी Booking delete करना चाहते हैं?"
-        );
+    .brand-mark {
+        width: 48px;
 
+        height: 48px;
 
-    if (!confirmDelete) {
+        min-width: 48px;
 
-        return;
-
+        font-size: 25px;
     }
 
 
-    localStorage.removeItem(
-        STORAGE_KEY
-    );
+    .brand-hi {
+        font-size: 17px;
+    }
 
 
-    alert(
-        "सभी Booking delete हो गईं।"
-    );
+    .brand-en {
+        font-size: 12px;
+    }
 
 
-    loadDates();
+    .top-contact {
+        font-size: 14px;
+    }
 
-    updateNextToken();
+
+    nav {
+        gap: 4px;
+    }
+
+
+    nav a {
+        font-size: 12px;
+
+        padding:
+            6px 7px;
+    }
+
+
+    .booking-card {
+        padding: 13px;
+    }
+
+
+    .booking-heading h1 {
+        font-size: 21px;
+    }
+
+
+    .date-card {
+        width: 96px;
+
+        min-width: 96px;
+
+        min-height: 100px;
+    }
+
+
+    .form-card {
+        padding: 14px;
+    }
+
+
+    .book-btn {
+        font-size: 15px;
+    }
+
+
+    .big-token {
+        font-size: 38px;
+    }
+
+
+    .slip-box {
+        padding: 14px;
+    }
+
+
+    .pdf-content {
+        padding: 14px;
+    }
 
 }
 
 
 /* =========================================================
-   UPDATE TOKEN EVERY SECOND
+   PRINT
 ========================================================= */
 
-setInterval(
-    updatePresentTime,
-    1000
-);
+@media print {
 
+    @page {
+        size: A4;
 
-/* =========================================================
-   PAGE LOAD
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        /*
-           Live Present Time
-        */
-
-        updatePresentTime();
-
-
-        /*
-           Date Cards
-        */
-
-        loadDates();
-
-
-        /*
-           Last Booking
-        */
-
-        loadLastBooking();
-
-
-        /*
-           Booking Form
-        */
-
-        const form =
-            document.getElementById(
-                "bookingForm"
-            );
-
-
-        if (form) {
-
-            form.addEventListener(
-                "submit",
-                function (event) {
-
-                    event.preventDefault();
-
-                    bookToken();
-
-                }
-            );
-
-        }
-
+        margin: 12mm;
     }
-);
+
+
+    body {
+        background: #ffffff;
+    }
+
+
+    body * {
+        visibility: hidden;
+    }
+
+
+    #tokenSlip,
+    #tokenSlip *,
+    #pdfContent,
+    #pdfContent * {
+        visibility: visible;
+    }
+
+
+    #tokenSlip {
+        position: absolute;
+
+        left: 0;
+
+        top: 0;
+
+        width: 100%;
+
+        margin: 0;
+
+        padding: 0;
+    }
+
+
+    #tokenSlip > h2,
+    .slip-actions {
+        display: none !important;
+    }
+
+
+    .slip-box {
+        padding: 0;
+
+        box-shadow: none;
+
+        border: none;
+    }
+
+
+    #pdfContent {
+        position: relative;
+
+        left: auto;
+
+        top: auto;
+
+        width: 100%;
+
+        max-width: 100%;
+
+        border:
+            2px solid
+            #047857;
+
+        box-shadow: none;
+
+        margin: 0;
+    }
+
+
+    .toast {
+        display: none !important;
+    }
+
+}
 
 
 /* =========================================================
-   END OF SCRIPT
+   END
 ========================================================= */
 ```
