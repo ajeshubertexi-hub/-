@@ -1,51 +1,637 @@
+```html
 <!DOCTYPE html>
 <html lang="hi">
-
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<title>Kanjouli Online Token</title>
 
-<title>आधार सेवा केन्द्र कंजौली</title>
+<style>
 
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-<!-- Google Font -->
+html{
+    scroll-behavior:smooth;
+}
 
-<link rel="preconnect"
-      href="https://fonts.googleapis.com">
+body{
+    font-family:
+        Arial,
+        "Noto Sans Devanagari",
+        sans-serif;
+    background:#f4f7fb;
+    color:#172033;
+    line-height:1.6;
+}
 
-<link rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin>
+/* =========================
+   HEADER
+========================= */
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet">
+header{
+    background:linear-gradient(135deg,#064e3b,#047857);
+    color:#fff;
+    padding:16px 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
 
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
 
-<!-- CSS -->
+.brand-mark{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:#fff;
+    color:#047857;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:bold;
+    border:3px solid #facc15;
+}
 
-<link rel="stylesheet"
-      href="style.css">
+.brand-hi{
+    font-size:21px;
+    font-weight:700;
+}
 
+.brand-en{
+    font-size:14px;
+    opacity:.9;
+}
 
-<!-- PDF Library -->
+.top-contact{
+    font-weight:bold;
+    font-size:16px;
+}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
-</script>
+/* =========================
+   NAV
+========================= */
+
+nav{
+    background:#fff;
+    padding:12px 5%;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+nav a{
+    color:#064e3b;
+    text-decoration:none;
+    font-weight:bold;
+    padding:7px 10px;
+    border-radius:7px;
+}
+
+nav a:hover{
+    background:#dcfce7;
+}
+
+.nav-right{
+    margin-left:auto;
+    color:#555;
+    font-weight:bold;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+    width:min(1100px,92%);
+    margin:30px auto;
+}
+
+.section{
+    margin-bottom:40px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#064e3b;
+}
+
+/* =========================
+   BOOKING CARD
+========================= */
+
+.booking-card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+.back-btn{
+    border:none;
+    background:#eef2f7;
+    padding:9px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+.booking-heading{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.booking-heading h1{
+    color:#064e3b;
+    margin-bottom:5px;
+}
+
+.booking-heading p{
+    color:#666;
+}
+
+/* =========================
+   DATE STRIP
+========================= */
+
+.date-strip-wrap{
+    overflow-x:auto;
+    padding-bottom:10px;
+}
+
+.date-strip{
+    display:flex;
+    gap:10px;
+    min-width:max-content;
+}
+
+.date-card{
+    width:105px;
+    padding:12px 8px;
+    border-radius:12px;
+    text-align:center;
+    cursor:pointer;
+    border:2px solid #d1d5db;
+    background:#fff;
+    transition:.2s;
+}
+
+.date-card:hover{
+    transform:translateY(-2px);
+}
+
+.date-card.available{
+    border-color:#16a34a;
+    background:#f0fdf4;
+}
+
+.date-card.full{
+    border-color:#dc2626;
+    background:#fef2f2;
+    cursor:not-allowed;
+    opacity:.75;
+}
+
+.date-card.off{
+    border-color:#9ca3af;
+    background:#f3f4f6;
+    cursor:not-allowed;
+    opacity:.7;
+}
+
+.date-card.selected{
+    background:#047857;
+    color:#fff;
+    border-color:#047857;
+}
+
+.date-day{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.date-number{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.date-month{
+    font-size:12px;
+}
+
+.loading{
+    color:#777;
+}
+
+/* =========================
+   LEGEND
+========================= */
+
+.legend{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+    margin:20px 0;
+    font-size:14px;
+}
+
+.legend span{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.dot{
+    width:11px;
+    height:11px;
+    border-radius:50%;
+    display:inline-block;
+}
+
+.dot.green{
+    background:#16a34a;
+}
+
+.dot.red{
+    background:#dc2626;
+}
+
+.dot.gray{
+    background:#9ca3af;
+}
+
+.selected-info{
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+    color:#065f46;
+    font-weight:bold;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-card{
+    background:#f8fafc;
+    border-radius:15px;
+    padding:20px;
+    border:1px solid #e5e7eb;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    font-weight:bold;
+    color:#374151;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px 13px;
+    border:1px solid #cbd5e1;
+    border-radius:9px;
+    font-size:15px;
+    background:#fff;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#059669;
+    box-shadow:0 0 0 3px rgba(5,150,105,.1);
+}
+
+.next-token{
+    min-height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px;
+    background:#ecfdf5;
+    color:#047857;
+    border:1px solid #a7f3d0;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.book-btn{
+    width:100%;
+    margin-top:22px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#047857;
+    color:#fff;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.book-btn:hover{
+    background:#065f46;
+}
+
+/* =========================
+   SERVICES
+========================= */
+
+.service-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.service-card{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 6px 22px rgba(0,0,0,.07);
+}
+
+.service-card.featured{
+    border:2px solid #10b981;
+}
+
+.service-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.service-card h3{
+    margin-bottom:8px;
+    color:#064e3b;
+}
+
+.service-card p{
+    color:#666;
+    min-height:60px;
+}
+
+.secondary-btn{
+    margin-top:15px;
+    padding:10px 18px;
+    border:1px solid #047857;
+    background:#fff;
+    color:#047857;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.green-btn{
+    background:#047857;
+    color:#fff;
+}
+
+/* =========================
+   RULES
+========================= */
+
+.rules-box{
+    background:#fff;
+    border-left:5px solid #047857;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
+
+.rules-box p{
+    margin:8px 0;
+}
+
+/* =========================
+   TOKEN SLIP
+========================= */
+
+#tokenSlip{
+    margin-top:40px;
+}
+
+.slip-box{
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 7px 25px rgba(0,0,0,.08);
+}
+
+.slip-actions{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.slip-actions button{
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    background:#047857;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.pdf-content{
+    max-width:650px;
+    margin:auto;
+    padding:25px;
+    border:2px solid #047857;
+    border-radius:12px;
+    text-align:center;
+    background:#fff;
+}
+
+.slip-logo{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:#047857;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    font-weight:bold;
+    margin:0 auto 10px;
+}
+
+.big-token{
+    font-size:46px;
+    font-weight:900;
+    color:#047857;
+    margin:15px 0;
+    padding:10px;
+    background:#ecfdf5;
+    border-radius:10px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    text-align:center;
+    padding:25px;
+    background:#064e3b;
+    color:#fff;
+    margin-top:50px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    background:#064e3b;
+    color:#fff;
+    padding:14px 20px;
+    border-radius:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+    display:none;
+    z-index:999;
+}
+
+.toast.show{
+    display:block;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:800px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .service-grid{
+        grid-template-columns:1fr;
+    }
+
+    .nav-right{
+        margin-left:0;
+        width:100%;
+    }
+
+    header{
+        justify-content:center;
+        text-align:center;
+    }
+
+}
+
+@media(max-width:500px){
+
+    main{
+        width:95%;
+    }
+
+    .booking-card{
+        padding:15px;
+    }
+
+    .brand-hi{
+        font-size:18px;
+    }
+
+    .booking-heading h1{
+        font-size:23px;
+    }
+
+    .pdf-content{
+        padding:15px;
+    }
+
+}
+
+/* =========================
+   PRINT
+========================= */
+
+@media print{
+
+    body *{
+        visibility:hidden;
+    }
+
+    #pdfContent,
+    #pdfContent *{
+        visibility:visible;
+    }
+
+    #pdfContent{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        max-width:none;
+        border:none;
+        box-shadow:none;
+    }
+
+}
+
+</style>
 
 </head>
-
 
 <body>
 
 
-<!-- ==================================================
-     TOP HEADER
-================================================== -->
+<!-- =========================
+     HEADER
+========================= -->
 
-<header class="topbar">
+<header>
 
     <div class="brand">
 
@@ -67,22 +653,18 @@
 
     </div>
 
-
     <div class="top-contact">
-
         📞 8426971575
-
     </div>
 
 </header>
 
 
-
-<!-- ==================================================
+<!-- =========================
      NAVIGATION
-================================================== -->
+========================= -->
 
-<nav class="nav">
+<nav>
 
     <a href="#booking">
         HOME
@@ -107,666 +689,459 @@
 </nav>
 
 
-
-<!-- ==================================================
-     MAIN
-================================================== -->
-
 <main>
 
 
+<!-- =========================
+     BOOKING
+========================= -->
 
-<!-- ==================================================
-     BOOKING SECTION
-================================================== -->
+<section id="booking" class="section">
 
-<section class="hero">
+<div class="booking-card">
+
+
+    <button
+        class="back-btn"
+        type="button"
+        onclick="window.scrollTo({
+            top:0,
+            behavior:'smooth'
+        })">
+
+        ← Back / पीछे जाएँ
+
+    </button>
+
+
+    <div class="booking-heading">
+
+        <h1>
+            Book New Token /
+            नया टोकन बुक करें
+        </h1>
+
+        <p>
+            हर दिन अधिकतम 30 Token
+            • रविवार एवं Centre Holiday बंद
+        </p>
+
+    </div>
+
+
+    <!-- DATE -->
+
+    <div class="date-strip-wrap">
+
+        <div
+            id="dateOptions"
+            class="date-strip">
+
+            <div class="loading">
+                तारीखें लोड हो रही हैं...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LEGEND -->
+
+    <div class="legend">
+
+        <span>
+            <i class="dot green"></i>
+            Available / उपलब्ध
+        </span>
+
+        <span>
+            <i class="dot red"></i>
+            FULL
+        </span>
+
+        <span>
+            <i class="dot gray"></i>
+            Centre OFF
+        </span>
+
+    </div>
 
 
     <div
-        class="booking-card"
-        id="booking">
+        id="selectedDateInfo"
+        class="selected-info">
+
+        तारीख चुनें...
+
+    </div>
 
 
-        <!-- BACK BUTTON -->
+    <!-- FORM -->
+
+    <form
+        id="bookingForm"
+        class="form-card"
+        onsubmit="event.preventDefault(); bookToken();">
+
+
+        <input
+            type="hidden"
+            id="bookingDate">
+
+
+        <div class="form-grid">
+
+
+            <!-- NAME -->
+
+            <div class="field">
+
+                <label for="name">
+                    ग्राहक का नाम
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="अपना नाम लिखें"
+                    autocomplete="name"
+                    required>
+
+            </div>
+
+
+            <!-- AGE -->
+
+            <div class="field">
+
+                <label for="age">
+                    उम्र
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    placeholder="उम्र"
+                    min="0"
+                    max="120"
+                    required>
+
+            </div>
+
+
+            <!-- SERVICE -->
+
+            <div class="field full">
+
+                <label for="service">
+                    सेवा चुनें
+                </label>
+
+                <select id="service">
+
+                    <option>
+                        नया नामांकन (0-5 वर्ष)
+                    </option>
+
+                    <option>
+                        नया नामांकन (5-18 वर्ष)
+                    </option>
+
+                    <option>
+                        नाम अपडेट
+                    </option>
+
+                    <option>
+                        जन्म तिथि अपडेट
+                    </option>
+
+                    <option>
+                        मोबाइल नंबर अपडेट
+                    </option>
+
+                    <option>
+                        ईमेल अपडेट
+                    </option>
+
+                    <option>
+                        पता अपडेट
+                    </option>
+
+                    <option>
+                        बायोमेट्रिक अपडेट
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- TIME SLOT -->
+
+            <div class="field">
+
+                <label for="timeSlot">
+                    समय स्लॉट
+                </label>
+
+                <select id="timeSlot">
+
+                    <option>8:00 AM - 8:30 AM</option>
+                    <option>8:30 AM - 9:00 AM</option>
+                    <option>9:00 AM - 9:30 AM</option>
+                    <option>9:30 AM - 10:00 AM</option>
+                    <option>10:00 AM - 10:30 AM</option>
+                    <option>10:30 AM - 11:00 AM</option>
+                    <option>11:00 AM - 11:30 AM</option>
+                    <option>11:30 AM - 12:00 PM</option>
+                    <option>12:00 PM - 12:30 PM</option>
+                    <option>12:30 PM - 1:00 PM</option>
+                    <option>1:00 PM - 1:30 PM</option>
+                    <option>1:30 PM - 2:00 PM</option>
+                    <option>2:00 PM - 2:30 PM</option>
+                    <option>2:30 PM - 3:00 PM</option>
+                    <option>3:00 PM - 3:30 PM</option>
+                    <option>3:30 PM - 4:00 PM</option>
+                    <option>4:00 PM - 4:30 PM</option>
+                    <option>4:30 PM - 5:00 PM</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- NEXT TOKEN -->
+
+            <div class="field">
+
+                <label>
+                    अगला Token
+                </label>
+
+                <div
+                    id="nextTokenInfo"
+                    class="next-token">
+
+                    A-001
+
+                </div>
+
+            </div>
+
+
+            <!-- PRESENT TIME -->
+
+            <div class="field">
+
+                <label>
+                    वर्तमान समय / Present Time
+                </label>
+
+                <div
+                    id="presentTime"
+                    class="next-token">
+
+                    समय लोड हो रहा है...
+
+                </div>
+
+            </div>
+
+
+        </div>
+
 
         <button
-            class="back-btn"
-            type="button"
-            onclick="window.scrollTo({
-                top:0,
-                behavior:'smooth'
-            })">
+            class="book-btn"
+            type="submit">
 
-            ← Back / पीछे जाएँ
+            🎫 टोकन बुक करें /
+            BOOK TOKEN
 
         </button>
 
 
+    </form>
 
-        <!-- HEADING -->
-
-        <div class="booking-heading">
-
-            <h1>
-                Book New Token /
-                नया टोकन बुक करें
-            </h1>
-
-
-            <p>
-                हर दिन अधिकतम 30 Token
-                • रविवार एवं Centre Holiday बंद
-            </p>
-
-        </div>
-
-
-
-        <!-- ==================================================
-             DATE CARDS
-        ================================================== -->
-
-        <div class="date-strip-wrap">
-
-            <div
-                id="dateOptions"
-                class="date-strip">
-
-                <div class="loading">
-
-                    तारीखें लोड हो रही हैं...
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- ==================================================
-             STATUS LEGEND
-        ================================================== -->
-
-        <div class="legend">
-
-
-            <span>
-
-                <i class="dot green"></i>
-
-                Available / उपलब्ध
-
-            </span>
-
-
-            <span>
-
-                <i class="dot red"></i>
-
-                FULL
-
-            </span>
-
-
-            <span>
-
-                <i class="dot gray"></i>
-
-                Centre OFF
-
-            </span>
-
-
-        </div>
-
-
-
-        <!-- ==================================================
-             SELECTED DATE
-        ================================================== -->
-
-        <div
-            id="selectedDateInfo"
-            class="selected-info">
-
-            पहले उपलब्ध दिन को चुना जा रहा है...
-
-        </div>
-
-
-
-        <!-- ==================================================
-             BOOKING FORM
-        ================================================== -->
-
-        <form
-            id="bookingForm"
-            class="form-card">
-
-
-            <!-- SELECTED DATE HIDDEN -->
-
-            <input
-                type="hidden"
-                id="bookingDate">
-
-
-
-            <div class="form-grid">
-
-
-
-                <!-- CUSTOMER NAME -->
-
-                <div class="field">
-
-                    <label for="name">
-
-                        ग्राहक का नाम
-
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="अपना नाम लिखें"
-                        autocomplete="name"
-                        required>
-
-                </div>
-
-
-
-                <!-- AGE -->
-
-                <div class="field">
-
-                    <label for="age">
-
-                        उम्र
-
-                    </label>
-
-
-                    <input
-                        type="number"
-                        id="age"
-                        placeholder="उम्र"
-                        min="0"
-                        max="120"
-                        required>
-
-                </div>
-
-
-
-                <!-- SERVICE -->
-
-                <div class="field full">
-
-                    <label for="service">
-
-                        सेवा चुनें
-
-                    </label>
-
-
-                    <select id="service">
-
-
-                        <option>
-                            नया नामांकन (0-5 वर्ष)
-                        </option>
-
-
-                        <option>
-                            नया नामांकन (5-18 वर्ष)
-                        </option>
-
-
-                        <option>
-                            नाम अपडेट
-                        </option>
-
-
-                        <option>
-                            जन्म तिथि अपडेट
-                        </option>
-
-
-                        <option>
-                            मोबाइल नंबर अपडेट
-                        </option>
-
-
-                        <option>
-                            ईमेल अपडेट
-                        </option>
-
-
-                        <option>
-                            पता अपडेट
-                        </option>
-
-
-                        <option>
-                            बायोमेट्रिक अपडेट
-                        </option>
-
-
-                    </select>
-
-                </div>
-
-
-
-                <!-- TIME SLOT -->
-
-                <div class="field">
-
-                    <label for="timeSlot">
-
-                        समय स्लॉट
-
-                    </label>
-
-
-                    <select id="timeSlot">
-
-
-                        <option>
-                            8:00 AM - 8:30 AM
-                        </option>
-
-
-                        <option>
-                            8:30 AM - 9:00 AM
-                        </option>
-
-
-                        <option>
-                            9:00 AM - 9:30 AM
-                        </option>
-
-
-                        <option>
-                            9:30 AM - 10:00 AM
-                        </option>
-
-
-                        <option>
-                            10:00 AM - 10:30 AM
-                        </option>
-
-
-                        <option>
-                            10:30 AM - 11:00 AM
-                        </option>
-
-
-                        <option>
-                            11:00 AM - 11:30 AM
-                        </option>
-
-
-                        <option>
-                            11:30 AM - 12:00 PM
-                        </option>
-
-
-                        <option>
-                            12:00 PM - 12:30 PM
-                        </option>
-
-
-                        <option>
-                            12:30 PM - 1:00 PM
-                        </option>
-
-
-                        <option>
-                            1:00 PM - 1:30 PM
-                        </option>
-
-
-                        <option>
-                            1:30 PM - 2:00 PM
-                        </option>
-
-
-                        <option>
-                            2:00 PM - 2:30 PM
-                        </option>
-
-
-                        <option>
-                            2:30 PM - 3:00 PM
-                        </option>
-
-
-                        <option>
-                            3:00 PM - 3:30 PM
-                        </option>
-
-
-                        <option>
-                            3:30 PM - 4:00 PM
-                        </option>
-
-
-                        <option>
-                            4:00 PM - 4:30 PM
-                        </option>
-
-
-                        <option>
-                            4:30 PM - 5:00 PM
-                        </option>
-
-
-                    </select>
-
-                </div>
-
-
-
-                <!-- NEXT TOKEN -->
-
-                <div class="field">
-
-                    <label>
-
-                        अगला Token
-
-                    </label>
-
-
-                    <div
-                        id="nextTokenInfo"
-                        class="next-token">
-
-                        A-001
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- BOOK BUTTON -->
-
-            <button
-                class="book-btn"
-                type="button"
-                onclick="bookToken()">
-
-                🎫 टोकन बुक करें /
-                BOOK TOKEN
-
-            </button>
-
-
-        </form>
-
-
-    </div>
+</div>
 
 </section>
 
 
-
-<!-- ==================================================
+<!-- =========================
      SERVICES
-================================================== -->
+========================= -->
 
 <section
-    class="services"
-    id="services">
+    id="services"
+    class="section">
+
+<h2>
+    Aadhaar Services Ecosystem
+</h2>
 
 
-    <h2>
-
-        Aadhaar Services Ecosystem
-
-    </h2>
+<div class="service-grid">
 
 
+    <div class="service-card">
 
-    <div class="service-grid">
-
-
-
-        <!-- SERVICE 1 -->
-
-        <div class="service-card">
-
-
-            <div class="service-icon">
-
-                🔎
-
-            </div>
-
-
-            <h3>
-
-                Download token slip
-
-            </h3>
-
-
-            <p>
-
-                अपनी पहले की Booking की
-                Token Slip प्राप्त करें।
-
-            </p>
-
-
-            <button
-                type="button"
-                class="secondary-btn"
-                onclick="document.getElementById(
-                    'tokenSlip'
-                ).scrollIntoView({
-                    behavior:'smooth'
-                })">
-
-                TOKEN SLIP
-
-            </button>
-
-
+        <div class="service-icon">
+            🔎
         </div>
 
+        <h3>
+            Download token slip
+        </h3>
 
+        <p>
+            अपनी पहले की Booking की
+            Token Slip प्राप्त करें।
+        </p>
 
-        <!-- SERVICE 2 -->
+        <button
+            type="button"
+            class="secondary-btn"
+            onclick="document.getElementById(
+                'tokenSlip'
+            ).scrollIntoView({
+                behavior:'smooth'
+            })">
 
-        <div
-            class="service-card featured">
+            TOKEN SLIP
 
-
-            <div class="service-icon">
-
-                📄
-
-            </div>
-
-
-            <h3>
-
-                Check Status
-
-            </h3>
-
-
-            <p>
-
-                अपने Token/Booking की
-                जानकारी देखें।
-
-            </p>
-
-
-            <button
-                type="button"
-                class="secondary-btn green-btn"
-                onclick="alert(
-                    'यह सुविधा अगले चरण में जोड़ी जाएगी।'
-                )">
-
-                CHECK NOW
-
-            </button>
-
-
-        </div>
-
-
-
-        <!-- SERVICE 3 -->
-
-        <div class="service-card">
-
-
-            <div class="service-icon">
-
-                🪪
-
-            </div>
-
-
-            <h3>
-
-                आधार सेवा
-
-            </h3>
-
-
-            <p>
-
-                केन्द्र पर उपलब्ध आधार सेवाओं
-                के लिए Token Booking करें।
-
-            </p>
-
-
-            <button
-                type="button"
-                class="secondary-btn"
-                onclick="document.getElementById(
-                    'booking'
-                ).scrollIntoView({
-                    behavior:'smooth'
-                })">
-
-                BOOK TOKEN
-
-            </button>
-
-
-        </div>
-
+        </button>
 
     </div>
+
+
+    <div class="service-card featured">
+
+        <div class="service-icon">
+            📄
+        </div>
+
+        <h3>
+            Check Status
+        </h3>
+
+        <p>
+            अपने Token/Booking की
+            जानकारी देखें।
+        </p>
+
+        <button
+            type="button"
+            class="secondary-btn green-btn"
+            onclick="checkStatus()">
+
+            CHECK NOW
+
+        </button>
+
+    </div>
+
+
+    <div class="service-card">
+
+        <div class="service-icon">
+            🪪
+        </div>
+
+        <h3>
+            आधार सेवा
+        </h3>
+
+        <p>
+            केन्द्र पर उपलब्ध आधार सेवाओं
+            के लिए Token Booking करें।
+        </p>
+
+        <button
+            type="button"
+            class="secondary-btn"
+            onclick="document.getElementById(
+                'booking'
+            ).scrollIntoView({
+                behavior:'smooth'
+            })">
+
+            BOOK TOKEN
+
+        </button>
+
+    </div>
+
+</div>
 
 </section>
 
 
-
-<!-- ==================================================
+<!-- =========================
      RULES
-================================================== -->
+========================= -->
 
 <section
-    class="rules"
-    id="rules">
+    id="rules"
+    class="section">
 
+<h2>
+    Rules / नियम
+</h2>
 
-    <h2>
+<div class="rules-box">
 
-        Rules / नियम
+    <p>
+        • प्रत्येक Working Day अधिकतम
+        30 Token उपलब्ध हैं।
+    </p>
 
-    </h2>
+    <p>
+        • 30 Token पूरे होने पर उस दिन
+        <strong>FULL</strong> दिखाई देगा।
+    </p>
 
+    <p>
+        • रविवार को Centre OFF रहेगा।
+    </p>
 
-    <div class="rules-box">
+    <p>
+        • Centre Holiday की तारीखें भी
+        OFF दिखाई जाएँगी।
+    </p>
 
+    <p>
+        • Booking के समय नाम, उम्र,
+        सेवा, तारीख और समय सही भरें।
+    </p>
 
-        <p>
+    <p>
+        • निर्धारित समय पर केन्द्र आएँ।
+    </p>
 
-            • प्रत्येक Working Day अधिकतम
-            30 Token उपलब्ध हैं।
-
-        </p>
-
-
-        <p>
-
-            • 30 Token पूरे होने पर उस दिन
-            <strong>FULL</strong> दिखाई देगा।
-
-        </p>
-
-
-        <p>
-
-            • रविवार को Centre OFF रहेगा।
-
-        </p>
-
-
-        <p>
-
-            • Centre Holiday की तारीखें भी
-            OFF दिखाई जाएँगी।
-
-        </p>
-
-
-        <p>
-
-            • Booking के समय नाम, उम्र,
-            सेवा, तारीख और समय सही भरें।
-
-        </p>
-
-
-        <p>
-
-            • निर्धारित समय पर केन्द्र आएँ।
-
-        </p>
-
-
-    </div>
-
+</div>
 
 </section>
 
 
-
-<!-- ==================================================
+<!-- =========================
      TOKEN SLIP
-================================================== -->
+========================= -->
 
 <section
     id="tokenSlip"
-    class="slip-section"
-    style="display:none;">
+    class="section">
+
+<h2>
+    Token Slip / टोकन पर्ची
+</h2>
 
 
-    <!-- ACTION BUTTONS -->
+<div class="slip-box">
+
 
     <div class="slip-actions">
-
 
         <button
             type="button"
@@ -785,12 +1160,8 @@
 
         </button>
 
-
     </div>
 
-
-
-    <!-- PDF CONTENT -->
 
     <div
         id="pdfContent"
@@ -798,46 +1169,33 @@
 
 
         <div class="slip-logo">
-
             A
-
         </div>
 
 
-
         <h2>
-
             आधार सेवा केन्द्र कंजौली
-
         </h2>
 
 
         <h3>
-
             Online Token Booking System
-
         </h3>
 
 
         <p>
-
             आईटी केंद्र कंजौली
-
         </p>
 
 
         <p>
-
             तहसील - बालघाट,
             जिला - करौली (राजस्थान)
-
         </p>
 
 
         <p>
-
             मोबाइल: 8426971575
-
         </p>
 
 
@@ -845,42 +1203,52 @@
 
 
         <h3>
-
             🎫 टोकन पर्ची
-
         </h3>
 
-
-
-        <!-- TOKEN NUMBER -->
 
         <div
             id="tokenNumber"
             class="big-token">
 
+            --
+
         </div>
 
 
-
-        <!-- BOOKING DETAILS -->
-
-        <p id="customerName">
+        <p>
+            <strong>नाम:</strong>
+            <span id="customerName">--</span>
         </p>
 
 
-        <p id="customerAge">
+        <p>
+            <strong>उम्र:</strong>
+            <span id="customerAge">--</span>
         </p>
 
 
-        <p id="customerService">
+        <p>
+            <strong>सेवा:</strong>
+            <span id="customerService">--</span>
         </p>
 
 
-        <p id="customerDate">
+        <p>
+            <strong>तारीख:</strong>
+            <span id="customerDate">--</span>
         </p>
 
 
-        <p id="customerTime">
+        <p>
+            <strong>समय स्लॉट:</strong>
+            <span id="customerTime">--</span>
+        </p>
+
+
+        <p>
+            <strong>Booking Time:</strong>
+            <span id="bookingTime">--</span>
         </p>
 
 
@@ -888,46 +1256,35 @@
 
 
         <p>
-
             <strong>
-
                 कृपया निर्धारित तारीख एवं समय पर
                 केन्द्र आएँ।
-
             </strong>
-
         </p>
 
 
         <p>
-
             समय:
             सुबह 8:00 बजे से शाम 5:00 बजे तक
-
         </p>
 
 
         <p>
-
             धन्यवाद!
-
         </p>
-
 
     </div>
 
+</div>
 
 </section>
-
-
 
 </main>
 
 
-
-<!-- ==================================================
+<!-- =========================
      FOOTER
-================================================== -->
+========================= -->
 
 <footer>
 
@@ -937,17 +1294,974 @@
 </footer>
 
 
+<div
+    id="toast"
+    class="toast">
 
-<!-- ==================================================
-     FIREBASE JAVASCRIPT
-================================================== -->
+    Token successfully booked.
 
-<script
-    type="module"
-    src="script.js">
-</script>
+</div>
 
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+/* ==========================================
+   HOLIDAYS
+========================================== */
+
+const holidays = [
+    // उदाहरण:
+    // "2026-08-15",
+    // "2026-08-20"
+];
+
+
+/* ==========================================
+   GET TODAY IST
+========================================== */
+
+function getISTDate(){
+
+    const now = new Date();
+
+    const formatter =
+        new Intl.DateTimeFormat(
+            'en-CA',
+            {
+                timeZone:'Asia/Kolkata',
+                year:'numeric',
+                month:'2-digit',
+                day:'2-digit'
+            }
+        );
+
+    return formatter.format(now);
+
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDate(dateString){
+
+    const date =
+        new Date(dateString + 'T00:00:00');
+
+    return date.toLocaleDateString(
+        'hi-IN',
+        {
+            day:'numeric',
+            month:'short',
+            year:'numeric'
+        }
+    );
+
+}
+
+
+/* ==========================================
+   GET BOOKINGS
+========================================== */
+
+function getBookings(){
+
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                'kanjouliBookings'
+            )
+        ) || [];
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE BOOKINGS
+========================================== */
+
+function saveBookings(bookings){
+
+    localStorage.setItem(
+        'kanjouliBookings',
+        JSON.stringify(bookings)
+    );
+
+}
+
+
+/* ==========================================
+   DATE BOOKINGS COUNT
+========================================== */
+
+function getDateBookingCount(date){
+
+    const bookings = getBookings();
+
+    return bookings.filter(
+        booking =>
+            booking.date === date
+    ).length;
+
+}
+
+
+/* ==========================================
+   DATE STRIP
+========================================== */
+
+function loadDates(){
+
+    const container =
+        document.getElementById(
+            'dateOptions'
+        );
+
+    container.innerHTML = '';
+
+    const today =
+        new Date(
+            getISTDate() + 'T00:00:00'
+        );
+
+    let firstAvailable = null;
+
+
+    for(let i=0;i<14;i++){
+
+        const date = new Date(today);
+
+        date.setDate(
+            today.getDate()+i
+        );
+
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth()+1
+            ).padStart(2,'0');
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(2,'0');
+
+        const dateString =
+            `${year}-${month}-${day}`;
+
+
+        const dayName =
+            date.toLocaleDateString(
+                'hi-IN',
+                {
+                    weekday:'short'
+                }
+            );
+
+
+        const monthName =
+            date.toLocaleDateString(
+                'hi-IN',
+                {
+                    month:'short'
+                }
+            );
+
+
+        const count =
+            getDateBookingCount(
+                dateString
+            );
+
+
+        const sunday =
+            date.getDay() === 0;
+
+        const holiday =
+            holidays.includes(
+                dateString
+            );
+
+        const full =
+            count >= 30;
+
+
+        const card =
+            document.createElement(
+                'div'
+            );
+
+        card.className =
+            'date-card';
+
+
+        if(sunday || holiday){
+
+            card.classList.add('off');
+
+            card.innerHTML = `
+
+                <div class="date-day">
+                    ${dayName}
+                </div>
+
+                <div class="date-number">
+                    ${day}
+                </div>
+
+                <div class="date-month">
+                    ${monthName}
+                </div>
+
+                <small>
+                    Centre OFF
+                </small>
+
+            `;
+
+        }
+        else if(full){
+
+            card.classList.add('full');
+
+            card.innerHTML = `
+
+                <div class="date-day">
+                    ${dayName}
+                </div>
+
+                <div class="date-number">
+                    ${day}
+                </div>
+
+                <div class="date-month">
+                    ${monthName}
+                </div>
+
+                <small>
+                    FULL
+                </small>
+
+            `;
+
+        }
+        else{
+
+            card.classList.add(
+                'available'
+            );
+
+            card.innerHTML = `
+
+                <div class="date-day">
+                    ${dayName}
+                </div>
+
+                <div class="date-number">
+                    ${day}
+                </div>
+
+                <div class="date-month">
+                    ${monthName}
+                </div>
+
+                <small>
+                    ${30-count} Token
+                </small>
+
+            `;
+
+
+            card.onclick = function(){
+
+                selectDate(
+                    dateString,
+                    card
+                );
+
+            };
+
+
+            if(!firstAvailable){
+
+                firstAvailable = {
+                    date:dateString,
+                    card:card
+                };
+
+            }
+
+        }
+
+
+        container.appendChild(card);
+
+    }
+
+
+    if(firstAvailable){
+
+        selectDate(
+            firstAvailable.date,
+            firstAvailable.card
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   SELECT DATE
+========================================== */
+
+function selectDate(
+    date,
+    card
+){
+
+    const all =
+        document.querySelectorAll(
+            '.date-card'
+        );
+
+    all.forEach(
+        item =>
+            item.classList.remove(
+                'selected'
+            )
+    );
+
+
+    card.classList.add(
+        'selected'
+    );
+
+
+    document.getElementById(
+        'bookingDate'
+    ).value = date;
+
+
+    const count =
+        getDateBookingCount(date);
+
+
+    document.getElementById(
+        'selectedDateInfo'
+    ).innerHTML =
+
+        `📅 Selected Date: ${formatDate(date)}
+        • ${30-count} Token Available`;
+
+
+    updateNextToken();
+
+}
+
+
+/* ==========================================
+   NEXT TOKEN
+========================================== */
+
+function updateNextToken(){
+
+    const date =
+        document.getElementById(
+            'bookingDate'
+        ).value;
+
+
+    if(!date){
+
+        return;
+
+    }
+
+
+    const count =
+        getDateBookingCount(date);
+
+
+    const number =
+        count + 1;
+
+
+    const token =
+        'A-' +
+        String(number).padStart(
+            3,
+            '0'
+        );
+
+
+    document.getElementById(
+        'nextTokenInfo'
+    ).textContent =
+        token;
+
+}
+
+
+/* ==========================================
+   PRESENT TIME
+========================================== */
+
+function updatePresentTime(){
+
+    const now = new Date();
+
+
+    const date =
+        now.toLocaleDateString(
+            'en-IN',
+            {
+                day:'2-digit',
+                month:'2-digit',
+                year:'numeric',
+                timeZone:'Asia/Kolkata'
+            }
+        );
+
+
+    const time =
+        now.toLocaleTimeString(
+            'en-IN',
+            {
+                hour:'2-digit',
+                minute:'2-digit',
+                second:'2-digit',
+                hour12:true,
+                timeZone:'Asia/Kolkata'
+            }
+        );
+
+
+    const element =
+        document.getElementById(
+            'presentTime'
+        );
+
+
+    if(element){
+
+        element.innerHTML =
+            `📅 ${date}<br>
+             ⏰ ${time}`;
+
+    }
+
+}
+
+
+/* ==========================================
+   BOOK TOKEN
+========================================== */
+
+function bookToken(){
+
+    const name =
+        document.getElementById(
+            'name'
+        ).value.trim();
+
+
+    const age =
+        document.getElementById(
+            'age'
+        ).value;
+
+
+    const service =
+        document.getElementById(
+            'service'
+        ).value;
+
+
+    const timeSlot =
+        document.getElementById(
+            'timeSlot'
+        ).value;
+
+
+    const date =
+        document.getElementById(
+            'bookingDate'
+        ).value;
+
+
+    if(!date){
+
+        alert(
+            'कृपया पहले तारीख चुनें।'
+        );
+
+        return;
+
+    }
+
+
+    if(!name){
+
+        alert(
+            'कृपया ग्राहक का नाम लिखें।'
+        );
+
+        return;
+
+    }
+
+
+    if(
+        age === '' ||
+        age < 0 ||
+        age > 120
+    ){
+
+        alert(
+            'कृपया सही उम्र दर्ज करें।'
+        );
+
+        return;
+
+    }
+
+
+    const bookings =
+        getBookings();
+
+
+    const currentCount =
+        bookings.filter(
+            booking =>
+                booking.date === date
+        ).length;
+
+
+    if(currentCount >= 30){
+
+        alert(
+            'इस तारीख के सभी 30 Token बुक हो चुके हैं।'
+        );
+
+        loadDates();
+
+        return;
+
+    }
+
+
+    /* EXACT BOOKING TIME */
+
+    const now =
+        new Date();
+
+
+    const bookingDate =
+        now.toLocaleDateString(
+            'en-IN',
+            {
+                day:'2-digit',
+                month:'2-digit',
+                year:'numeric',
+                timeZone:'Asia/Kolkata'
+            }
+        );
+
+
+    const bookingTime =
+        now.toLocaleTimeString(
+            'en-IN',
+            {
+                hour:'2-digit',
+                minute:'2-digit',
+                second:'2-digit',
+                hour12:true,
+                timeZone:'Asia/Kolkata'
+            }
+        );
+
+
+    const bookingDateTime =
+        bookingDate +
+        ' • ' +
+        bookingTime;
+
+
+    const tokenNumber =
+        'A-' +
+        String(
+            currentCount + 1
+        ).padStart(
+            3,
+            '0'
+        );
+
+
+    const booking = {
+
+        id:
+            Date.now(),
+
+        token:
+            tokenNumber,
+
+        name:
+            name,
+
+        age:
+            age,
+
+        service:
+            service,
+
+        date:
+            date,
+
+        timeSlot:
+            timeSlot,
+
+        bookingDate:
+            bookingDate,
+
+        bookingTime:
+            bookingTime,
+
+        bookingDateTime:
+            bookingDateTime
+
+    };
+
+
+    bookings.push(
+        booking
+    );
+
+
+    saveBookings(
+        bookings
+    );
+
+
+    /* ==========================
+       SHOW SLIP
+    ========================== */
+
+
+    document.getElementById(
+        'tokenNumber'
+    ).textContent =
+        tokenNumber;
+
+
+    document.getElementById(
+        'customerName'
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        'customerAge'
+    ).textContent =
+        age + ' वर्ष';
+
+
+    document.getElementById(
+        'customerService'
+    ).textContent =
+        service;
+
+
+    document.getElementById(
+        'customerDate'
+    ).textContent =
+        formatDate(date);
+
+
+    document.getElementById(
+        'customerTime'
+    ).textContent =
+        timeSlot;
+
+
+    document.getElementById(
+        'bookingTime'
+    ).textContent =
+        bookingDateTime;
+
+
+    /* RESET */
+
+    document.getElementById(
+        'name'
+    ).value = '';
+
+
+    document.getElementById(
+        'age'
+    ).value = '';
+
+
+    loadDates();
+
+
+    document.getElementById(
+        'tokenSlip'
+    ).scrollIntoView({
+        behavior:'smooth'
+    });
+
+
+    showToast(
+        `Token ${tokenNumber} successfully booked`
+    );
+
+}
+
+
+/* ==========================================
+   CHECK STATUS
+========================================== */
+
+function checkStatus(){
+
+    const bookings =
+        getBookings();
+
+
+    if(bookings.length === 0){
+
+        alert(
+            'अभी कोई Booking उपलब्ध नहीं है।'
+        );
+
+        return;
+
+    }
+
+
+    const last =
+        bookings[
+            bookings.length-1
+        ];
+
+
+    alert(
+
+        `Latest Booking\n\n` +
+
+        `Token: ${last.token}\n` +
+
+        `नाम: ${last.name}\n` +
+
+        `तारीख: ${formatDate(last.date)}\n` +
+
+        `समय: ${last.timeSlot}\n` +
+
+        `Booking Time: ${last.bookingDateTime}`
+
+    );
+
+}
+
+
+/* ==========================================
+   DOWNLOAD TOKEN SLIP
+========================================== */
+
+function downloadTokenSlip(){
+
+    const content =
+        document.getElementById(
+            'pdfContent'
+        );
+
+
+    if(
+        !content ||
+        document.getElementById(
+            'tokenNumber'
+        ).textContent === '--'
+    ){
+
+        alert(
+            'पहले Token Book करें।'
+        );
+
+        return;
+
+    }
+
+
+    const html = `
+
+<!DOCTYPE html>
+
+<html lang="hi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Token Slip</title>
+
+<style>
+
+body{
+    font-family:Arial,
+    "Noto Sans Devanagari",
+    sans-serif;
+    padding:30px;
+    text-align:center;
+}
+
+.slip{
+    max-width:600px;
+    margin:auto;
+    border:2px solid #047857;
+    padding:25px;
+}
+
+.token{
+    font-size:45px;
+    font-weight:bold;
+    color:#047857;
+    margin:20px;
+}
+
+hr{
+    border:none;
+    border-top:1px solid #aaa;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="slip">
+
+${content.innerHTML}
+
+</div>
 
 </body>
 
 </html>
+`;
+
+
+    const blob =
+        new Blob(
+            [html],
+            {
+                type:'text/html'
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            'a'
+        );
+
+
+    link.href = url;
+
+    link.download =
+        'Kanjouli-Token-Slip.html';
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    link.remove();
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            'toast'
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        'show'
+    );
+
+
+    setTimeout(
+        function(){
+
+            toast.classList.remove(
+                'show'
+            );
+
+        },
+        3000
+    );
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+loadDates();
+
+updatePresentTime();
+
+setInterval(
+    updatePresentTime,
+    1000
+);
+
+</script>
+
+
+</body>
+</html>
+```
