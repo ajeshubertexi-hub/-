@@ -1,703 +1,825 @@
-/* =====================================================
-   आधार सेवा केन्द्र कंजौली
-   ONLINE TOKEN BOOKING SYSTEM
-   COMPLETE STYLE.CSS
-===================================================== */
+```css
+/* =========================================================
+   KANJOULI ONLINE TOKEN
+   style.css
+========================================================= */
 
 
-/* =====================================================
-   BASIC RESET
-===================================================== */
+/* =========================================================
+   RESET
+========================================================= */
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-
-html {
-    scroll-behavior: smooth;
+html{
+    scroll-behavior:smooth;
 }
 
-
-body {
+body{
+    margin:0;
+    padding:0;
 
     font-family:
-        "Noto Sans Devanagari",
         Arial,
+        "Noto Sans Devanagari",
+        "Mangal",
         sans-serif;
 
-    background: #f4f8fb;
+    background:#f4f7fb;
 
-    color: #1e2933;
+    color:#172033;
 
-    line-height: 1.6;
+    line-height:1.6;
 
+    min-height:100vh;
 }
 
 
-/* =====================================================
-   COLOR VARIABLES
-===================================================== */
+/* =========================================================
+   COMMON
+========================================================= */
 
-:root {
+button,
+input,
+select{
+    font-family:inherit;
+}
 
-    --blue: #064a78;
+button{
+    cursor:pointer;
+}
 
-    --dark-blue: #003b62;
+a{
+    text-decoration:none;
+}
 
-    --green: #087f4d;
-
-    --light-green: #effcf4;
-
-    --red: #d64250;
-
-    --light-red: #fff3f4;
-
-    --gray: #6c7680;
-
-    --light-gray: #f2f5f7;
-
-    --border: #d9e2ea;
-
-    --white: #ffffff;
-
-    --shadow:
-        0 10px 30px rgba(16, 45, 65, 0.12);
-
+img{
+    max-width:100%;
+    display:block;
 }
 
 
-/* =====================================================
-   TOP HEADER
-===================================================== */
+/* =========================================================
+   HEADER
+========================================================= */
 
-.topbar {
+header{
 
-    width: 100%;
-
-    min-height: 72px;
-
-    padding:
-        10px 5%;
-
-    background: #ffffff;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    border-bottom:
-        1px solid #e5e9ed;
-
-}
-
-
-/* BRAND */
-
-.brand {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-}
-
-
-/* LOGO */
-
-.brand-mark {
-
-    width: 48px;
-
-    height: 48px;
-
-    border-radius: 50%;
+    width:100%;
 
     background:
         linear-gradient(
             135deg,
-            #087f4d,
-            #0aa060
+            #064e3b 0%,
+            #047857 50%,
+            #059669 100%
         );
 
-    color: #ffffff;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 25px;
-
-    font-weight: 800;
-
-}
-
-
-/* BRAND TEXT */
-
-.brand-hi {
-
-    color: #075b7e;
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-}
-
-
-.brand-en {
-
-    color: #6b7280;
-
-    font-size: 12px;
-
-}
-
-
-/* CONTACT */
-
-.top-contact {
-
-    color: #075b7e;
-
-    font-size: 15px;
-
-    font-weight: 700;
-
-}
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-.nav {
-
-    width: 100%;
-
-    min-height: 44px;
+    color:#ffffff;
 
     padding:
-        0 5%;
+        15px 5%;
 
-    background:
-        linear-gradient(
-            90deg,
-            #063e63,
-            #075477
-        );
+    display:flex;
 
-    display: flex;
+    align-items:center;
 
-    align-items: center;
+    justify-content:space-between;
 
-    gap: 24px;
+    gap:20px;
 
-    overflow-x: auto;
-
-    white-space: nowrap;
-
-}
-
-
-/* NAV LINKS */
-
-.nav a {
-
-    color: #ffffff;
-
-    text-decoration: none;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    padding:
-        13px 0;
-
-}
-
-
-.nav a:hover {
-
-    color: #b9f5dc;
-
-}
-
-
-/* NAV RIGHT */
-
-.nav-right {
-
-    margin-left: auto;
-
-    color: #ffffff;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-}
-
-
-/* =====================================================
-   HERO / MAIN BACKGROUND
-===================================================== */
-
-.hero {
-
-    width: 100%;
-
-    padding:
-        55px 4% 70px;
-
-    background:
-
-        radial-gradient(
-            circle at 10% 10%,
-            #ffffff 0,
-            transparent 25%
-        ),
-
-        linear-gradient(
-            135deg,
-            #edf5fa,
-            #e9f1f6
-        );
-
-}
-
-
-/* =====================================================
-   BOOKING CARD
-===================================================== */
-
-.booking-card {
-
-    width: 100%;
-
-    max-width: 1100px;
-
-    margin: auto;
-
-    padding: 28px;
-
-    background: #ffffff;
-
-    border-radius: 15px;
-
-    box-shadow: var(--shadow);
-
-}
-
-
-/* =====================================================
-   BACK BUTTON
-===================================================== */
-
-.back-btn {
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #202327;
-
-    color: #ffffff;
-
-    padding:
-        10px 17px;
-
-    font-family: inherit;
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    cursor: pointer;
+    flex-wrap:wrap;
 
     box-shadow:
-        0 4px 10px rgba(0,0,0,0.12);
+        0 4px 18px
+        rgba(0,0,0,.16);
 
 }
 
 
-.back-btn:hover {
+/* =========================================================
+   BRAND
+========================================================= */
 
-    background: #000000;
+.brand{
 
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    min-width:250px;
 }
 
 
-/* =====================================================
-   BOOKING HEADING
-===================================================== */
+.brand-mark{
 
-.booking-heading {
+    width:54px;
 
-    text-align: center;
+    height:54px;
 
-    margin:
-        15px 0 25px;
+    min-width:54px;
 
-}
+    border-radius:50%;
 
+    background:#ffffff;
 
-.booking-heading h1 {
-
-    color: #007d72;
-
-    font-size: 26px;
-
-    font-weight: 800;
-
-    margin-bottom: 5px;
-
-}
-
-
-.booking-heading p {
-
-    color: #176c67;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-}
-
-
-/* =====================================================
-   DATE STRIP
-===================================================== */
-
-.date-strip-wrap {
-
-    width: 100%;
-
-    overflow-x: auto;
-
-    padding:
-        5px 0 14px;
-
-    scrollbar-width: thin;
-
-}
-
-
-/* DATE STRIP */
-
-.date-strip {
-
-    display: flex;
-
-    gap: 10px;
-
-    min-width: max-content;
-
-}
-
-
-/* =====================================================
-   DATE CARD
-===================================================== */
-
-.date-card {
-
-    width: 128px;
-
-    min-height: 105px;
-
-    padding: 11px 8px;
+    color:#047857;
 
     border:
-        2px solid var(--border);
+        3px solid
+        #facc15;
 
-    border-radius: 11px;
+    display:flex;
 
-    background: #ffffff;
+    align-items:center;
 
-    text-align: center;
+    justify-content:center;
 
-    transition:
-        all 0.2s ease;
+    font-size:29px;
 
-    user-select: none;
+    font-weight:900;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0,0,0,.18);
 
 }
 
 
-/* AVAILABLE */
+.brand-text{
 
-.date-card.available {
+    display:flex;
 
-    border-color: #72bf98;
+    flex-direction:column;
+
+    gap:1px;
+
+}
+
+
+.brand-hi{
+
+    font-size:21px;
+
+    font-weight:800;
+
+    line-height:1.3;
+}
+
+
+.brand-en{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    opacity:.92;
+
+    letter-spacing:.2px;
+}
+
+
+/* =========================================================
+   TOP CONTACT
+========================================================= */
+
+.top-contact{
+
+    font-size:16px;
+
+    font-weight:700;
+
+    white-space:nowrap;
 
     background:
-        #f2fff7;
+        rgba(255,255,255,.12);
 
-    color: #087f4d;
+    border:
+        1px solid
+        rgba(255,255,255,.25);
 
-    cursor: pointer;
+    padding:
+        8px 14px;
+
+    border-radius:8px;
 
 }
 
 
-.date-card.available:hover {
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav{
+
+    width:100%;
+
+    min-height:55px;
+
+    background:#ffffff;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:
+        8px 5%;
+
+    flex-wrap:wrap;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    box-shadow:
+        0 2px 12px
+        rgba(0,0,0,.08);
+
+}
+
+
+nav a{
+
+    color:#064e3b;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    padding:
+        8px 12px;
+
+    border-radius:7px;
+
+    transition:
+        .2s ease;
+
+}
+
+
+nav a:hover{
+
+    background:#dcfce7;
+
+    color:#065f46;
+
+}
+
+
+.nav-right{
+
+    margin-left:auto;
+
+    color:#555;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    padding:
+        6px 10px;
+
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main{
+
+    width:
+        min(1100px, 92%);
+
+    margin:
+        30px auto 45px;
+
+}
+
+
+.section{
+
+    margin-bottom:42px;
+
+}
+
+
+/* =========================================================
+   HEADINGS
+========================================================= */
+
+h1,
+h2,
+h3{
+
+    line-height:1.3;
+
+}
+
+
+h1{
+
+    color:#064e3b;
+
+}
+
+
+h2{
+
+    text-align:center;
+
+    color:#064e3b;
+
+    font-size:28px;
+
+    margin-bottom:22px;
+
+}
+
+
+h3{
+
+    color:#064e3b;
+
+}
+
+
+/* =========================================================
+   BOOKING CARD
+========================================================= */
+
+.booking-card{
+
+    width:100%;
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    padding:27px;
+
+    box-shadow:
+        0 8px 32px
+        rgba(0,0,0,.08);
+
+    border:
+        1px solid
+        #e5e7eb;
+
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-btn{
+
+    border:none;
+
+    background:#eef2f7;
+
+    color:#374151;
+
+    padding:
+        9px 15px;
+
+    border-radius:8px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.2s;
+
+}
+
+
+.back-btn:hover{
+
+    background:#e2e8f0;
+
+    transform:
+        translateX(-2px);
+
+}
+
+
+/* =========================================================
+   BOOKING HEADING
+========================================================= */
+
+.booking-heading{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.booking-heading h1{
+
+    font-size:28px;
+
+    margin-bottom:6px;
+
+}
+
+
+.booking-heading p{
+
+    color:#6b7280;
+
+    font-size:14px;
+
+}
+
+
+/* =========================================================
+   DATE STRIP
+========================================================= */
+
+.date-strip-wrap{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    padding:
+        4px 2px 13px;
+
+    scrollbar-width:thin;
+
+}
+
+
+.date-strip-wrap::-webkit-scrollbar{
+
+    height:7px;
+
+}
+
+
+.date-strip-wrap::-webkit-scrollbar-track{
+
+    background:#eef2f7;
+
+    border-radius:20px;
+
+}
+
+
+.date-strip-wrap::-webkit-scrollbar-thumb{
+
+    background:#9ca3af;
+
+    border-radius:20px;
+
+}
+
+
+.date-strip{
+
+    display:flex;
+
+    gap:11px;
+
+    width:max-content;
+
+    min-width:100%;
+
+}
+
+
+.date-card{
+
+    width:108px;
+
+    min-width:108px;
+
+    min-height:108px;
+
+    padding:
+        11px 8px;
+
+    border:
+        2px solid
+        #d1d5db;
+
+    border-radius:13px;
+
+    background:#ffffff;
+
+    text-align:center;
+
+    transition:
+        transform .2s,
+        box-shadow .2s,
+        border-color .2s;
+
+}
+
+
+.date-card.available{
+
+    border-color:#16a34a;
+
+    background:#f0fdf4;
+
+    color:#14532d;
+
+    cursor:pointer;
+
+}
+
+
+.date-card.available:hover{
 
     transform:
         translateY(-3px);
 
     box-shadow:
-        0 6px 16px
-        rgba(8,127,77,0.16);
+        0 5px 14px
+        rgba(22,163,74,.18);
 
 }
 
 
-/* FULL */
+.date-card.full{
 
-.date-card.full {
+    border-color:#dc2626;
 
-    border-color: #efb2b9;
+    background:#fef2f2;
+
+    color:#991b1b;
+
+    cursor:not-allowed;
+
+    opacity:.78;
+
+}
+
+
+.date-card.off{
+
+    border-color:#9ca3af;
+
+    background:#f3f4f6;
+
+    color:#4b5563;
+
+    cursor:not-allowed;
+
+    opacity:.72;
+
+}
+
+
+.date-card.selected{
 
     background:
-        #fff4f5;
+        linear-gradient(
+            135deg,
+            #047857,
+            #059669
+        );
 
-    color: #c44550;
+    border-color:#047857;
 
-    cursor: not-allowed;
-
-}
-
-
-/* CENTRE OFF */
-
-.date-card.off {
-
-    border-color: #c8d2db;
-
-    background:
-        #f2f5f7;
-
-    color: #5e6a73;
-
-    cursor: not-allowed;
-
-}
-
-
-/* SELECTED */
-
-.date-card.selected {
+    color:#ffffff;
 
     box-shadow:
-        0 0 0 4px
-        rgba(8,127,77,0.18);
+        0 5px 16px
+        rgba(4,120,87,.25);
 
 }
 
 
-/* DAY */
+.date-day{
 
-.date-day {
+    font-size:13px;
 
-    font-size: 13px;
+    font-weight:800;
 
-    font-weight: 800;
-
-}
-
-
-/* DATE */
-
-.date-date {
-
-    margin:
-        3px 0 7px;
-
-    font-size: 14px;
-
-    font-weight: 700;
+    margin-bottom:2px;
 
 }
 
 
-/* STATUS */
+.date-number{
 
-.date-status {
+    font-size:27px;
 
-    font-size: 12px;
+    line-height:1.15;
 
-    font-weight: 800;
-
-    line-height: 1.4;
-
-    white-space: pre-line;
+    font-weight:900;
 
 }
 
 
-/* =====================================================
+.date-month{
+
+    font-size:12px;
+
+    margin-top:2px;
+
+    font-weight:700;
+
+}
+
+
+.date-card small{
+
+    display:block;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    margin-top:5px;
+
+}
+
+
+.loading{
+
+    width:100%;
+
+    text-align:center;
+
+    padding:18px;
+
+    color:#6b7280;
+
+}
+
+
+/* =========================================================
    LEGEND
-===================================================== */
+========================================================= */
 
-.legend {
+.legend{
 
-    display: flex;
+    display:flex;
 
-    justify-content: center;
+    justify-content:center;
 
-    align-items: center;
+    align-items:center;
 
-    flex-wrap: wrap;
+    gap:25px;
 
-    gap: 18px;
+    flex-wrap:wrap;
 
     margin:
-        10px 0 12px;
+        19px 0;
 
-    color: #4b5563;
+    color:#4b5563;
 
-    font-size: 13px;
-
-    font-weight: 700;
+    font-size:14px;
 
 }
 
 
-/* DOT */
+.legend span{
 
-.dot {
+    display:flex;
 
-    display: inline-block;
+    align-items:center;
 
-    width: 10px;
-
-    height: 10px;
-
-    border-radius: 50%;
-
-    margin-right: 5px;
+    gap:6px;
 
 }
 
 
-.dot.green {
+.dot{
 
-    background: #0a9b5e;
+    display:inline-block;
 
-}
+    width:11px;
 
+    height:11px;
 
-.dot.red {
-
-    background: #d64250;
-
-}
-
-
-.dot.gray {
-
-    background: #7b8790;
+    border-radius:50%;
 
 }
 
 
-/* =====================================================
+.dot.green{
+
+    background:#16a34a;
+
+}
+
+
+.dot.red{
+
+    background:#dc2626;
+
+}
+
+
+.dot.gray{
+
+    background:#9ca3af;
+
+}
+
+
+/* =========================================================
    SELECTED DATE INFO
-===================================================== */
+========================================================= */
 
-.selected-info {
+.selected-info{
 
-    width: 100%;
+    width:100%;
 
-    max-width: 850px;
+    padding:
+        12px 15px;
 
     margin:
-        12px auto;
-
-    padding: 12px;
-
-    border-radius: 9px;
-
-    background:
-        #f4faf7;
+        0 0 20px;
 
     border:
-        1px solid #cce9d9;
+        1px solid
+        #a7f3d0;
 
-    color: #075b43;
+    background:#ecfdf5;
 
-    text-align: center;
+    color:#065f46;
 
-    font-size: 14px;
+    border-radius:10px;
 
-    font-weight: 700;
+    text-align:center;
 
-}
+    font-weight:800;
 
-
-/* =====================================================
-   FORM
-===================================================== */
-
-.form-card {
-
-    width: 100%;
-
-    max-width: 850px;
-
-    margin:
-        18px auto 0;
-
-    padding-top: 20px;
-
-    border-top:
-        1px solid #e5e7eb;
+    font-size:14px;
 
 }
 
 
-/* FORM GRID */
+/* =========================================================
+   FORM CARD
+========================================================= */
 
-.form-grid {
+.form-card{
 
-    display: grid;
+    width:100%;
+
+    background:#f8fafc;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius:15px;
+
+    padding:21px;
+
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.form-grid{
+
+    display:grid;
 
     grid-template-columns:
-        1fr 1fr;
+        repeat(2, 1fr);
 
-    gap: 16px;
-
-}
-
-
-/* FIELD */
-
-.field {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 6px;
+    gap:18px;
 
 }
 
 
-/* FULL FIELD */
+.field{
 
-.field.full {
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+}
+
+
+.field.full{
 
     grid-column:
         1 / -1;
@@ -705,117 +827,1128 @@ body {
 }
 
 
-/* LABEL */
+.field label{
 
-.field label {
+    color:#374151;
 
-    color: #293845;
+    font-size:14px;
 
-    font-size: 14px;
-
-    font-weight: 700;
+    font-weight:800;
 
 }
 
 
-/* INPUT + SELECT */
+/* =========================================================
+   INPUT / SELECT
+========================================================= */
 
-.field input,
-.field select {
+input,
+select{
 
-    width: 100%;
+    width:100%;
 
-    height: 46px;
-
-    padding:
-        0 12px;
+    min-height:46px;
 
     border:
-        1px solid #cbd5df;
+        1px solid
+        #cbd5e1;
 
-    border-radius: 8px;
+    border-radius:9px;
 
-    background: #ffffff;
+    background:#ffffff;
 
-    color: #1e2933;
+    color:#172033;
 
-    font-family: inherit;
+    padding:
+        10px 13px;
 
-    font-size: 15px;
+    font-size:15px;
 
-    outline: none;
+    outline:none;
+
+    transition:
+        border-color .2s,
+        box-shadow .2s;
 
 }
 
 
-/* FOCUS */
+input::placeholder{
 
-.field input:focus,
-.field select:focus {
+    color:#9ca3af;
 
-    border-color:
-        #087f4d;
+}
+
+
+input:hover,
+select:hover{
+
+    border-color:#94a3b8;
+
+}
+
+
+input:focus,
+select:focus{
+
+    border-color:#059669;
 
     box-shadow:
         0 0 0 3px
-        rgba(8,127,77,0.10);
+        rgba(5,150,105,.12);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    NEXT TOKEN
-===================================================== */
+========================================================= */
 
-.next-token {
+.next-token{
 
-    height: 46px;
+    width:100%;
+
+    min-height:46px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 
     padding:
-        0 12px;
+        9px 12px;
+
+    background:#ecfdf5;
 
     border:
-        1px solid #bfe5d0;
+        1px solid
+        #a7f3d0;
 
-    border-radius: 8px;
+    color:#047857;
 
-    background:
-        #effcf4;
+    border-radius:9px;
 
-    color: #087f4d;
+    font-weight:900;
 
-    display: flex;
-
-    align-items: center;
-
-    font-size: 16px;
-
-    font-weight: 800;
+    text-align:center;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    BOOK BUTTON
-===================================================== */
+========================================================= */
 
-.book-btn {
+.book-btn{
 
-    width: 100%;
+    width:100%;
 
-    height: 50px;
+    margin-top:22px;
 
-    margin-top: 18px;
+    min-height:52px;
 
-    border: none;
+    padding:
+        13px 20px;
 
-    border-radius: 8px;
+    border:none;
+
+    border-radius:10px;
 
     background:
         linear-gradient(
-            90deg,
-            #087f4d,
-            #0a9b5e
+            135deg,
+            #047857,
+            #059669
         );
 
-   
+    color:#ffffff;
+
+    font-size:17px;
+
+    font-weight:900;
+
+    box-shadow:
+        0 4px 12px
+        rgba(4,120,87,.18);
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+
+}
+
+
+.book-btn:hover{
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 7px 18px
+        rgba(4,120,87,.25);
+
+}
+
+
+.book-btn:active{
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.service-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:20px;
+
+}
+
+
+.service-card{
+
+    background:#ffffff;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:
+        0 6px 22px
+        rgba(0,0,0,.06);
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+
+}
+
+
+.service-card:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 28px
+        rgba(0,0,0,.09);
+
+}
+
+
+.service-card.featured{
+
+    border:
+        2px solid
+        #10b981;
+
+}
+
+
+.service-icon{
+
+    font-size:40px;
+
+    line-height:1;
+
+    margin-bottom:14px;
+
+}
+
+
+.service-card h3{
+
+    margin-bottom:8px;
+
+    font-size:19px;
+
+}
+
+
+.service-card p{
+
+    color:#6b7280;
+
+    font-size:14px;
+
+    min-height:65px;
+
+}
+
+
+.secondary-btn{
+
+    margin-top:15px;
+
+    padding:
+        10px 18px;
+
+    border:
+        1px solid
+        #047857;
+
+    border-radius:8px;
+
+    background:#ffffff;
+
+    color:#047857;
+
+    font-weight:800;
+
+    transition:.2s;
+
+}
+
+
+.secondary-btn:hover{
+
+    background:#ecfdf5;
+
+}
+
+
+.green-btn{
+
+    background:#047857;
+
+    color:#ffffff;
+
+}
+
+
+.green-btn:hover{
+
+    background:#065f46;
+
+}
+
+
+/* =========================================================
+   RULES
+========================================================= */
+
+.rules-box{
+
+    background:#ffffff;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-left:
+        5px solid
+        #047857;
+
+    border-radius:10px;
+
+    padding:
+        20px 22px;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0,0,0,.06);
+
+}
+
+
+.rules-box p{
+
+    margin:
+        8px 0;
+
+    color:#374151;
+
+    font-size:15px;
+
+}
+
+
+.rules-box strong{
+
+    color:#dc2626;
+
+}
+
+
+/* =========================================================
+   TOKEN SLIP SECTION
+========================================================= */
+
+#tokenSlip{
+
+    margin-top:40px;
+
+}
+
+
+.slip-box{
+
+    width:100%;
+
+    background:#ffffff;
+
+    border:
+        1px solid
+        #e5e7eb;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    box-shadow:
+        0 7px 25px
+        rgba(0,0,0,.07);
+
+}
+
+
+/* =========================================================
+   SLIP ACTION BUTTONS
+========================================================= */
+
+.slip-actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:22px;
+
+}
+
+
+.slip-actions button{
+
+    min-height:44px;
+
+    border:none;
+
+    border-radius:8px;
+
+    padding:
+        10px 18px;
+
+    background:#047857;
+
+    color:#ffffff;
+
+    font-weight:800;
+
+    transition:.2s;
+
+}
+
+
+.slip-actions button:hover{
+
+    background:#065f46;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* =========================================================
+   PDF / TOKEN CONTENT
+========================================================= */
+
+.pdf-content{
+
+    width:100%;
+
+    max-width:650px;
+
+    margin:0 auto;
+
+    padding:27px;
+
+    background:#ffffff;
+
+    border:
+        2px solid
+        #047857;
+
+    border-radius:12px;
+
+    text-align:center;
+
+}
+
+
+.slip-logo{
+
+    width:62px;
+
+    height:62px;
+
+    margin:
+        0 auto 12px;
+
+    border-radius:50%;
+
+    background:#047857;
+
+    color:#ffffff;
+
+    border:
+        3px solid
+        #facc15;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:31px;
+
+    font-weight:900;
+
+}
+
+
+.pdf-content h2{
+
+    font-size:23px;
+
+    margin-bottom:5px;
+
+}
+
+
+.pdf-content h3{
+
+    margin-bottom:5px;
+
+}
+
+
+.pdf-content p{
+
+    color:#374151;
+
+    margin:
+        5px 0;
+
+    font-size:14px;
+
+}
+
+
+.pdf-content hr{
+
+    border:none;
+
+    border-top:
+        1px solid
+        #d1d5db;
+
+    margin:
+        16px 0;
+
+}
+
+
+/* =========================================================
+   BIG TOKEN
+========================================================= */
+
+.big-token{
+
+    display:block;
+
+    width:100%;
+
+    margin:
+        16px 0;
+
+    padding:
+        12px;
+
+    background:#ecfdf5;
+
+    border:
+        1px solid
+        #a7f3d0;
+
+    border-radius:10px;
+
+    color:#047857;
+
+    font-size:46px;
+
+    line-height:1.2;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    width:100%;
+
+    margin-top:50px;
+
+    padding:
+        25px 15px;
+
+    background:#064e3b;
+
+    color:#ffffff;
+
+    text-align:center;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:25px;
+
+    z-index:9999;
+
+    max-width:
+        calc(100% - 50px);
+
+    background:#064e3b;
+
+    color:#ffffff;
+
+    padding:
+        13px 18px;
+
+    border-radius:10px;
+
+    box-shadow:
+        0 6px 25px
+        rgba(0,0,0,.22);
+
+    font-size:14px;
+
+    font-weight:700;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:
+        translateY(15px);
+
+    transition:
+        .25s ease;
+
+}
+
+
+.toast.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection{
+
+    background:#a7f3d0;
+
+    color:#064e3b;
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar{
+
+    width:9px;
+
+    height:9px;
+
+}
+
+
+::-webkit-scrollbar-track{
+
+    background:#eef2f7;
+
+}
+
+
+::-webkit-scrollbar-thumb{
+
+    background:#94a3b8;
+
+    border-radius:20px;
+
+}
+
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#64748b;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media(
+    max-width:900px
+){
+
+    .service-grid{
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .nav-right{
+
+        margin-left:0;
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media(
+    max-width:700px
+){
+
+    header{
+
+        justify-content:center;
+
+        text-align:center;
+
+        padding:
+            14px 4%;
+
+    }
+
+
+    .brand{
+
+        justify-content:center;
+
+        width:100%;
+
+    }
+
+
+    .top-contact{
+
+        width:100%;
+
+        text-align:center;
+
+    }
+
+
+    nav{
+
+        padding:
+            8px 3%;
+
+        justify-content:center;
+
+    }
+
+
+    nav a{
+
+        font-size:13px;
+
+        padding:
+            7px 9px;
+
+    }
+
+
+    .nav-right{
+
+        width:100%;
+
+        text-align:center;
+
+    }
+
+
+    main{
+
+        width:94%;
+
+        margin-top:20px;
+
+    }
+
+
+    .booking-card{
+
+        padding:17px;
+
+        border-radius:14px;
+
+    }
+
+
+    .booking-heading h1{
+
+        font-size:23px;
+
+    }
+
+
+    .booking-heading p{
+
+        font-size:13px;
+
+    }
+
+
+    .form-grid{
+
+        grid-template-columns:
+            1fr;
+
+        gap:15px;
+
+    }
+
+
+    .field.full{
+
+        grid-column:auto;
+
+    }
+
+
+    .service-grid{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .service-card{
+
+        padding:22px;
+
+    }
+
+
+    .rules-box{
+
+        padding:
+            17px;
+
+    }
+
+
+    .pdf-content{
+
+        padding:18px;
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - SMALL MOBILE
+========================================================= */
+
+@media(
+    max-width:450px
+){
+
+    .brand-mark{
+
+        width:48px;
+
+        height:48px;
+
+        min-width:48px;
+
+        font-size:25px;
+
+    }
+
+
+    .brand-hi{
+
+        font-size:17px;
+
+    }
+
+
+    .brand-en{
+
+        font-size:12px;
+
+    }
+
+
+    .top-contact{
+
+        font-size:14px;
+
+    }
+
+
+    nav{
+
+        gap:4px;
+
+    }
+
+
+    nav a{
+
+        font-size:12px;
+
+        padding:
+            6px 7px;
+
+    }
+
+
+    .booking-card{
+
+        padding:13px;
+
+    }
+
+
+    .booking-heading h1{
+
+        font-size:21px;
+
+    }
+
+
+    .date-card{
+
+        width:96px;
+
+        min-width:96px;
+
+        min-height:100px;
+
+    }
+
+
+    .form-card{
+
+        padding:14px;
+
+    }
+
+
+    .book-btn{
+
+        font-size:15px;
+
+    }
+
+
+    .big-token{
+
+        font-size:38px;
+
+    }
+
+
+    .slip-box{
+
+        padding:14px;
+
+    }
+
+
+    .pdf-content{
+
+        padding:14px;
+
+    }
+
+}
+
+
+/* =========================================================
+   PRINT STYLES
+========================================================= */
+
+@media print{
+
+    @page{
+
+        size:A4;
+
+        margin:12mm;
+
+    }
+
+
+    body{
+
+        background:#ffffff;
+
+    }
+
+
+    body *{
+
+        visibility:hidden;
+
+    }
+
+
+    #tokenSlip,
+
+    #tokenSlip *,
+
+    #pdfContent,
+
+    #pdfContent *{
+
+        visibility:visible;
+
+    }
+
+
+    #tokenSlip{
+
+        position:absolute;
+
+        left:0;
+
+        top:0;
+
+        width:100%;
+
+        margin:0;
+
+        padding:0;
+
+    }
+
+
+    #tokenSlip > h2,
+
+    .slip-actions{
+
+        display:none !important;
+
+    }
+
+
+    .slip-box{
+
+        padding:0;
+
+        box-shadow:none;
+
+        border:none;
+
+    }
+
+
+    #pdfContent{
+
+        position:relative;
+
+        left:auto;
+
+        top:auto;
+
+        width:100%;
+
+        max-width:100%;
+
+        border:
+            2px solid
+            #047857;
+
+        box-shadow:none;
+
+        margin:0;
+
+    }
+
+
+    .toast{
+
+        display:none !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   END OF STYLE.CSS
+========================================================= */
+```
