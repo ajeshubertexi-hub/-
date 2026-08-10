@@ -3,21 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASK Kanjoli - Online Token Booking</title>
+
+<title>Aadhaar Seva Kendra Kanjoli - Online Token Booking</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 :root{
-  --blue:#0b57b7;
+  --blue:#0757b7;
   --blue2:#1976d2;
-  --green:#079669;
+  --green:#078c68;
   --red:#d92d20;
   --yellow:#a15c00;
   --bg:#f3f6fb;
+  --white:#ffffff;
   --border:#dfe5ee;
   --text:#172033;
   --muted:#667085;
+  --shadow:0 8px 28px rgba(20,50,90,.09);
 }
 
 body{
@@ -27,14 +33,16 @@ body{
   color:var(--text);
 }
 
+/* HEADER */
+
 header{
-  background:linear-gradient(135deg,#083b82,#1976d2);
+  background:linear-gradient(135deg,#073b82,#1976d2);
   color:white;
   padding:20px 15px;
 }
 
 .header-inner{
-  max-width:1050px;
+  max-width:1100px;
   margin:auto;
   display:flex;
   align-items:center;
@@ -42,41 +50,44 @@ header{
 }
 
 .logo{
-  width:58px;
-  height:58px;
+  width:60px;
+  height:60px;
   border-radius:50%;
   background:white;
-  color:#0b57b7;
+  color:#0757b7;
   display:flex;
-  justify-content:center;
   align-items:center;
-  font-weight:800;
+  justify-content:center;
+  font-weight:900;
   font-size:18px;
+  box-shadow:0 5px 15px rgba(0,0,0,.18);
 }
 
 .header-text h1{
   margin:0;
-  font-size:23px;
+  font-size:24px;
 }
 
 .header-text p{
   margin:5px 0 0;
-  font-size:13px;
+  font-size:14px;
   opacity:.9;
 }
 
+/* MAIN */
+
 .container{
-  max-width:1050px;
+  max-width:1100px;
   margin:25px auto;
   padding:0 15px;
 }
 
 .hero{
   background:white;
-  border-radius:17px;
   padding:23px;
+  border-radius:17px;
+  box-shadow:var(--shadow);
   margin-bottom:18px;
-  box-shadow:0 8px 25px rgba(20,50,90,.08);
 }
 
 .hero h2{
@@ -100,15 +111,17 @@ header{
   border-radius:17px;
   padding:22px;
   margin-bottom:18px;
-  box-shadow:0 8px 25px rgba(20,50,90,.08);
+  box-shadow:var(--shadow);
 }
 
 .card h3{
-  color:var(--blue);
   margin:0 0 18px;
-  padding-bottom:11px;
+  color:var(--blue);
   border-bottom:1px solid var(--border);
+  padding-bottom:11px;
 }
+
+/* FORM */
 
 .form-grid{
   display:grid;
@@ -127,14 +140,23 @@ label{
   margin-bottom:6px;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
   width:100%;
   padding:12px;
   border:1px solid var(--border);
   border-radius:9px;
+  background:white;
   font-size:15px;
   outline:none;
-  background:white;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--blue2);
+  box-shadow:0 0 0 3px rgba(25,118,210,.1);
 }
 
 textarea{
@@ -142,21 +164,16 @@ textarea{
   resize:vertical;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:var(--blue2);
-  box-shadow:0 0 0 3px rgba(25,118,210,.10);
-}
-
 .office{
   background:#eef6ff;
   border:1px solid #cfe2ff;
-  color:#0b4da2;
+  color:#0757b7;
   padding:14px;
   border-radius:10px;
   font-weight:700;
 }
+
+/* SERVICES */
 
 .services{
   display:grid;
@@ -171,36 +188,40 @@ textarea:focus{
   border:1px solid var(--border);
   border-radius:10px;
   cursor:pointer;
+  transition:.2s;
 }
 
 .service:hover{
-  background:#f6faff;
+  background:#f5f9ff;
   border-color:#9fc5f5;
 }
 
 .service input{
   width:auto;
+  margin:0;
 }
+
+/* STATUS */
 
 .status-card{
   text-align:center;
 }
 
 .selected-date{
-  font-size:24px;
-  font-weight:800;
   color:var(--blue);
+  font-size:25px;
+  font-weight:800;
   margin:10px 0 15px;
 }
 
 .counter{
-  font-size:19px;
+  font-size:20px;
   font-weight:800;
 }
 
 .progress{
-  width:100%;
   height:12px;
+  width:100%;
   background:#e8edf3;
   border-radius:20px;
   overflow:hidden;
@@ -208,8 +229,8 @@ textarea:focus{
 }
 
 .progress-bar{
-  width:0;
   height:100%;
+  width:0;
   background:linear-gradient(90deg,#00a884,#20b26b);
   transition:.3s;
 }
@@ -236,9 +257,13 @@ textarea:focus{
   color:#956000;
 }
 
+/* RULES */
+
 .rules p{
   margin:10px 0;
 }
+
+/* DECLARATION */
 
 .declaration{
   background:#f8fafc;
@@ -248,6 +273,12 @@ textarea:focus{
   line-height:1.6;
   font-size:13px;
 }
+
+.declaration input{
+  width:auto;
+}
+
+/* BUTTONS */
 
 .actions{
   display:flex;
@@ -260,12 +291,12 @@ button{
   border-radius:9px;
   padding:13px 18px;
   cursor:pointer;
-  font-weight:700;
   font-size:15px;
+  font-weight:700;
 }
 
 .primary{
-  background:linear-gradient(135deg,#0b4da2,#1976d2);
+  background:linear-gradient(135deg,#0757b7,#1976d2);
   color:white;
   flex:1;
 }
@@ -276,9 +307,11 @@ button{
 }
 
 .success{
-  background:#079669;
+  background:#078c68;
   color:white;
 }
+
+/* ALERT */
 
 .alert{
   display:none;
@@ -315,7 +348,7 @@ button{
 
 .slip{
   width:100%;
-  max-width:530px;
+  max-width:540px;
   background:white;
   border-radius:17px;
   overflow:hidden;
@@ -323,7 +356,7 @@ button{
 }
 
 .slip-header{
-  background:linear-gradient(135deg,#083b82,#1976d2);
+  background:linear-gradient(135deg,#073b82,#1976d2);
   color:white;
   text-align:center;
   padding:23px;
@@ -351,7 +384,7 @@ button{
 .token-number{
   display:block;
   color:var(--blue);
-  font-size:52px;
+  font-size:54px;
   font-weight:900;
   letter-spacing:2px;
   margin-top:5px;
@@ -369,14 +402,15 @@ button{
   border-bottom:1px dashed #ccc;
 }
 
-.detail-row .label{
+.detail-label{
   color:var(--muted);
 }
 
-.detail-row .value{
+.detail-value{
   font-weight:700;
   text-align:right;
   max-width:60%;
+  word-break:break-word;
 }
 
 .slip-footer{
@@ -397,6 +431,8 @@ button{
   flex:1;
 }
 
+/* FOOTER */
+
 .footer{
   text-align:center;
   padding:25px;
@@ -404,7 +440,10 @@ button{
   font-size:13px;
 }
 
+/* MOBILE */
+
 @media(max-width:800px){
+
   .layout{
     grid-template-columns:1fr;
   }
@@ -416,14 +455,17 @@ button{
   .full{
     grid-column:auto;
   }
+
 }
 
 @media(max-width:500px){
+
   .header-text h1{
     font-size:19px;
   }
 
-  .card,.hero{
+  .card,
+  .hero{
     padding:17px;
   }
 
@@ -436,14 +478,17 @@ button{
     gap:4px;
   }
 
-  .detail-row .value{
+  .detail-value{
     max-width:100%;
     text-align:left;
   }
+
 }
 
-/* PRINT ONLY TOKEN SLIP */
+/* PRINT */
+
 @media print{
+
   body *{
     visibility:hidden !important;
   }
@@ -463,61 +508,95 @@ button{
 
   .slip{
     max-width:100%;
-    box-shadow:none;
     border-radius:0;
+    box-shadow:none;
   }
 
   .modal-actions{
     display:none !important;
   }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
+
 <header>
+
   <div class="header-inner">
 
-    <div class="logo">ASK</div>
+    <div class="logo">
+      ASK
+    </div>
 
     <div class="header-text">
-      <h1>Aadhaar Seva Kendra</h1>
-      <p>Kanjoli • Online Token Booking</p>
+
+      <h1>
+        Aadhaar Seva Kendra
+      </h1>
+
+      <p>
+        Kanjoli • Online Token Booking
+      </p>
+
     </div>
 
   </div>
+
 </header>
 
 
 <div class="container">
 
+
   <div class="hero">
-    <h2>🎟️ Online Token Booking</h2>
+
+    <h2>
+      🎟️ Online Token Booking
+    </h2>
+
     <p>
       Aadhaar Seva Kendra Kanjoli के लिए ऑनलाइन टोकन बुक करें।
     </p>
+
   </div>
 
 
-  <div id="alert" class="alert"></div>
+  <div
+    id="alert"
+    class="alert"
+  ></div>
 
 
   <div class="layout">
 
-    <!-- LEFT SIDE -->
+
+    <!-- LEFT -->
 
     <div>
 
+
+      <!-- APPLICANT -->
+
       <div class="card">
 
-        <h3>👤 Applicant Details</h3>
+        <h3>
+          👤 Applicant Details
+        </h3>
+
 
         <div class="form-grid">
 
+
           <div class="full">
 
-            <label>ASK Office</label>
+            <label>
+              ASK Office
+            </label>
 
             <div class="office">
               Aadhaar Seva Kendra Kanjoli
@@ -528,7 +607,9 @@ button{
 
           <div>
 
-            <label>Booking Date *</label>
+            <label>
+              Booking Date *
+            </label>
 
             <input
               type="date"
@@ -541,12 +622,15 @@ button{
 
           <div>
 
-            <label>Time</label>
+            <label>
+              Time
+            </label>
 
             <input
               type="text"
               id="bookingTime"
               readonly
+              placeholder="Automatic Time"
             >
 
           </div>
@@ -554,7 +638,9 @@ button{
 
           <div>
 
-            <label>Applicant Name *</label>
+            <label>
+              Applicant Name *
+            </label>
 
             <input
               type="text"
@@ -567,7 +653,9 @@ button{
 
           <div>
 
-            <label>Age *</label>
+            <label>
+              Age *
+            </label>
 
             <input
               type="number"
@@ -582,7 +670,9 @@ button{
 
           <div>
 
-            <label>Gender *</label>
+            <label>
+              Gender *
+            </label>
 
             <select id="gender">
 
@@ -609,7 +699,9 @@ button{
 
           <div class="full">
 
-            <label>Address *</label>
+            <label>
+              Address *
+            </label>
 
             <textarea
               id="address"
@@ -618,110 +710,154 @@ button{
 
           </div>
 
+
         </div>
 
       </div>
 
 
+      <!-- SERVICES -->
+
       <div class="card">
 
-        <h3>📋 Service Type</h3>
+        <h3>
+          📋 Service Type
+        </h3>
+
 
         <div class="services">
 
+
           <label class="service">
+
             <input
               type="radio"
               name="service"
               value="New Enrollment"
             >
+
             New Enrollment / नया नामांकन
+
           </label>
 
 
           <label class="service">
+
             <input
               type="radio"
               name="service"
               value="Name Update"
             >
+
             Name Update / नाम अपडेट
+
           </label>
 
 
           <label class="service">
+
             <input
               type="radio"
               name="service"
               value="Age Update"
             >
+
             Age Update / आयु अपडेट
+
           </label>
 
 
           <label class="service">
+
             <input
               type="radio"
               name="service"
               value="Gender Update"
             >
+
             Gender Update / लिंग अपडेट
+
           </label>
 
 
           <label class="service">
+
             <input
               type="radio"
               name="service"
               value="Address Update"
             >
+
             Address Update / पता अपडेट
+
           </label>
 
 
           <label class="service">
+
+            <input
+              type="radio"
+              name="service"
+              value="Mobile Number Update"
+            >
+
+            📱 Mobile Number Update / मोबाइल नंबर अपडेट
+
+          </label>
+
+
+          <label class="service">
+
+            <input
+              type="radio"
+              name="service"
+              value="Email Update"
+            >
+
+            📧 Email Update / ईमेल अपडेट
+
+          </label>
+
+
+          <label class="service">
+
             <input
               type="radio"
               name="service"
               value="Biometric Update"
             >
+
             Biometric Update / बायोमेट्रिक अपडेट
+
           </label>
 
 
           <label class="service">
+
             <input
               type="radio"
               name="service"
               value="Print / Download"
             >
-            Print / Download
-          </label>
-<label class="service">
-  <input
-    type="radio"
-    name="service"
-    value="Mobile Number Update"
-  >
-  📱 Mobile Number Update / मोबाइल नंबर अपडेट
-</label>
 
-<label class="service">
-  <input
-    type="radio"
-    name="service"
-    value="Email Update"
-  >
-  📧 Email Update / ईमेल अपडेट
-</label>o
+            Print / Download
+
+          </label>
+
+
         </div>
 
       </div>
 
 
+      <!-- DECLARATION -->
+
       <div class="card">
 
-        <h3>📜 Declaration</h3>
+        <h3>
+          📜 Declaration
+        </h3>
+
 
         <div class="declaration">
 
@@ -730,7 +866,6 @@ button{
             <input
               type="checkbox"
               id="declaration"
-              style="width:auto"
             >
 
             मैं पुष्टि करता/करती हूँ कि मेरे द्वारा दी गई
@@ -763,16 +898,23 @@ button{
 
       </div>
 
+
     </div>
 
 
-    <!-- RIGHT SIDE -->
+    <!-- RIGHT -->
 
     <div>
 
+
+      <!-- SLOT STATUS -->
+
       <div class="card status-card">
 
-        <h3>📊 Slot Status</h3>
+        <h3>
+          📊 Slot Status
+        </h3>
+
 
         <div
           id="selectedDate"
@@ -783,7 +925,13 @@ button{
 
 
         <div class="counter">
-          <span id="bookedCount">0</span> / 30
+
+          <span id="bookedCount">
+            0
+          </span>
+
+          / 30
+
         </div>
 
 
@@ -807,23 +955,49 @@ button{
       </div>
 
 
+      <!-- RULES -->
+
       <div class="card rules">
 
-        <h3>ℹ️ Booking Rules</h3>
+        <h3>
+          ℹ️ Booking Rules
+        </h3>
 
-        <p>🎟️ Daily Limit: <b>30 Tokens</b></p>
 
-        <p>🔢 Token Series: <b>A-0001 to A-0030</b></p>
+        <p>
+          🎟️ Daily Limit:
+          <b>30 Tokens</b>
+        </p>
 
-        <p>🕐 Time: <b>Automatic</b></p>
 
-        <p>📅 Sunday: <b>Holiday</b></p>
+        <p>
+          🔢 Token Series:
+          <b>A-0001 → A-0030</b>
+        </p>
 
-        <p>🏢 Center Holiday: <b>Booking Closed</b></p>
+
+        <p>
+          🕐 Time:
+          <b>Automatic Live Time</b>
+        </p>
+
+
+        <p>
+          📅 Sunday:
+          <b>Holiday</b>
+        </p>
+
+
+        <p>
+          🏢 Center Holiday:
+          <b>Booking Closed</b>
+        </p>
 
       </div>
 
+
     </div>
+
 
   </div>
 
@@ -831,31 +1005,41 @@ button{
 
 
 <div class="footer">
+
   Aadhaar Seva Kendra Kanjoli • Online Token Booking Demo
+
 </div>
 
 
-<!-- TOKEN SLIP MODAL -->
+<!-- TOKEN SLIP -->
 
 <div
   id="tokenModal"
   class="modal"
 >
 
+
   <div class="slip">
+
 
     <div class="slip-header">
 
-      <h2>Aadhaar Seva Kendra</h2>
+      <h2>
+        Aadhaar Seva Kendra
+      </h2>
 
-      <p>Kanjoli</p>
+      <p>
+        Kanjoli
+      </p>
 
     </div>
 
 
     <div class="token-box">
 
-      <small>TOKEN NUMBER</small>
+      <small>
+        TOKEN NUMBER
+      </small>
 
       <span
         id="slipToken"
@@ -869,46 +1053,104 @@ button{
 
     <div class="slip-details">
 
+
       <div class="detail-row">
-        <span class="label">Applicant Name</span>
-        <span id="slipName" class="value"></span>
+
+        <span class="detail-label">
+          Applicant Name
+        </span>
+
+        <span
+          id="slipName"
+          class="detail-value"
+        ></span>
+
       </div>
 
 
       <div class="detail-row">
-        <span class="label">Age</span>
-        <span id="slipAge" class="value"></span>
+
+        <span class="detail-label">
+          Age
+        </span>
+
+        <span
+          id="slipAge"
+          class="detail-value"
+        ></span>
+
       </div>
 
 
       <div class="detail-row">
-        <span class="label">Gender</span>
-        <span id="slipGender" class="value"></span>
+
+        <span class="detail-label">
+          Gender
+        </span>
+
+        <span
+          id="slipGender"
+          class="detail-value"
+        ></span>
+
       </div>
 
 
       <div class="detail-row">
-        <span class="label">Address</span>
-        <span id="slipAddress" class="value"></span>
+
+        <span class="detail-label">
+          Address
+        </span>
+
+        <span
+          id="slipAddress"
+          class="detail-value"
+        ></span>
+
       </div>
 
 
       <div class="detail-row">
-        <span class="label">Service</span>
-        <span id="slipService" class="value"></span>
+
+        <span class="detail-label">
+          Service
+        </span>
+
+        <span
+          id="slipService"
+          class="detail-value"
+        ></span>
+
       </div>
 
 
       <div class="detail-row">
-        <span class="label">Date</span>
-        <span id="slipDate" class="value"></span>
+
+        <span class="detail-label">
+          Date
+        </span>
+
+        <span
+          id="slipDate"
+          class="detail-value"
+        ></span>
+
       </div>
 
 
       <div class="detail-row">
-        <span class="label">Time</span>
-        <span id="slipTime" class="value"></span>
+
+        <span class="detail-label">
+          Time
+        </span>
+
+        <span
+          id="slipTime"
+          class="detail-value"
+        ></span>
+
       </div>
+
 
     </div>
 
@@ -916,6 +1158,7 @@ button{
     <div class="slip-footer">
 
       कृपया इस token slip को सुरक्षित रखें।<br>
+
       Please keep this token slip for your reference.
 
     </div>
@@ -948,6 +1191,7 @@ button{
 
     </div>
 
+
   </div>
 
 </div>
@@ -963,24 +1207,25 @@ const DAILY_LIMIT = 30;
 
 
 /*
-   Center holidays यहाँ add करें।
-
-   Format:
-   "YYYY-MM-DD"
+   Center holidays यहाँ डालें।
 
    Example:
+
    "2026-08-15",
    "2026-08-26"
+
 */
 
 const CENTER_HOLIDAYS = [
+
   // "2026-08-15",
   // "2026-08-26"
+
 ];
 
 
 /* =====================================================
-   DATE FUNCTIONS
+   TODAY
 ===================================================== */
 
 function getToday(){
@@ -995,6 +1240,10 @@ function getToday(){
 
 }
 
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
 
 function formatDate(date){
 
@@ -1013,90 +1262,117 @@ function formatDate(date){
 
 
 /* =====================================================
-   STORAGE
+   LIVE TIME
 ===================================================== */
 
-/*
-   IMPORTANT:
-
-   हर तारीख का अपना अलग booking record होगा।
-
-   Example:
-
-   ASK_BOOKINGS_2026-08-10
-   ASK_BOOKINGS_2026-08-11
-
-   इसलिए:
-
-   10 Aug:
-   A-0001 ... A-0030
-
-   11 Aug:
-   फिर A-0001 ... A-0030
-*/
-
-function getBookings(date){
-
-  const key = "ASK_BOOKINGS_" + date;
-
-  return JSON.parse(
-    localStorage.getItem(key) || "[]"
-  );
-
-}
-
-
-function saveBookings(date, data){
-
-  const key = "ASK_BOOKINGS_" + date;
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(data)
-  );
-
-}
-
-
-/* =====================================================
-   NEXT TOKEN
-===================================================== */
-
-function getNextToken(date){
-
-  const bookings = getBookings(date);
-
-  const nextNumber = bookings.length + 1;
-
-  if(nextNumber > DAILY_LIMIT){
-
-    return null;
-
-  }
-
-  return "A-" +
-    String(nextNumber).padStart(4,"0");
-
-}
-
-
-/* =====================================================
-   AUTOMATIC TIME
-===================================================== */
-
-function updateTime(){
+function updateLiveTime(){
 
   const now = new Date();
 
-  document.getElementById(
-    "bookingTime"
-  ).value = now.toLocaleTimeString(
-    "en-IN",
-    {
-      hour:"2-digit",
-      minute:"2-digit",
-      hour12:true
-    }
+
+  let hours =
+    now.getHours();
+
+
+  const minutes =
+    String(
+      now.getMinutes()
+    ).padStart(2,"0");
+
+
+  const seconds =
+    String(
+      now.getSeconds()
+    ).padStart(2,"0");
+
+
+  const ampm =
+    hours >= 12
+      ? "PM"
+      : "AM";
+
+
+  hours =
+    hours % 12;
+
+
+  hours =
+    hours === 0
+      ? 12
+      : hours;
+
+
+  hours =
+    String(hours)
+      .padStart(2,"0");
+
+
+  const time =
+    hours
+    + ":"
+    + minutes
+    + ":"
+    + seconds
+    + " "
+    + ampm;
+
+
+  const timeInput =
+    document.getElementById(
+      "bookingTime"
+    );
+
+
+  if(timeInput){
+
+    timeInput.value =
+      time;
+
+  }
+
+}
+
+
+/*
+  Update every second
+*/
+
+setInterval(
+  updateLiveTime,
+  1000
+);
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function getBookings(date){
+
+  const key =
+    "ASK_BOOKINGS_" + date;
+
+
+  return JSON.parse(
+    localStorage.getItem(key)
+    || "[]"
+  );
+
+}
+
+
+function saveBookings(
+  date,
+  bookings
+){
+
+  const key =
+    "ASK_BOOKINGS_" + date;
+
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(bookings)
   );
 
 }
@@ -1117,13 +1393,43 @@ function isSunday(date){
 
 function isCenterHoliday(date){
 
-  return CENTER_HOLIDAYS.includes(date);
+  return CENTER_HOLIDAYS.includes(
+    date
+  );
 
 }
 
 
 /* =====================================================
-   CHECK SLOT
+   NEXT TOKEN
+===================================================== */
+
+function getNextToken(date){
+
+  const bookings =
+    getBookings(date);
+
+
+  const nextNumber =
+    bookings.length + 1;
+
+
+  if(nextNumber > DAILY_LIMIT){
+
+    return null;
+
+  }
+
+
+  return "A-"
+    + String(nextNumber)
+      .padStart(4,"0");
+
+}
+
+
+/* =====================================================
+   SLOT STATUS
 ===================================================== */
 
 function checkStatus(){
@@ -1132,6 +1438,7 @@ function checkStatus(){
     document.getElementById(
       "bookingDate"
     ).value;
+
 
   if(!date){
 
@@ -1143,18 +1450,21 @@ function checkStatus(){
   const bookings =
     getBookings(date);
 
+
   const count =
     bookings.length;
 
 
   document.getElementById(
     "bookedCount"
-  ).textContent = count;
+  ).textContent =
+    count;
 
 
   document.getElementById(
     "selectedDate"
-  ).textContent = formatDate(date);
+  ).textContent =
+    formatDate(date);
 
 
   const percentage =
@@ -1176,229 +1486,9 @@ function checkStatus(){
     );
 
 
-  /* Sunday */
-
   if(isSunday(date)){
 
     status.className =
       "status holiday";
 
-    status.textContent =
-      "🔴 Sunday Holiday — Booking Closed";
-
-    return;
-
-  }
-
-
-  /* Center holiday */
-
-  if(isCenterHoliday(date)){
-
-    status.className =
-      "status holiday";
-
-    status.textContent =
-      "🔴 Center Holiday — Booking Closed";
-
-    return;
-
-  }
-
-
-  /* Full */
-
-  if(count >= DAILY_LIMIT){
-
-    status.className =
-      "status full-status";
-
-    status.textContent =
-      "🔴 Slot Full — 30/30 Tokens Booked";
-
-    return;
-
-  }
-
-
-  /* Available */
-
-  status.className =
-    "status available";
-
-  status.textContent =
-    "🟢 Slot Available — "
-    + (DAILY_LIMIT - count)
-    + " Tokens Remaining";
-
-}
-
-
-/* =====================================================
-   GENERATE TOKEN
-===================================================== */
-
-function generateToken(){
-
-  clearAlert();
-
-
-  const date =
-    document.getElementById(
-      "bookingDate"
-    ).value;
-
-
-  const name =
-    document.getElementById(
-      "applicantName"
-    ).value.trim();
-
-
-  const age =
-    document.getElementById(
-      "age"
-    ).value;
-
-
-  const gender =
-    document.getElementById(
-      "gender"
-    ).value;
-
-
-  const address =
-    document.getElementById(
-      "address"
-    ).value.trim();
-
-
-  const service =
-    document.querySelector(
-      'input[name="service"]:checked'
-    );
-
-
-  const declaration =
-    document.getElementById(
-      "declaration"
-    ).checked;
-
-
-  /* Validation */
-
-  if(!date){
-
-    showError(
-      "कृपया Booking Date select करें।"
-    );
-
-    return;
-
-  }
-
-
-  if(isSunday(date)){
-
-    showError(
-      "Sunday holiday है। कृपया दूसरा दिन चुनें।"
-    );
-
-    return;
-
-  }
-
-
-  if(isCenterHoliday(date)){
-
-    showError(
-      "यह Center Holiday है। कृपया दूसरा दिन चुनें।"
-    );
-
-    return;
-
-  }
-
-
-  if(!name){
-
-    showError(
-      "Applicant Name भरें।"
-    );
-
-    return;
-
-  }
-
-
-  if(
-    age === ""
-    || Number(age) < 0
-    || Number(age) > 120
-  ){
-
-    showError(
-      "Valid Age भरें।"
-    );
-
-    return;
-
-  }
-
-
-  if(!gender){
-
-    showError(
-      "Gender select करें।"
-    );
-
-    return;
-
-  }
-
-
-  if(!address){
-
-    showError(
-      "Address भरें।"
-    );
-
-    return;
-
-  }
-
-
-  if(!service){
-
-    showError(
-      "Service select करें।"
-    );
-
-    return;
-
-  }
-
-
-  if(!declaration){
-
-    showError(
-      "Declaration accept करें।"
-    );
-
-    return;
-
-  }
-
-
-  /*
-    IMPORTANT:
-
-    Booking save करने से पहले
-    फिर से latest list पढ़ रहे हैं।
-
-    इससे पुराने count पर token generate
-    नहीं होगा।
-  */
-
-  const latestBookings =
-  
+    status.textCo
