@@ -1,1029 +1,633 @@
-```html
 <!DOCTYPE html>
-<html lang="hi">
-
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASK Kanjoli - Online Token Booking</title>
 
-    <meta charset="UTF-8">
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f2f5f9;
+  color:#222;
+}
+header{
+  background:#0b5ed7;
+  color:white;
+  text-align:center;
+  padding:18px 10px;
+}
+header h1{margin:0;font-size:24px}
+header p{margin:6px 0 0}
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+.container{
+  max-width:850px;
+  margin:20px auto;
+  padding:15px;
+}
 
-    <meta
-        name="description"
-        content="Kanjouli Online Token Booking System - Aadhaar Seva Kendra">
+.card{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.10);
+}
 
-    <title>
-        Kanjouli Online Token
-    </title>
+h2{
+  margin-top:0;
+  color:#0b5ed7;
+  font-size:20px;
+}
 
-    <!-- CSS -->
-    <link
-        rel="stylesheet"
-        href="style.css">
+label{
+  display:block;
+  font-weight:bold;
+  margin-top:13px;
+}
 
+input,select,textarea{
+  width:100%;
+  padding:11px;
+  margin-top:6px;
+  border:1px solid #bbb;
+  border-radius:7px;
+  font-size:15px;
+}
+
+textarea{min-height:80px;resize:vertical}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+button{
+  border:0;
+  border-radius:7px;
+  padding:12px 18px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.primary{
+  background:#0b5ed7;
+  color:white;
+  width:100%;
+  margin-top:20px;
+}
+
+.primary:hover{background:#084db2}
+
+.status{
+  padding:12px;
+  border-radius:7px;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+.available{
+  background:#d1e7dd;
+  color:#0f5132;
+}
+
+.full{
+  background:#f8d7da;
+  color:#842029;
+}
+
+.holiday{
+  background:#fff3cd;
+  color:#664d03;
+}
+
+#slip{
+  display:none;
+}
+
+.token{
+  font-size:36px;
+  font-weight:bold;
+  text-align:center;
+  color:#0b5ed7;
+  margin:15px 0;
+}
+
+.slip-box{
+  border:2px dashed #333;
+  padding:20px;
+  text-align:center;
+}
+
+.slip-row{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #ddd;
+  padding:8px 0;
+  text-align:left;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.actions button{flex:1}
+
+.print{
+  background:#198754;
+  color:white;
+}
+
+.download{
+  background:#6f42c1;
+  color:white;
+}
+
+.lang{
+  text-align:right;
+  margin-bottom:10px;
+}
+
+.lang button{
+  padding:7px 12px;
+  background:#eee;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  .row{grid-template-columns:1fr}
+  .actions{flex-direction:column}
+}
+
+@media print{
+  body *{visibility:hidden}
+  #slip,#slip *{visibility:visible}
+  #slip{
+    display:block!important;
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+  }
+  .no-print{display:none!important}
+}
+</style>
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header>
-
-
-    <!-- BRAND -->
-
-    <div class="brand">
-
-        <div class="brand-mark">
-            A
-        </div>
-
-        <div class="brand-text">
-
-            <div class="brand-hi">
-                आधार सेवा केन्द्र
-            </div>
-
-            <div class="brand-en">
-                Kanjouli Online Token
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- CONTACT -->
-
-    <div class="top-contact">
-
-        📞 8426971575
-
-    </div>
-
-
+  <h1 id="title">Online Token Booking</h1>
+  <p>Aadhaar Seva Kendra Kanjoli</p>
 </header>
 
-
-
-<!-- =====================================================
-     NAVIGATION
-===================================================== -->
-
-<nav>
-
-
-    <a href="#booking">
-        HOME
-    </a>
-
-
-    <a href="#booking">
-        BOOK NEW TOKEN
-    </a>
-
-
-    <a href="#services">
-        SERVICES
-    </a>
-
-
-    <a href="#rules">
-        RULES &amp; INFORMATION
-    </a>
-
-
-    <span class="nav-right">
-
-        कंजौली • राजस्थान
-
-    </span>
-
-
-</nav>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main>
-
-
-    <!-- =================================================
-         BOOKING SECTION
-    ================================================== -->
-
-    <section
-        id="booking"
-        class="section">
-
-
-        <div class="booking-card">
-
-
-            <!-- BACK BUTTON -->
-
-            <button
-                class="back-btn"
-                type="button"
-                onclick="window.scrollTo({
-                    top:0,
-                    behavior:'smooth'
-                })">
-
-                ← Back / पीछे जाएँ
-
-            </button>
-
-
-
-            <!-- HEADING -->
-
-            <div class="booking-heading">
-
-                <h1>
-
-                    Book New Token /
-                    नया टोकन बुक करें
-
-                </h1>
-
-
-                <p>
-
-                    हर व्यक्ति के लिए
-                    18 मिनट का स्लॉट
-                    • अधिकतम 30 Token प्रतिदिन
-                    • रविवार एवं Centre Holiday बंद
-
-                </p>
-
-
-                <!-- PRESENT TIME -->
-
-                <div
-                    id="presentTime"
-                    class="present-time">
-
-                    📅 समय लोड हो रहा है...
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =========================================
-                 DATE CARDS
-            ========================================== -->
-
-            <div class="date-strip-wrap">
-
-                <div
-                    id="dateOptions"
-                    class="date-strip">
-
-                    <div class="loading">
-
-                        तारीखें लोड हो रही हैं...
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =========================================
-                 LEGEND
-            ========================================== -->
-
-            <div class="legend">
-
-
-                <span>
-
-                    <i class="dot green"></i>
-
-                    Available / उपलब्ध
-
-                </span>
-
-
-                <span>
-
-                    <i class="dot red"></i>
-
-                    FULL
-
-                </span>
-
-
-                <span>
-
-                    <i class="dot gray"></i>
-
-                    Centre OFF
-
-                </span>
-
-
-            </div>
-
-
-
-            <!-- =========================================
-                 SELECTED DATE
-            ========================================== -->
-
-            <div
-                id="selectedDateInfo"
-                class="selected-info">
-
-                पहले उपलब्ध दिन को चुना जा रहा है...
-
-            </div>
-
-
-
-            <!-- =========================================
-                 BOOKING FORM
-            ========================================== -->
-
-            <form
-                id="bookingForm"
-                class="form-card">
-
-
-                <input
-                    type="hidden"
-                    id="bookingDate">
-
-
-
-                <div class="form-grid">
-
-
-                    <!-- CUSTOMER NAME -->
-
-                    <div class="field">
-
-                        <label for="name">
-
-                            ग्राहक का नाम
-
-                        </label>
-
-
-                        <input
-                            type="text"
-                            id="name"
-                            placeholder="अपना नाम लिखें"
-                            autocomplete="name"
-                            required>
-
-                    </div>
-
-
-
-                    <!-- AGE -->
-
-                    <div class="field">
-
-                        <label for="age">
-
-                            उम्र
-
-                        </label>
-
-
-                        <input
-                            type="number"
-                            id="age"
-                            placeholder="उम्र"
-                            min="0"
-                            max="120"
-                            required>
-
-                    </div>
-
-
-
-                    <!-- SERVICE -->
-
-                    <div class="field full">
-
-                        <label for="service">
-
-                            सेवा चुनें
-
-                        </label>
-
-
-                        <select
-                            id="service"
-                            required>
-
-
-                            <option value="">
-                                -- सेवा चुनें --
-                            </option>
-
-
-                            <option>
-                                नया नामांकन (0-5 वर्ष)
-                            </option>
-
-
-                            <option>
-                                नया नामांकन (5-18 वर्ष)
-                            </option>
-
-
-                            <option>
-                                नया नामांकन (18+ वर्ष)
-                            </option>
-
-
-                            <option>
-                                नाम अपडेट
-                            </option>
-
-
-                            <option>
-                                जन्म तिथि अपडेट
-                            </option>
-
-
-                            <option>
-                                मोबाइल नंबर अपडेट
-                            </option>
-
-
-                            <option>
-                                ईमेल अपडेट
-                            </option>
-
-
-                            <option>
-                                पता अपडेट
-                            </option>
-
-
-                            <option>
-                                बायोमेट्रिक अपडेट
-                            </option>
-
-
-                            <option>
-                                फोटो अपडेट
-                            </option>
-
-
-                        </select>
-
-                    </div>
-
-
-
-                    <!-- TIME SLOT -->
-
-                    <div class="field">
-
-                        <label for="timeSlot">
-
-                            समय स्लॉट
-                            (18 मिनट)
-
-                        </label>
-
-
-                        <select
-                            id="timeSlot"
-                            required>
-
-                            <option value="">
-
-                                पहले तारीख चुनें
-
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-
-                    <!-- NEXT TOKEN -->
-
-                    <div class="field">
-
-                        <label>
-
-                            अगला Token
-
-                        </label>
-
-
-                        <div
-                            id="nextTokenInfo"
-                            class="next-token">
-
-                            A-001
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- BOOK BUTTON -->
-
-                <button
-                    class="book-btn"
-                    type="submit">
-
-                    🎫 टोकन बुक करें /
-                    BOOK TOKEN
-
-                </button>
-
-
-            </form>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         SERVICES
-    ================================================== -->
-
-    <section
-        id="services"
-        class="section">
-
-
-        <h2>
-
-            Aadhaar Services Ecosystem
-
-        </h2>
-
-
-
-        <div class="service-grid">
-
-
-            <!-- SERVICE 1 -->
-
-            <div class="service-card">
-
-
-                <div class="service-icon">
-                    🔎
-                </div>
-
-
-                <h3>
-
-                    Download Token Slip
-
-                </h3>
-
-
-                <p>
-
-                    अपनी पहले की Booking की
-                    Token Slip प्राप्त करें।
-
-                </p>
-
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    onclick="document.getElementById(
-                        'tokenSlip'
-                    ).scrollIntoView({
-                        behavior:'smooth'
-                    })">
-
-                    TOKEN SLIP
-
-                </button>
-
-
-            </div>
-
-
-
-            <!-- SERVICE 2 -->
-
-            <div
-                class="service-card featured">
-
-
-                <div class="service-icon">
-                    📄
-                </div>
-
-
-                <h3>
-
-                    Check Status
-
-                </h3>
-
-
-                <p>
-
-                    अपने Token/Booking की
-                    जानकारी देखें।
-
-                </p>
-
-
-                <button
-                    type="button"
-                    class="secondary-btn green-btn"
-                    onclick="checkStatus()">
-
-                    CHECK NOW
-
-                </button>
-
-
-            </div>
-
-
-
-            <!-- SERVICE 3 -->
-
-            <div class="service-card">
-
-
-                <div class="service-icon">
-                    🪪
-                </div>
-
-
-                <h3>
-
-                    आधार सेवा
-
-                </h3>
-
-
-                <p>
-
-                    केन्द्र पर उपलब्ध आधार सेवाओं
-                    के लिए Token Booking करें।
-
-                </p>
-
-
-                <button
-                    type="button"
-                    class="secondary-btn"
-                    onclick="document.getElementById(
-                        'booking'
-                    ).scrollIntoView({
-                        behavior:'smooth'
-                    })">
-
-                    BOOK TOKEN
-
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         RULES
-    ================================================== -->
-
-    <section
-        id="rules"
-        class="section">
-
-
-        <h2>
-
-            Rules / नियम
-
-        </h2>
-
-
-        <div class="rules-box">
-
-
-            <p>
-
-                • प्रत्येक Working Day अधिकतम
-                <strong>30 Token</strong>
-                उपलब्ध हैं।
-
-            </p>
-
-
-            <p>
-
-                • प्रत्येक Token के लिए
-                <strong>18 मिनट</strong>
-                का समय निर्धारित है।
-
-            </p>
-
-
-            <p>
-
-                • एक ही तारीख और एक ही
-                Time Slot पर दूसरी Booking
-                नहीं की जा सकती।
-
-            </p>
-
-
-            <p>
-
-                • 30 Token पूरे होने पर उस दिन
-                <strong>FULL</strong>
-                दिखाई देगा।
-
-            </p>
-
-
-            <p>
-
-                • रविवार को Centre OFF रहेगा।
-
-            </p>
-
-
-            <p>
-
-                • Centre Holiday की तारीखें भी
-                OFF दिखाई जाएँगी।
-
-            </p>
-
-
-            <p>
-
-                • Booking के समय नाम, उम्र,
-                सेवा, तारीख और समय सही भरें।
-
-            </p>
-
-
-            <p>
-
-                • निर्धारित तारीख एवं समय पर
-                केन्द्र आएँ।
-
-            </p>
-
-
-            <p>
-
-                • Booking के समय दिखाई देने वाला
-                Present Time भारतीय समय
-                <strong>IST</strong>
-                के अनुसार है।
-
-            </p>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         TOKEN SLIP
-    ================================================== -->
-
-    <section
-        id="tokenSlip"
-        class="section">
-
-
-        <h2>
-
-            Token Slip / टोकन पर्ची
-
-        </h2>
-
-
-        <div class="slip-box">
-
-
-            <!-- ACTION BUTTONS -->
-
-            <div class="slip-actions">
-
-
-                <button
-                    type="button"
-                    onclick="printTokenSlip()">
-
-                    🖨️ प्रिंट करें
-
-                </button>
-
-
-                <button
-                    type="button"
-                    onclick="downloadTokenSlip()">
-
-                    ⬇️ PDF डाउनलोड करें
-
-                </button>
-
-
-            </div>
-
-
-
-            <!-- PDF CONTENT -->
-
-            <div
-                id="pdfContent"
-                class="pdf-content">
-
-
-                <div class="slip-logo">
-
-                    A
-
-                </div>
-
-
-
-                <h2>
-
-                    आधार सेवा केन्द्र कंजौली
-
-                </h2>
-
-
-                <h3>
-
-                    Online Token Booking System
-
-                </h3>
-
-
-                <p>
-
-                    आईटी केंद्र कंजौली
-
-                </p>
-
-
-                <p>
-
-                    तहसील - बालघाट,
-                    जिला - करौली (राजस्थान)
-
-                </p>
-
-
-                <p>
-
-                    मोबाइल:
-                    8426971575
-
-                </p>
-
-
-                <hr>
-
-
-
-                <h3>
-
-                    🎫 टोकन पर्ची
-
-                </h3>
-
-
-
-                <!-- TOKEN -->
-
-                <div
-                    id="tokenNumber"
-                    class="big-token">
-
-                    --
-
-                </div>
-
-
-
-                <!-- CUSTOMER NAME -->
-
-                <p>
-
-                    <strong>
-                        ग्राहक का नाम:
-                    </strong>
-
-                    <span id="customerName">
-                        --
-                    </span>
-
-                </p>
-
-
-
-                <!-- AGE -->
-
-                <p>
-
-                    <strong>
-                        उम्र:
-                    </strong>
-
-                    <span id="customerAge">
-                        --
-                    </span>
-
-                </p>
-
-
-
-                <!-- SERVICE -->
-
-                <p>
-
-                    <strong>
-                        सेवा:
-                    </strong>
-
-                    <span id="customerService">
-                        --
-                    </span>
-
-                </p>
-
-
-
-                <!-- DATE -->
-
-                <p>
-
-                    <strong>
-                        Booking Date:
-                    </strong>
-
-                    <span id="customerDate">
-                        --
-                    </span>
-
-                </p>
-
-
-
-                <!-- TIME SLOT -->
-
-                <p>
-
-                    <strong>
-                        Time Slot:
-                    </strong>
-
-                    <span id="customerTime">
-                        --
-                    </span>
-
-                </p>
-
-
-
-                <!-- ACTUAL BOOKING TIME -->
-
-                <p>
-
-                    <strong>
-                        Booking Time:
-                    </strong>
-
-                    <span id="bookingTime">
-                        --
-                    </span>
-
-                </p>
-
-
-
-                <hr>
-
-
-                <p>
-
-                    <strong>
-
-                        कृपया निर्धारित तारीख एवं
-                        समय पर केन्द्र आएँ।
-
-                    </strong>
-
-                </p>
-
-
-                <p>
-
-                    समय:
-                    सुबह 8:00 बजे से शाम 5:00 बजे तक
-
-                </p>
-
-
-                <p>
-
-                    प्रत्येक Token:
-                    18 मिनट
-
-                </p>
-
-
-                <p>
-
-                    धन्यवाद!
-
-                </p>
-
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer>
-
-    © आधार सेवा केन्द्र कंजौली
-    • Online Token Booking System
-
-</footer>
-
-
-
-<!-- =====================================================
-     TOAST
-===================================================== -->
-
-<div
-    id="toast"
-    class="toast">
+<div class="container">
+
+<div class="card no-print">
+
+  <div class="lang">
+    <button onclick="setLanguage('en')">English</button>
+    <button onclick="setLanguage('hi')">हिन्दी</button>
+  </div>
+
+  <h2 id="officeTitle">Select your ASK Office</h2>
+
+  <label>ASK Office</label>
+  <select id="office">
+    <option>Aadhaar Seva Kendra Kanjoli</option>
+  </select>
+
+  <div class="row">
+
+    <div>
+      <label id="dateLabel">Date</label>
+      <input type="date" id="date" onchange="checkSlot()">
+    </div>
+
+    <div>
+      <label id="timeLabel">Time</label>
+      <input type="text" id="time" readonly>
+    </div>
+
+  </div>
+
+  <div id="status" class="status available">
+    Checking slot...
+  </div>
+
+  <h2 style="margin-top:25px" id="applicantTitle">
+    Applicant Details
+  </h2>
+
+  <label>Applicant Name</label>
+  <input type="text" id="name" placeholder="Enter applicant name">
+
+  <div class="row">
+
+    <div>
+      <label>Age</label>
+      <input type="number" id="age" min="1" max="120" placeholder="Age">
+    </div>
+
+    <div>
+      <label>Gender</label>
+      <select id="gender">
+        <option value="">Select Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+  </div>
+
+  <label>Address</label>
+  <textarea id="address" placeholder="Enter complete address"></textarea>
+
+  <label>Service Type</label>
+  <select id="service">
+    <option>New Enrollment</option>
+    <option>Name Update</option>
+    <option>Age Update</option>
+    <option>Gender Update</option>
+    <option>Address Update</option>
+    <option>Biometric Update</option>
+    <option>Print / Download</option>
+  </select>
+
+  <h2 style="margin-top:25px">Declaration</h2>
+
+  <label style="font-weight:normal">
+    <input type="checkbox" id="declaration" style="width:auto">
+    I confirm that the information provided by me is correct.
+  </label>
+
+  <button class="primary" onclick="generateToken()">
+    Generate New Token
+  </button>
 
 </div>
 
 
+<!-- TOKEN SLIP -->
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
+<div class="card" id="slip">
 
-<script src="script.js"></script>
+  <div class="slip-box">
 
+    <h2>Aadhaar Seva Kendra Kanjoli</h2>
+    <p>Online Token Booking Slip</p>
+
+    <div class="token" id="tokenNumber">
+      A-0001
+    </div>
+
+    <div class="slip-row">
+      <strong>Office</strong>
+      <span id="sOffice"></span>
+    </div>
+
+    <div class="slip-row">
+      <strong>Date</strong>
+      <span id="sDate"></span>
+    </div>
+
+    <div class="slip-row">
+      <strong>Time</strong>
+      <span id="sTime"></span>
+    </div>
+
+    <div class="slip-row">
+      <strong>Applicant</strong>
+      <span id="sName"></span>
+    </div>
+
+    <div class="slip-row">
+      <strong>Age</strong>
+      <span id="sAge"></span>
+    </div>
+
+    <div class="slip-row">
+      <strong>Gender</strong>
+      <span id="sGender"></span>
+    </div>
+
+    <div class="slip-row">
+      <strong>Address</strong>
+      <span id="sAddress"></span>
+    </div>
+
+    <div class="slip-row">
+      <strong>Service</strong>
+      <span id="sService"></span>
+    </div>
+
+    <p style="margin-top:20px">
+      Please bring the required documents for your service.
+    </p>
+
+    <p>
+      This token is generated by the local booking system.
+    </p>
+
+  </div>
+
+  <div class="actions no-print">
+    <button class="print" onclick="window.print()">
+      🖨 Print Slip
+    </button>
+
+    <button class="download" onclick="downloadSlip()">
+      ⬇ Download Slip
+    </button>
+  </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const MAX_TOKENS = 30;
+
+/* Automatic time based on token number */
+function getTime(tokenNo){
+  const startHour = 9;
+  const startMinute = 0;
+  const interval = 15;
+
+  let total = startHour * 60 + startMinute +
+              ((tokenNo - 1) * interval);
+
+  let hour = Math.floor(total / 60);
+  let minute = total % 60;
+
+  let ampm = hour >= 12 ? "PM" : "AM";
+  let displayHour = hour % 12;
+
+  if(displayHour === 0) displayHour = 12;
+
+  return String(displayHour).padStart(2,"0") + ":" +
+         String(minute).padStart(2,"0") + " " + ampm;
+}
+
+
+/* Get selected date token count */
+function getTokenCount(date){
+
+  return parseInt(
+    localStorage.getItem("tokens_" + date) || "0"
+  );
+}
+
+
+/* Check date and slot */
+function checkSlot(){
+
+  const dateInput = document.getElementById("date");
+  const status = document.getElementById("status");
+  const time = document.getElementById("time");
+
+  if(!dateInput.value){
+    status.className = "status available";
+    status.innerHTML = "Please select date";
+    time.value = "";
+    return;
+  }
+
+  const date = new Date(dateInput.value + "T00:00:00");
+
+  /* Sunday = 0 */
+  if(date.getDay() === 0){
+
+    status.className = "status holiday";
+    status.innerHTML = "Sunday Holiday - Booking Closed";
+    time.value = "";
+    return;
+  }
+
+  const count = getTokenCount(dateInput.value);
+
+  if(count >= MAX_TOKENS){
+
+    status.className = "status full";
+    status.innerHTML =
+      "Slot Full - 30 / 30 Tokens Booked";
+
+    time.value = "";
+    return;
+  }
+
+  const nextToken = count + 1;
+
+  status.className = "status available";
+
+  status.innerHTML =
+    "Slot Available - " +
+    count + " / " + MAX_TOKENS +
+    " Tokens Booked";
+
+  time.value = getTime(nextToken);
+}
+
+
+/* Generate token */
+function generateToken(){
+
+  const date = document.getElementById("date").value;
+
+  const name = document.getElementById("name").value.trim();
+  const age = document.getElementById("age").value;
+  const gender = document.getElementById("gender").value;
+  const address = document.getElementById("address").value.trim();
+  const service = document.getElementById("service").value;
+  const declaration =
+        document.getElementById("declaration").checked;
+
+  if(!date){
+    alert("Please select date.");
+    return;
+  }
+
+  const selectedDate =
+    new Date(date + "T00:00:00");
+
+  if(selectedDate.getDay() === 0){
+    alert("Sunday is a holiday. Booking is closed.");
+    return;
+  }
+
+  let count = getTokenCount(date);
+
+  if(count >= MAX_TOKENS){
+    alert("Today's 30 token limit is full.");
+    checkSlot();
+    return;
+  }
+
+  if(!name || !age || !gender || !address){
+    alert("Please fill all applicant details.");
+    return;
+  }
+
+  if(!declaration){
+    alert("Please accept the declaration.");
+    return;
+  }
+
+  /* New token number */
+  count++;
+
+  localStorage.setItem(
+    "tokens_" + date,
+    count
+  );
+
+  const token =
+    "A-" + String(count).padStart(4,"0");
+
+  const time = getTime(count);
+
+  /* Fill slip */
+  document.getElementById("tokenNumber").innerText = token;
+  document.getElementById("sOffice").innerText =
+    document.getElementById("office").value;
+
+  document.getElementById("sDate").innerText = date;
+  document.getElementById("sTime").innerText = time;
+  document.getElementById("sName").innerText = name;
+  document.getElementById("sAge").innerText = age;
+  document.getElementById("sGender").innerText = gender;
+  document.getElementById("sAddress").innerText = address;
+  document.getElementById("sService").innerText = service;
+
+  document.getElementById("slip").style.display =
+    "block";
+
+  checkSlot();
+
+  document.getElementById("slip")
+    .scrollIntoView({behavior:"smooth"});
+}
+
+
+/* Download slip as HTML */
+function downloadSlip(){
+
+  const slip =
+    document.querySelector(".slip-box").outerHTML;
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Token Slip</title>
+<style>
+body{
+  font-family:Arial;
+  padding:30px;
+}
+.slip-box{
+  max-width:600px;
+  margin:auto;
+  border:2px dashed #333;
+  padding:20px;
+  text-align:center;
+}
+.token{
+  font-size:36px;
+  font-weight:bold;
+  margin:20px;
+}
+.slip-row{
+  display:flex;
+  justify-content:space-between;
+  padding:9px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+}
+</style>
+</head>
+<body>
+${slip}
+</body>
+</html>
+`;
+
+  const blob =
+    new Blob([html], {type:"text/html"});
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    document.getElementById("tokenNumber").innerText +
+    "-Token-Slip.html";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+
+/* Language */
+function setLanguage(lang){
+
+  if(lang === "hi"){
+
+    document.getElementById("title").innerText =
+      "ऑनलाइन टोकन बुकिंग";
+
+    document.getElementById("officeTitle").innerText =
+      "ASK कार्यालय चुनें";
+
+    document.getElementById("dateLabel").innerText =
+      "दिनांक";
+
+    document.getElementById("timeLabel").innerText =
+      "समय";
+
+    document.getElementById("applicantTitle").innerText =
+      "आवेदक का विवरण";
+
+  }else{
+
+    document.getElementById("title").innerText =
+      "Online Token Booking";
+
+    document.getElementById("officeTitle").innerText =
+      "Select your ASK Office";
+
+    document.getElementById("dateLabel").innerText =
+      "Date";
+
+    document.getElementById("timeLabel").innerText =
+      "Time";
+
+    document.getElementById("applicantTitle").innerText =
+      "Applicant Details";
+  }
+}
+
+
+/* Set minimum date = today */
+const today =
+  new Date().toISOString().split("T")[0];
+
+document.getElementById("date").min = today;
+
+</script>
 
 </body>
-
 </html>
-```
