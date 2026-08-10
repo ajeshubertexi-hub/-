@@ -1,743 +1,1706 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aadhaar Seva Token Booking</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>
+Aadhaar Seva Kendra Kanjoli - Token Booking
+</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Helvetica,sans-serif;
+    box-sizing:border-box;
 }
 
 body{
-  background:#f3f6fb;
-  color:#222;
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f3f6fb;
+    color:#172033;
+}
+
+/* HEADER */
+
+header{
+    background:linear-gradient(135deg,#063b82,#1976d2);
+    color:white;
+    padding:20px;
 }
 
 .header{
-  background:linear-gradient(135deg,#075985,#0ea5e9);
-  color:white;
-  padding:18px 15px;
-  text-align:center;
-  box-shadow:0 3px 10px rgba(0,0,0,.15);
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo{
+    width:60px;
+    height:60px;
+    background:white;
+    color:#0757b7;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
 }
 
 .header h1{
-  font-size:25px;
-  margin-bottom:6px;
+    margin:0;
+    font-size:23px;
 }
 
 .header p{
-  font-size:14px;
-  opacity:.95;
+    margin:5px 0 0;
 }
 
-.clock-box{
-  margin:15px auto;
-  max-width:1100px;
-  background:white;
-  border-radius:14px;
-  padding:15px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.clock{
-  font-size:24px;
-  font-weight:bold;
-  color:#075985;
-}
-
-.date{
-  color:#555;
-  font-size:14px;
-}
+/* MAIN */
 
 .container{
-  max-width:1100px;
-  margin:15px auto 40px;
-  padding:0 15px;
+    max-width:1100px;
+    margin:25px auto;
+    padding:0 15px;
+}
+
+.hero,
+.card{
+    background:white;
+    border-radius:16px;
+    box-shadow:0 7px 25px rgba(0,0,0,.08);
+}
+
+.hero{
+    padding:22px;
+    margin-bottom:18px;
+}
+
+.hero h2{
+    margin:0 0 6px;
+    color:#0757b7;
+}
+
+.hero p{
+    margin:0;
+    color:#667085;
+}
+
+/* GRID */
+
+.layout{
+    display:grid;
+    grid-template-columns:1.4fr .7fr;
+    gap:18px;
 }
 
 .card{
-  background:white;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
+    padding:22px;
+    margin-bottom:18px;
 }
 
-.card h2{
-  color:#075985;
-  font-size:19px;
-  margin-bottom:15px;
+.card h3{
+    color:#0757b7;
+    margin-top:0;
+    padding-bottom:10px;
+    border-bottom:1px solid #ddd;
 }
 
-label{
-  display:block;
-  margin-bottom:6px;
-  font-weight:bold;
-  font-size:14px;
-}
-
-select,
-input{
-  width:100%;
-  padding:12px;
-  border:1px solid #ccd5df;
-  border-radius:9px;
-  font-size:15px;
-  outline:none;
-  background:#fff;
-}
-
-select:focus,
-input:focus{
-  border-color:#0ea5e9;
-  box-shadow:0 0 0 2px rgba(14,165,233,.12);
-}
+/* FORM */
 
 .form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
 .full{
-  grid-column:1/-1;
+    grid-column:1 / -1;
 }
 
-.service-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+label{
+    display:block;
+    font-weight:bold;
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #d9e0e8;
+    border-radius:9px;
+    font-size:15px;
+    outline:none;
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#1976d2;
+}
+
+/* OFFICE */
+
+.office{
+    background:#eef6ff;
+    border:1px solid #c8def7;
+    color:#0757b7;
+    padding:14px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+/* TIME */
+
+.time-box{
+    background:#eef7ff;
+    border:2px solid #1976d2;
+    border-radius:12px;
+    padding:14px;
+    text-align:center;
+}
+
+.time-title{
+    color:#667085;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.live-time{
+    color:#0757b7;
+    font-size:26px;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+/* SERVICES */
+
+.services{
+    display:grid;
+    gap:9px;
 }
 
 .service{
-  border:2px solid #e2e8f0;
-  border-radius:12px;
-  padding:14px;
-  cursor:pointer;
-  transition:.2s;
-  background:#fff;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border:1px solid #dfe5ee;
+    border-radius:10px;
+    cursor:pointer;
 }
 
-.service:hover{
-  border-color:#38bdf8;
-  transform:translateY(-1px);
+.service input{
+    width:auto;
 }
 
-.service.active{
-  border-color:#0284c7;
-  background:#e0f2fe;
+/* SLOT */
+
+.status-card{
+    text-align:center;
 }
 
-.service strong{
-  display:block;
-  color:#075985;
-  margin-bottom:5px;
+.selected-date{
+    color:#0757b7;
+    font-size:24px;
+    font-weight:bold;
+    margin:12px 0;
 }
 
-.service span{
-  font-size:13px;
-  color:#666;
+.counter{
+    font-size:20px;
+    font-weight:bold;
 }
 
-.btn{
-  width:100%;
-  border:0;
-  padding:14px;
-  border-radius:10px;
-  background:linear-gradient(135deg,#0284c7,#0369a1);
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:15px;
+.progress{
+    height:12px;
+    background:#e8edf3;
+    border-radius:20px;
+    overflow:hidden;
+    margin:12px 0;
 }
 
-.btn:hover{
-  opacity:.93;
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#079669;
 }
 
-.btn:disabled{
-  opacity:.55;
-  cursor:not-allowed;
+.status{
+    padding:13px;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.available{
+    background:#e9fff7;
+    color:#087f5b;
+}
+
+.full-status{
+    background:#fff0f0;
+    color:#c62828;
+}
+
+.holiday{
+    background:#fff7df;
+    color:#956000;
+}
+
+/* DECLARATION */
+
+.declaration{
+    background:#f8fafc;
+    border:1px solid #dfe5ee;
+    border-radius:10px;
+    padding:14px;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.declaration input{
+    width:auto;
+}
+
+/* BUTTON */
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+button{
+    border:0;
+    border-radius:9px;
+    padding:13px 18px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.primary{
+    background:#0757b7;
+    color:white;
+    flex:1;
+}
+
+.secondary{
+    background:#edf1f6;
+    color:#26364a;
+}
+
+.success{
+    background:#079669;
+    color:white;
+}
+
+/* ALERT */
+
+.alert{
+    display:none;
+    background:#fff0f0;
+    border:1px solid #ffbaba;
+    color:#b42318;
+    padding:13px;
+    border-radius:9px;
+    margin-bottom:18px;
+    font-weight:bold;
+}
+
+.alert.show{
+    display:block;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.slip{
+    width:100%;
+    max-width:540px;
+    background:white;
+    border-radius:16px;
+    overflow:hidden;
+}
+
+.slip-header{
+    background:linear-gradient(135deg,#063b82,#1976d2);
+    color:white;
+    text-align:center;
+    padding:22px;
+}
+
+.slip-header h2{
+    margin:0;
+}
+
+.slip-header p{
+    margin:5px 0 0;
 }
 
 .token-box{
-  display:none;
-  text-align:center;
-  border:2px dashed #0284c7;
-  background:#f0f9ff;
+    text-align:center;
+    padding:22px;
+}
+
+.token-box small{
+    color:#667085;
+    font-weight:bold;
 }
 
 .token-number{
-  font-size:58px;
-  font-weight:bold;
-  color:#0369a1;
-  margin:10px 0;
+    display:block;
+    color:#0757b7;
+    font-size:52px;
+    font-weight:900;
+    margin-top:5px;
 }
 
-.token-info{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:15px;
-  text-align:left;
+.slip-details{
+    padding:5px 22px 20px;
 }
 
-.info{
-  background:white;
-  border-radius:9px;
-  padding:10px;
-  border:1px solid #e2e8f0;
+.detail{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:10px 0;
+    border-bottom:1px dashed #ccc;
 }
 
-.info small{
-  color:#777;
-  display:block;
-  margin-bottom:4px;
+.detail .label{
+    color:#667085;
 }
 
-.info strong{
-  color:#222;
-  word-break:break-word;
+.detail .value{
+    font-weight:bold;
+    text-align:right;
+    max-width:60%;
+    word-break:break-word;
 }
 
-.note{
-  background:#fff7ed;
-  border-left:4px solid #f97316;
-  padding:12px;
-  margin-top:15px;
-  font-size:13px;
-  color:#7c2d12;
-}
-
-.footer{
-  text-align:center;
-  color:#666;
-  padding:20px;
-  font-size:13px;
-}
-
-@media(max-width:700px){
-  .form-grid,
-  .service-grid,
-  .token-info{
-    grid-template-columns:1fr;
-  }
-
-  .clock-box{
+.slip-footer{
     text-align:center;
-    justify-content:center;
-  }
-
-  .header h1{
-    font-size:21px;
-  }
-
-  .token-number{
-    font-size:48px;
-  }
+    background:#f7f9fb;
+    padding:14px;
+    font-size:12px;
+    color:#667085;
 }
+
+.modal-buttons{
+    display:flex;
+    gap:8px;
+    padding:15px;
+}
+
+.modal-buttons button{
+    flex:1;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .header h1{
+        font-size:19px;
+    }
+
+    .live-time{
+        font-size:22px;
+    }
+
+    .token-number{
+        font-size:43px;
+    }
+
+    .detail{
+        flex-direction:column;
+        gap:4px;
+    }
+
+    .detail .value{
+        max-width:100%;
+        text-align:left;
+    }
+
+}
+
+
+/* PRINT */
+
+@media print{
+
+    body *{
+        visibility:hidden !important;
+    }
+
+    .slip,
+    .slip *{
+        visibility:visible !important;
+    }
+
+    .modal{
+        display:block !important;
+        position:absolute;
+        background:white;
+        padding:0;
+    }
+
+    .slip{
+        max-width:100%;
+        border-radius:0;
+    }
+
+    .modal-buttons{
+        display:none !important;
+    }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<header class="header">
-  <h1>🪪 Aadhaar Seva Token Booking</h1>
-  <p>Online Token Generation Demo</p>
-</header>
 
-<div class="clock-box">
-  <div>
-    <div class="clock" id="currentTime">--:--:--</div>
-    <div class="date" id="currentDate">Loading date...</div>
-  </div>
+<!-- HEADER -->
 
-  <div>
-    <strong>Office Time</strong><br>
-    <span>09:30 AM – 05:30 PM</span>
-  </div>
+<header>
+
+<div class="header">
+
+<div class="logo">
+ASK
 </div>
 
-<main class="container">
+<div>
 
-  <!-- OFFICE -->
-  <section class="card">
-    <h2>1. Select your ASK Office</h2>
+<h1>
+Aadhaar Seva Kendra
+</h1>
 
-    <label for="office">Aadhaar Seva Kendra</label>
+<p>
+Kanjoli • Online Token Booking
+</p>
 
-    <select id="office">
-      <option value="">-- Select Office --</option>
-      <option value="Kota Aadhaar Seva Kendra">Kota Aadhaar Seva Kendra</option>
-      <option value="Jaipur Aadhaar Seva Kendra">Jaipur Aadhaar Seva Kendra</option>
-      <option value="Jodhpur Aadhaar Seva Kendra">Jodhpur Aadhaar Seva Kendra</option>
-      <option value="Udaipur Aadhaar Seva Kendra">Udaipur Aadhaar Seva Kendra</option>
-      <option value="Ajmer Aadhaar Seva Kendra">Ajmer Aadhaar Seva Kendra</option>
-    </select>
-  </section>
+</div>
+
+</div>
+
+</header>
 
 
-  <!-- PERSONAL DETAILS -->
-  <section class="card">
-    <h2>2. Applicant Details</h2>
-
-    <div class="form-grid">
-
-      <div>
-        <label for="name">Applicant Name</label>
-        <input type="text" id="name" placeholder="Enter full name">
-      </div>
-
-      <div>
-        <label for="mobile">Mobile Number</label>
-        <input
-          type="tel"
-          id="mobile"
-          maxlength="10"
-          placeholder="Enter 10 digit mobile number"
-          inputmode="numeric">
-      </div>
-
-      <div>
-        <label for="email">Email Address</label>
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter email address">
-      </div>
-
-      <div>
-        <label for="aadhaar">Aadhaar Number</label>
-        <input
-          type="text"
-          id="aadhaar"
-          maxlength="12"
-          placeholder="Enter 12 digit Aadhaar number"
-          inputmode="numeric">
-      </div>
-
-    </div>
-  </section>
+<div class="container">
 
 
-  <!-- SERVICES -->
-  <section class="card">
-    <h2>3. Select Service</h2>
+<!-- TITLE -->
 
-    <div class="service-grid">
+<div class="hero">
 
-      <div class="service" data-service="Mobile Number Update">
-        <strong>📱 Mobile Number Update</strong>
-        <span>Update mobile number in Aadhaar</span>
-      </div>
+<h2>
+🎟️ Online Token Booking
+</h2>
 
-      <div class="service" data-service="Email Update">
-        <strong>📧 Email Update</strong>
-        <span>Update email address in Aadhaar</span>
-      </div>
+<p>
+Aadhaar Seva Kendra Kanjoli के लिए ऑनलाइन टोकन बुक करें।
+</p>
 
-      <div class="service" data-service="Name Update">
-        <strong>👤 Name Update</strong>
-        <span>Request name correction/update</span>
-      </div>
-
-      <div class="service" data-service="Date of Birth Update">
-        <strong>🎂 Date of Birth Update</strong>
-        <span>Request date of birth update</span>
-      </div>
-
-      <div class="service" data-service="Address Update">
-        <strong>🏠 Address Update</strong>
-        <span>Request address update</span>
-      </div>
-
-      <div class="service" data-service="Biometric Update">
-        <strong>🖐️ Biometric Update</strong>
-        <span>Fingerprint / biometric update</span>
-      </div>
-
-    </div>
-  </section>
+</div>
 
 
-  <!-- TOKEN -->
-  <section class="card">
-    <h2>4. Generate Token</h2>
+<!-- ERROR -->
 
-    <button class="btn" id="generateBtn">
-      🎫 Generate Token
-    </button>
-
-    <div class="note">
-      यह एक demo token-booking interface है। Generated token केवल इस browser में demo purpose के लिए रहेगा।
-    </div>
-  </section>
+<div
+id="alert"
+class="alert">
+</div>
 
 
-  <!-- RESULT -->
-  <section class="card token-box" id="tokenBox">
+<div class="layout">
 
-    <h2>🎉 Token Generated Successfully</h2>
 
-    <div class="token-number" id="tokenNumber">
-      A-001
-    </div>
+<!-- LEFT -->
 
-    <p>Please keep this token number for your reference.</p>
+<div>
 
-    <div class="token-info">
 
-      <div class="info">
-        <small>Applicant</small>
-        <strong id="resultName">-</strong>
-      </div>
+<!-- APPLICANT -->
 
-      <div class="info">
-        <small>Mobile</small>
-        <strong id="resultMobile">-</strong>
-      </div>
+<div class="card">
 
-      <div class="info">
-        <small>Email</small>
-        <strong id="resultEmail">-</strong>
-      </div>
+<h3>
+👤 Applicant Details
+</h3>
 
-      <div class="info">
-        <small>Office</small>
-        <strong id="resultOffice">-</strong>
-      </div>
 
-      <div class="info">
-        <small>Service</small>
-        <strong id="resultService">-</strong>
-      </div>
+<div class="form-grid">
 
-      <div class="info">
-        <small>Booking Time</small>
-        <strong id="resultTime">-</strong>
-      </div>
 
-    </div>
+<!-- OFFICE -->
 
-    <button class="btn" id="newTokenBtn">
-      ➕ Generate New Token
-    </button>
+<div class="full">
 
-  </section>
+<label>
+ASK Office
+</label>
 
-</main>
+<div class="office">
+Aadhaar Seva Kendra Kanjoli
+</div>
 
-<footer class="footer">
-  Aadhaar Seva Token Booking Demo
-</footer>
+</div>
+
+
+<!-- DATE -->
+
+<div>
+
+<label>
+Booking Date *
+</label>
+
+<input
+type="date"
+id="bookingDate"
+onchange="checkStatus()"
+>
+
+</div>
+
+
+<!-- TIME -->
+
+<div>
+
+<label>
+Time / समय
+</label>
+
+<div class="time-box">
+
+<div class="time-title">
+🕐 Current Time
+</div>
+
+<div
+id="liveTime"
+class="live-time">
+00:00:00
+</div>
+
+</div>
+
+</div>
+
+
+<!-- NAME -->
+
+<div>
+
+<label>
+Applicant Name *
+</label>
+
+<input
+type="text"
+id="applicantName"
+placeholder="आवेदक का नाम"
+>
+
+</div>
+
+
+<!-- AGE -->
+
+<div>
+
+<label>
+Age *
+</label>
+
+<input
+type="number"
+id="age"
+min="0"
+max="120"
+placeholder="आयु"
+>
+
+</div>
+
+
+<!-- GENDER -->
+
+<div>
+
+<label>
+Gender *
+</label>
+
+<select id="gender">
+
+<option value="">
+Select Gender
+</option>
+
+<option value="Male">
+Male / पुरुष
+</option>
+
+<option value="Female">
+Female / महिला
+</option>
+
+<option value="Other">
+Other / अन्य
+</option>
+
+</select>
+
+</div>
+
+
+<!-- ADDRESS -->
+
+<div class="full">
+
+<label>
+Address *
+</label>
+
+<textarea
+id="address"
+placeholder="पूरा पता लिखें"
+></textarea>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- SERVICES -->
+
+<div class="card">
+
+<h3>
+📋 Service Type
+</h3>
+
+
+<div class="services">
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="New Enrollment"
+>
+
+New Enrollment / नया नामांकन
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Name Update"
+>
+
+Name Update / नाम अपडेट
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Age Update"
+>
+
+Age Update / आयु अपडेट
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Gender Update"
+>
+
+Gender Update / लिंग अपडेट
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Address Update"
+>
+
+Address Update / पता अपडेट
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Mobile Number Update"
+>
+
+📱 Mobile Number Update / मोबाइल नंबर अपडेट
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Email Update"
+>
+
+📧 Email Update / ईमेल अपडेट
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Biometric Update"
+>
+
+Biometric Update / बायोमेट्रिक अपडेट
+
+</label>
+
+
+<label class="service">
+
+<input
+type="radio"
+name="service"
+value="Print / Download"
+>
+
+Print / Download
+
+</label>
+
+
+</div>
+
+</div>
+
+
+<!-- DECLARATION -->
+
+<div class="card">
+
+<h3>
+📜 Declaration
+</h3>
+
+
+<div class="declaration">
+
+<label style="font-weight:normal">
+
+<input
+type="checkbox"
+id="declaration"
+>
+
+मैं पुष्टि करता/करती हूँ कि मेरे द्वारा दी गई जानकारी सही है।
+मैं समझता/समझती हूँ कि यह token booking है और सेवा केंद्र के
+नियम लागू होंगे।
+
+</label>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="primary"
+onclick="generateToken()">
+🎟️ Generate Token
+</button>
+
+
+<button
+class="secondary"
+onclick="resetForm()">
+Reset
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- RIGHT -->
+
+<div>
+
+
+<!-- SLOT -->
+
+<div class="card status-card">
+
+<h3>
+📊 Slot Status
+</h3>
+
+
+<div
+id="selectedDate"
+class="selected-date">
+--
+</div>
+
+
+<div class="counter">
+
+<span id="bookedCount">
+0
+</span>
+
+ / 30
+
+</div>
+
+
+<div class="progress">
+
+<div
+id="progressBar"
+class="progress-bar">
+</div>
+
+</div>
+
+
+<div
+id="slotStatus"
+class="status available">
+Date select करें
+</div>
+
+</div>
+
+
+<!-- RULES -->
+
+<div class="card">
+
+<h3>
+ℹ️ Booking Rules
+</h3>
+
+<p>
+🎟️ Daily Limit:
+<b>30 Tokens</b>
+</p>
+
+<p>
+🔢 Token:
+<b>A-0001 → A-0030</b>
+</p>
+
+<p>
+🕐 Time:
+<b>Automatic Live Time</b>
+</p>
+
+<p>
+📅 Sunday:
+<b>Holiday</b>
+</p>
+
+<p>
+🏢 Center Holiday:
+<b>Booking Closed</b>
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+Aadhaar Seva Kendra Kanjoli • Online Token Booking Demo
+
+</div>
+
+
+<!-- TOKEN SLIP -->
+
+<div
+id="tokenModal"
+class="modal"
+>
+
+<div class="slip">
+
+
+<div class="slip-header">
+
+<h2>
+Aadhaar Seva Kendra
+</h2>
+
+<p>
+Kanjoli
+</p>
+
+</div>
+
+
+<div class="token-box">
+
+<small>
+TOKEN NUMBER
+</small>
+
+<span
+id="slipToken"
+class="token-number">
+A-0001
+</span>
+
+</div>
+
+
+<div class="slip-details">
+
+
+<div class="detail">
+
+<span class="label">
+Applicant Name
+</span>
+
+<span
+id="slipName"
+class="value">
+</span>
+
+</div>
+
+
+<div class="detail">
+
+<span class="label">
+Age
+</span>
+
+<span
+id="slipAge"
+class="value">
+</span>
+
+</div>
+
+
+<div class="detail">
+
+<span class="label">
+Gender
+</span>
+
+<span
+id="slipGender"
+class="value">
+</span>
+
+</div>
+
+
+<div class="detail">
+
+<span class="label">
+Address
+</span>
+
+<span
+id="slipAddress"
+class="value">
+</span>
+
+</div>
+
+
+<div class="detail">
+
+<span class="label">
+Service
+</span>
+
+<span
+id="slipService"
+class="value">
+</span>
+
+</div>
+
+
+<div class="detail">
+
+<span class="label">
+Date
+</span>
+
+<span
+id="slipDate"
+class="value">
+</span>
+
+</div>
+
+
+<div class="detail">
+
+<span class="label">
+Time
+</span>
+
+<span
+id="slipTime"
+class="value">
+</span>
+
+</div>
+
+
+</div>
+
+
+<div class="slip-footer">
+
+कृपया इस token slip को सुरक्षित रखें।<br>
+Please keep this token slip for your reference.
+
+</div>
+
+
+<div class="modal-buttons">
+
+<button
+class="success"
+onclick="printSlip()">
+🖨️ Print
+</button>
+
+
+<button
+class="primary"
+onclick="downloadSlip()">
+⬇️ Download
+</button>
+
+
+<button
+class="secondary"
+onclick="closeModal()">
+Close
+</button>
+
+</div>
+
+
+</div>
+
+</div>
 
 
 <script>
-/* =====================================================
-   LIVE DATE & TIME
-   ===================================================== */
 
-function updateClock(){
+/* =================================================
+   LIVE TIME
+================================================= */
 
-  const now = new Date();
+function updateTime(){
 
-  let hours = now.getHours();
-  const minutes = String(now.getMinutes()).padStart(2,"0");
-  const seconds = String(now.getSeconds()).padStart(2,"0");
+    var now = new Date();
 
-  const ampm = hours >= 12 ? "PM" : "AM";
+    var hours = now.getHours();
 
-  hours = hours % 12;
+    var minutes = now.getMinutes();
 
-  if(hours === 0){
-    hours = 12;
-  }
+    var seconds = now.getSeconds();
 
-  hours = String(hours).padStart(2,"0");
+    var ampm = hours >= 12 ? "PM" : "AM";
 
-  const timeText =
-    hours + ":" + minutes + ":" + seconds + " " + ampm;
+    hours = hours % 12;
 
-  document.getElementById("currentTime").textContent = timeText;
+    if(hours === 0){
+        hours = 12;
+    }
 
+    hours = String(hours).padStart(2,"0");
 
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-  ];
+    minutes = String(minutes).padStart(2,"0");
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
+    seconds = String(seconds).padStart(2,"0");
 
-  const dateText =
-    days[now.getDay()] + ", " +
-    now.getDate() + " " +
-    months[now.getMonth()] + " " +
-    now.getFullYear();
+    var time =
+        hours + ":" +
+        minutes + ":" +
+        seconds + " " +
+        ampm;
 
-  document.getElementById("currentDate").textContent = dateText;
+    var clock =
+        document.getElementById("liveTime");
+
+    if(clock){
+        clock.innerHTML = time;
+    }
 }
 
 
-/*
- IMPORTANT:
- Run immediately so "Loading..." never stays
- waiting for the first interval.
-*/
-updateClock();
+/* START CLOCK */
 
-/*
- Update every second.
-*/
-setInterval(updateClock,1000);
+updateTime();
+
+setInterval(updateTime,1000);
 
 
-/* =====================================================
-   SERVICE SELECTION
-   ===================================================== */
+/* =================================================
+   TODAY
+================================================= */
 
-let selectedService = "";
+function getToday(){
 
-const serviceCards =
-  document.querySelectorAll(".service");
+    var d = new Date();
 
-serviceCards.forEach(function(card){
+    var year = d.getFullYear();
 
-  card.addEventListener("click",function(){
+    var month =
+        String(d.getMonth()+1)
+        .padStart(2,"0");
 
-    serviceCards.forEach(function(item){
-      item.classList.remove("active");
-    });
+    var day =
+        String(d.getDate())
+        .padStart(2,"0");
 
-    card.classList.add("active");
-
-    selectedService =
-      card.getAttribute("data-service");
-  });
-
-});
-
-
-/* =====================================================
-   MOBILE NUMBER
-   ===================================================== */
-
-document.getElementById("mobile")
-.addEventListener("input",function(){
-
-  this.value = this.value
-    .replace(/\D/g,"")
-    .slice(0,10);
-
-});
-
-
-/* =====================================================
-   AADHAAR NUMBER
-   ===================================================== */
-
-document.getElementById("aadhaar")
-.addEventListener("input",function(){
-
-  this.value = this.value
-    .replace(/\D/g,"")
-    .slice(0,12);
-
-});
-
-
-/* =====================================================
-   TOKEN SERIAL
-   ===================================================== */
-
-let tokenSerial =
-  parseInt(localStorage.getItem("demoTokenSerial") || "0",10);
-
-
-/*
- Generate token number
- Example:
- A-001
- A-002
- A-003
-*/
-function getNextToken(){
-
-  tokenSerial++;
-
-  localStorage.setItem(
-    "demoTokenSerial",
-    tokenSerial
-  );
-
-  return "A-" +
-    String(tokenSerial).padStart(3,"0");
+    return year + "-" + month + "-" + day;
 }
 
 
-/* =====================================================
-   GENERATE TOKEN
-   ===================================================== */
+/* =================================================
+   FORMAT DATE
+================================================= */
 
-document.getElementById("generateBtn")
-.addEventListener("click",function(){
+function formatDate(date){
 
-  const office =
-    document.getElementById("office").value;
+    var d =
+        new Date(date + "T00:00:00");
 
-  const name =
-    document.getElementById("name").value.trim();
-
-  const mobile =
-    document.getElementById("mobile").value.trim();
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const aadhaar =
-    document.getElementById("aadhaar").value.trim();
-
-
-  if(!office){
-    alert("Please select ASK Office.");
-    return;
-  }
-
-  if(!name){
-    alert("Please enter applicant name.");
-    return;
-  }
-
-  if(!/^[0-9]{10}$/.test(mobile)){
-    alert("Please enter a valid 10 digit mobile number.");
-    return;
-  }
-
-  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    alert("Please enter a valid email address.");
-    return;
-  }
-
-  if(!/^[0-9]{12}$/.test(aadhaar)){
-    alert("Please enter a valid 12 digit Aadhaar number.");
-    return;
-  }
-
-  if(!selectedService){
-    alert("Please select a service.");
-    return;
-  }
-
-
-  const token =
-    getNextToken();
-
-  const bookingTime =
-    new Date();
-
-
-  document.getElementById("tokenNumber")
-    .textContent = token;
-
-  document.getElementById("resultName")
-    .textContent = name;
-
-  document.getElementById("resultMobile")
-    .textContent = mobile;
-
-  document.getElementById("resultEmail")
-    .textContent = email || "Not provided";
-
-  document.getElementById("resultOffice")
-    .textContent = office;
-
-  document.getElementById("resultService")
-    .textContent = selectedService;
-
-  document.getElementById("resultTime")
-    .textContent =
-      bookingTime.toLocaleTimeString(
+    return d.toLocaleDateString(
         "en-IN",
         {
-          hour:"2-digit",
-          minute:"2-digit",
-          second:"2-digit",
-          hour12:true
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
         }
-      );
+    );
+}
 
 
-  const tokenBox =
-    document.getElementById("tokenBox");
+/* =================================================
+   STORAGE
+================================================= */
 
-  tokenBox.style.display = "block";
+function getBookings(date){
 
-  tokenBox.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+    var data =
+        localStorage.getItem(
+            "ASK_BOOKINGS_" + date
+        );
 
-});
+    if(!data){
+        return [];
+    }
+
+    try{
+        return JSON.parse(data);
+    }
+    catch(e){
+        return [];
+    }
+}
 
 
-/* =====================================================
-   NEW TOKEN
-   ===================================================== */
+function saveBookings(date,bookings){
 
-document.getElementById("newTokenBtn")
-.addEventListener("click",function(){
+    localStorage.setItem(
+        "ASK_BOOKINGS_" + date,
+        JSON.stringify(bookings)
+    );
+}
 
-  document.getElementById("tokenBox")
-    .style.display = "none";
 
-  document.getElementById("name").value = "";
-  document.getElementById("mobile").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("aadhaar").value = "";
+/* =================================================
+   HOLIDAY
+================================================= */
 
-  selectedService = "";
+var CENTER_HOLIDAYS = [
 
-  serviceCards.forEach(function(item){
-    item.classList.remove("active");
-  });
+    /* Example:
+    "2026-08-15",
+    "2026-08-26"
+    */
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+];
 
-});
-</script>
 
-</body>
-</html>
+function isSunday(date){
+
+    var d =
+        new Date(date + "T00:00:00");
+
+    return d.getDay() === 0;
+}
+
+
+function isCenterHoliday(date){
+
+    return CENTER_HOLIDAYS.includes(date);
+}
+
+
+/* =================================================
+   TOKEN
+================================================= */
+
+function getNextToken(date){
+
+    var bookings =
+        getBookings(date);
+
+    var number =
+        bookings.length + 1;
+
+    if(number > 30){
+        return null;
+    }
+
+    return "A-" +
+        String(number).padStart(4,"0");
+}
+
+
+/* =================================================
+   SLOT STATUS
+================================================= */
+
+function checkStatus(){
+
+    var date =
+        document.getElementById(
+            "bookingDate"
+        ).value;
+
+    if(!date){
+        return;
+    }
+
+    var bookings =
+        getBookings(date);
+
+    var count =
+        bookings.length;
+
+    document.getElementById(
+        "bookedCount"
+    ).innerText = count;
+
+    document.getElementById(
+        "selectedDate"
+    ).innerText =
+        formatDate(date);
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        Math.min(
+            count / 30 * 100,
+            100
+        ) + "%";
+
+
+    var status =
+        document.getElementById(
+            "slotStatus"
+        );
+
+
+    if(isSunday(date)){
+
+        status.className =
+            "status holiday";
+
+        status.innerText =
+            "🔴 Sunday Holiday — Booking Closed";
+
+        return;
+    }
+
+
+    if(isCenterHoliday(date)){
+
+        status.className =
+            "status holiday";
+
+        status.innerText =
+            "🔴 Center Holiday — Booking Closed";
+
+        return;
+    }
+
+
+    if(count >= 30){
+
+        status.className =
+            "status full-status";
+
+        status.innerText =
+            "🔴 Slot Full — 30/30";
+
+        return;
+    }
+
+
+    status.className =
+        "status available";
+
+    status.innerText =
+        "🟢 Slot Available — " +
+        (30-count) +
+        " Tokens Remaining";
+}
+
+
+/* =================================================
+   GENERATE TOKEN
+================================================= */
+
+function generateToken(){
+
+    clearAlert();
+
+
+    var date =
+        document.getElementById(
+            "bookingDate"
+        ).value;
+
+    var name =
+        document.getElementById(
+            "applicantName"
+        ).value.trim();
+
+    var age =
+        document.getElementById(
+            "age"
+        ).value;
+
+    var gender =
+        document.getElementById(
+            "gender"
+        ).value;
+
+    var address =
+        document.getElementById(
+            "address"
+        ).value.trim();
+
+    var service =
+        document.querySelector(
+            'input[name="service"]:checked'
+        );
+
+    var declaration =
+        document.getElementById(
+            "declaration"
+        ).checked;
+
+
+    if(!date){
+
+        showError(
+            "Booking Date select करें।"
+        );
+
+        return;
+    }
+
+
+    if(isSunday(date)){
+
+        showError(
+            "Sunday holiday है। दूसरा दिन चुनें।"
+        );
+
+        return;
+    }
+
+
+    if(isCenterHoliday(date)){
+
+        showError(
+            "Center holiday है। दूसरा दिन चुनें।"
+        );
+
+        return;
+    }
+
+
+    if(!name){
+
+        showError(
+            "Applicant Name भरें।"
+        );
+
+        return;
+    }
+
+
+    if(
+        age === "" ||
+        Number(age) < 0 ||
+        Number(age) > 120
+    ){
+
+        showError(
+            "Valid Age भरें।"
+        );
+
+        return;
+    }
+
+
+    if(!gender){
+
+        showError(
+            "Gender select करें।"
+        );
+
+        return;
+    }
+
+
+    if(!address){
+
+        showError(
+            "Address भरें।"
+        );
+
+        return;
+    }
+
+
+    if(!service){
+
+        showError(
+            "Service select करें।"
+        );
+
+        return;
+    }
+
+
+    if(!declaration){
+
+        showError(
+            "Declaration accept करें।"
+        );
+
+        return;
+    }
+
+
+    var bookings =
+        getBookings(date);
+
+
+    if(bookings.length >= 30){
+
+        showError(
+            "आज के सभी 30 tokens full हैं।"
+        );
+
+        checkStatus();
+
+        return;
+    }
+
+
+    var token =
+        getNextToken(date);
+
+
+    if(!token){
+
+        showError(
+            "Token generate नहीं हुआ।"
+        );
+
+        return;
+    }
+
+
+    /*
+      Current time
+    */
+
+    var bookingTime =
+        document.getElementById(
+            "liveTime"
+        ).innerText;
+
+
+    var booking = {
+
+        token:token,
+
+        name:name,
+
+        age:age,
+
+        gender:gender,
+
+        address:address,
+
+        service:service.value,
+
+        date:date,
+
+        time:bookingTime
+
+    };
+
+
+    bookings.push(booking);
+
+    saveBookings(
+        date,
+        bookings
+    );
+
+
+    /* SLIP */
+
+    document.getElementById(
+        "slipToken"
+    ).innerText =
+        booking.token;
+
+    document.getElementById(
+        "slipName"
+    ).innerText =
+        booking.name;
+
+    document.getElementById(
+        "slipAge"
+    ).innerText =
+        booking.age;
+
+    document.getElementById(
+        "slipGender"
+    ).innerText =
+        booking.gender;
+
+    document.getElementById(
+        "slipAddress"
+    ).innerText =
+        booking.address;
+
+    document.getElementById(
+        "slipService"
+    ).innerText =
+        booking.service;
+
+    document.getElementById(
+     
