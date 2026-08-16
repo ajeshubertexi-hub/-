@@ -248,6 +248,10 @@ button{
     cursor:pointer;
 }
 
+button:active{
+    transform:scale(.98);
+}
+
 .primary{
     background:#0757b7;
     color:white;
@@ -297,6 +301,7 @@ button{
     align-items:center;
     justify-content:center;
     padding:15px;
+    overflow:auto;
 }
 
 .modal.show{
@@ -404,6 +409,7 @@ button{
 /* MOBILE */
 
 @media(max-width:800px){
+
     .layout{
         grid-template-columns:1fr;
     }
@@ -418,6 +424,7 @@ button{
 }
 
 @media(max-width:500px){
+
     .header h1{
         font-size:19px;
     }
@@ -444,18 +451,20 @@ button{
 /* PRINT */
 
 @media print{
+
     body *{
         visibility:hidden !important;
     }
 
-    .slip,
-    .slip *{
+    .modal,
+    .modal *{
         visibility:visible !important;
     }
 
     .modal{
         display:block !important;
         position:absolute;
+        inset:0;
         background:white;
         padding:0;
     }
@@ -464,6 +473,7 @@ button{
         max-width:100%;
         border-radius:0;
         box-shadow:none;
+        margin:0 auto;
     }
 
     .modal-buttons{
@@ -504,7 +514,7 @@ Aadhaar Seva Kendra Kanjoli के लिए ऑनलाइन टोकन ब
 
 <div class="layout">
 
-<!-- LEFT SIDE -->
+<!-- LEFT -->
 
 <div>
 
@@ -561,11 +571,8 @@ placeholder="आयु">
 <select id="gender">
 
 <option value="">Select Gender</option>
-
 <option value="Male">Male / पुरुष</option>
-
 <option value="Female">Female / महिला</option>
-
 <option value="Other">Other / अन्य</option>
 
 </select>
@@ -581,7 +588,6 @@ placeholder="पूरा पता लिखें"></textarea>
 </div>
 
 </div>
-
 </div>
 
 
@@ -684,7 +690,7 @@ Reset
 </div>
 
 
-<!-- RIGHT SIDE -->
+<!-- RIGHT -->
 
 <div>
 
@@ -700,8 +706,7 @@ class="selected-date">
 
 <div class="counter">
 
-<span id="bookedCount">0</span>
- / 40
+<span id="bookedCount">0</span> / 40
 
 </div>
 
@@ -744,21 +749,10 @@ Date select करें
 
 </div>
 
-<p>
-A-0001 → <b>08:00 AM</b>
-</p>
-
-<p>
-A-0002 → <b>08:15 AM</b>
-</p>
-
-<p>
-A-0003 → <b>08:30 AM</b>
-</p>
-
-<p>
-A-0040 → <b>05:45 PM</b>
-</p>
+<p>A-0001 → <b>08:00 AM</b></p>
+<p>A-0002 → <b>08:15 AM</b></p>
+<p>A-0003 → <b>08:30 AM</b></p>
+<p>A-0040 → <b>05:45 PM</b></p>
 
 </div>
 
@@ -802,7 +796,6 @@ Aadhaar Seva Kendra Kanjoli • Online Token Booking Demo
 <div class="slip-header">
 
 <h2>Aadhaar Seva Kendra</h2>
-
 <p>Kanjoli</p>
 
 </div>
@@ -836,48 +829,40 @@ class="reporting-time">
 
 <div class="slip-details">
 
-
 <div class="detail">
 <span class="label">Applicant Name</span>
 <span id="slipName" class="value"></span>
 </div>
-
 
 <div class="detail">
 <span class="label">Age</span>
 <span id="slipAge" class="value"></span>
 </div>
 
-
 <div class="detail">
 <span class="label">Gender</span>
 <span id="slipGender" class="value"></span>
 </div>
-
 
 <div class="detail">
 <span class="label">Address</span>
 <span id="slipAddress" class="value"></span>
 </div>
 
-
 <div class="detail">
 <span class="label">Service</span>
 <span id="slipService" class="value"></span>
 </div>
-
 
 <div class="detail">
 <span class="label">Booking Date</span>
 <span id="slipDate" class="value"></span>
 </div>
 
-
 <div class="detail">
 <span class="label">Reporting Time</span>
 <span id="slipTime" class="value"></span>
 </div>
-
 
 </div>
 
@@ -913,36 +898,30 @@ Close
 </div>
 
 </div>
-
 </div>
 
 
 <script>
 
-/* =========================================
+/* ===============================
    SETTINGS
-========================================= */
+================================ */
 
 const MAX_TOKENS = 40;
-
 const START_HOUR = 8;
-
 const SLOT_MINUTES = 15;
-
 
 /*
    Center holidays यहाँ डाल सकते हैं।
    Example:
-   "2026-08-15",
    "2026-08-26"
 */
-
 const CENTER_HOLIDAYS = [];
 
 
-/* =========================================
+/* ===============================
    TODAY
-========================================= */
+================================ */
 
 function getToday(){
 
@@ -951,7 +930,7 @@ function getToday(){
     const year = d.getFullYear();
 
     const month =
-        String(d.getMonth()+1).padStart(2,"0");
+        String(d.getMonth() + 1).padStart(2,"0");
 
     const day =
         String(d.getDate()).padStart(2,"0");
@@ -960,9 +939,9 @@ function getToday(){
 }
 
 
-/* =========================================
+/* ===============================
    DATE FORMAT
-========================================= */
+================================ */
 
 function formatDate(date){
 
@@ -980,25 +959,32 @@ function formatDate(date){
 }
 
 
-/* =========================================
+/* ===============================
    STORAGE
-========================================= */
+================================ */
 
 function getBookings(date){
 
+    const key =
+        "ASK_KANJOLI_BOOKINGS_" + date;
+
     const data =
-        localStorage.getItem(
-            "ASK_KANJOLI_BOOKINGS_" + date
-        );
+        localStorage.getItem(key);
 
     if(!data){
         return [];
     }
 
     try{
-        return JSON.parse(data);
-    }
-    catch(error){
+
+        const parsed = JSON.parse(data);
+
+        return Array.isArray(parsed)
+            ? parsed
+            : [];
+
+    }catch(error){
+
         return [];
     }
 }
@@ -1006,16 +992,19 @@ function getBookings(date){
 
 function saveBookings(date, bookings){
 
+    const key =
+        "ASK_KANJOLI_BOOKINGS_" + date;
+
     localStorage.setItem(
-        "ASK_KANJOLI_BOOKINGS_" + date,
+        key,
         JSON.stringify(bookings)
     );
 }
 
 
-/* =========================================
+/* ===============================
    HOLIDAY
-========================================= */
+================================ */
 
 function isSunday(date){
 
@@ -1032,18 +1021,11 @@ function isCenterHoliday(date){
 }
 
 
-/* =========================================
+/* ===============================
    REPORTING TIME
-========================================= */
+================================ */
 
 function getReportingTime(tokenNumber){
-
-    /*
-       Token 1 = 08:00
-       Token 2 = 08:15
-       ...
-       Token 40 = 17:45
-    */
 
     const totalMinutes =
         (START_HOUR * 60) +
@@ -1065,17 +1047,19 @@ function getReportingTime(tokenNumber){
         displayHour = 12;
     }
 
-    return String(displayHour).padStart(2,"0")
+    return (
+        String(displayHour).padStart(2,"0")
         + ":" +
         String(minute).padStart(2,"0")
         + " " +
-        ampm;
+        ampm
+    );
 }
 
 
-/* =========================================
-   TOKEN
-========================================= */
+/* ===============================
+   NEXT TOKEN
+================================ */
 
 function getNextToken(date){
 
@@ -1094,9 +1078,9 @@ function getNextToken(date){
 }
 
 
-/* =========================================
+/* ===============================
    STATUS
-========================================= */
+================================ */
 
 function checkStatus(){
 
@@ -1209,9 +1193,9 @@ function checkStatus(){
 }
 
 
-/* =========================================
+/* ===============================
    GENERATE TOKEN
-========================================= */
+================================ */
 
 function generateToken(){
 
@@ -1372,7 +1356,7 @@ function generateToken(){
     }
 
 
-    /* GET BOOKINGS */
+    /* BOOKINGS */
 
     const bookings =
         getBookings(date);
@@ -1392,26 +1376,15 @@ function generateToken(){
     }
 
 
-    /* TOKEN */
-
-    const token =
-        getNextToken(date);
-
-
-    if(!token){
-
-        showError(
-            "Token generate नहीं हो सका।"
-        );
-
-        return;
-    }
-
-
     /* TOKEN NUMBER */
 
     const tokenNumber =
         bookings.length + 1;
+
+
+    const token =
+        "A-" +
+        String(tokenNumber).padStart(4,"0");
 
 
     /* REPORTING TIME */
@@ -1420,10 +1393,21 @@ function generateToken(){
         getReportingTime(tokenNumber);
 
 
-    /* BOOKING OBJECT */
+    /* BOOKING */
 
     const booking = {
 
         token: token,
 
+        tokenNumber: tokenNumber,
+
+        reportingTime: reportingTime,
+
+        applicantName: name,
+
+        age: Number(age),
+
+        gender: gender,
+
+        address: address,
     
