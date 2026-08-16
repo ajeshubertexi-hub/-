@@ -4,1281 +4,271 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Aadhaar Seva Kendra Kanjoli - Token Booking</title>
+<title>ASK Kanjoli Token Booking</title>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
 
 body{
     margin:0;
-    font-family:Arial,sans-serif;
+    font-family:Arial, sans-serif;
     background:#f3f6fb;
-    color:#172033;
+    color:#222;
 }
 
-header{
-    background:linear-gradient(135deg,#063b82,#1976d2);
-    color:white;
-    padding:20px;
+.container{
+    max-width:600px;
+    margin:auto;
+    padding:15px;
 }
 
 .header{
-    max-width:1100px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.logo{
-    width:60px;
-    height:60px;
-    background:white;
-    color:#0757b7;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
+    background:linear-gradient(135deg,#0d47a1,#1976d2);
+    color:white;
+    padding:22px 15px;
+    text-align:center;
+    border-radius:0 0 18px 18px;
 }
 
 .header h1{
     margin:0;
-    font-size:23px;
+    font-size:25px;
 }
 
 .header p{
-    margin:5px 0 0;
+    margin:7px 0 0;
 }
 
-.container{
-    max-width:1100px;
-    margin:25px auto;
-    padding:0 15px;
-}
-
-.hero,
 .card{
     background:white;
+    margin-top:15px;
+    padding:20px;
     border-radius:16px;
-    box-shadow:0 7px 25px rgba(0,0,0,.08);
-}
-
-.hero{
-    padding:22px;
-    margin-bottom:18px;
-}
-
-.hero h2{
-    margin:0 0 6px;
-    color:#0757b7;
-}
-
-.hero p{
-    margin:0;
-    color:#667085;
-}
-
-.layout{
-    display:grid;
-    grid-template-columns:1.4fr .7fr;
-    gap:18px;
-}
-
-.card{
-    padding:22px;
-    margin-bottom:18px;
-}
-
-.card h3{
-    color:#0757b7;
-    margin-top:0;
-    padding-bottom:10px;
-    border-bottom:1px solid #ddd;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.full{
-    grid-column:1/-1;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
 }
 
 label{
     display:block;
     font-weight:bold;
-    font-size:14px;
+    margin-top:13px;
     margin-bottom:6px;
 }
 
-input,
-select,
-textarea{
+input,select{
     width:100%;
-    padding:12px;
-    border:1px solid #d9e0e8;
-    border-radius:9px;
-    font-size:15px;
-    outline:none;
-}
-
-textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:#1976d2;
-}
-
-.office{
-    background:#eef6ff;
-    border:1px solid #c8def7;
-    color:#0757b7;
-    padding:14px;
-    border-radius:10px;
-    font-weight:bold;
-}
-
-.services{
-    display:grid;
-    gap:9px;
-}
-
-.service{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px;
-    border:1px solid #dfe5ee;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-.service input{
-    width:auto;
-}
-
-.info-box{
-    background:#eef7ff;
-    border:1px solid #c8def7;
-    color:#0757b7;
-    padding:14px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
-
-.status-card{
-    text-align:center;
-}
-
-.selected-date{
-    color:#0757b7;
-    font-size:22px;
-    font-weight:bold;
-    margin:12px 0;
-}
-
-.counter{
-    font-size:20px;
-    font-weight:bold;
-}
-
-.progress{
-    height:12px;
-    background:#e8edf3;
-    border-radius:20px;
-    overflow:hidden;
-    margin:12px 0;
-}
-
-.progress-bar{
-    width:0%;
-    height:100%;
-    background:#079669;
-    transition:.3s;
-}
-
-.status{
     padding:13px;
+    border:1px solid #ccc;
     border-radius:9px;
-    font-weight:bold;
-}
-
-.available{
-    background:#e9fff7;
-    color:#087f5b;
-}
-
-.full-status{
-    background:#fff0f0;
-    color:#c62828;
-}
-
-.holiday{
-    background:#fff7df;
-    color:#956000;
-}
-
-.declaration{
-    background:#f8fafc;
-    border:1px solid #dfe5ee;
-    border-radius:10px;
-    padding:14px;
-    font-size:13px;
-    line-height:1.6;
-}
-
-.declaration input{
-    width:auto;
-}
-
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:18px;
+    font-size:16px;
 }
 
 button{
+    width:100%;
+    padding:14px;
+    margin-top:18px;
     border:0;
-    border-radius:9px;
-    padding:13px 18px;
-    font-size:15px;
+    border-radius:10px;
+    background:#0d47a1;
+    color:white;
+    font-size:17px;
     font-weight:bold;
     cursor:pointer;
 }
 
 button:disabled{
-    opacity:.6;
-    cursor:not-allowed;
+    background:#999;
 }
 
-.primary{
-    background:#0757b7;
-    color:white;
-    flex:1;
+.general{
+    background:#fff8e1;
+    border:2px solid #ffb300;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
 }
 
-.secondary{
-    background:#edf1f6;
-    color:#26364a;
+.general h3{
+    margin:0 0 8px;
+    color:#e65100;
+}
+
+.tokenBox{
+    display:none;
+    text-align:center;
+    background:#e8f5e9;
+    border:2px solid #2e7d32;
+    padding:20px;
+    margin-top:20px;
+    border-radius:15px;
+}
+
+.token{
+    font-size:48px;
+    font-weight:bold;
+    color:#1b5e20;
+    margin:10px;
 }
 
 .success{
-    background:#079669;
-    color:white;
-}
-
-.alert{
-    display:none;
-    background:#fff0f0;
-    border:1px solid #ffbaba;
-    color:#b42318;
-    padding:13px;
-    border-radius:9px;
-    margin-bottom:18px;
+    color:#1b5e20;
     font-weight:bold;
 }
 
-.alert.show{
-    display:block;
+.error{
+    color:#c62828;
+    font-weight:bold;
+    white-space:pre-wrap;
 }
 
-.success-alert{
-    background:#e9fff7;
-    border:1px solid #b7ead8;
-    color:#087f5b;
-}
-
-.footer{
-    text-align:center;
-    padding:20px;
-    color:#667085;
+.small{
     font-size:13px;
+    color:#666;
 }
 
-/* MODAL */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    z-index:1000;
-    align-items:center;
-    justify-content:center;
-    padding:15px;
+.printBtn{
+    background:#2e7d32;
 }
 
-.modal.show{
-    display:flex;
+.clearBtn{
+    background:#757575;
 }
 
-.slip{
-    width:100%;
-    max-width:540px;
-    background:white;
-    border-radius:16px;
-    overflow:hidden;
-}
-
-.slip-header{
-    background:linear-gradient(135deg,#063b82,#1976d2);
-    color:white;
+.status{
     text-align:center;
-    padding:22px;
+    margin-top:10px;
+    font-size:14px;
 }
-
-.slip-header h2{
-    color:white;
-    margin:0;
-}
-
-.slip-header p{
-    margin:5px 0 0;
-}
-
-.token-box{
-    text-align:center;
-    padding:22px;
-}
-
-.token-box small{
-    color:#667085;
-    font-weight:bold;
-}
-
-.token-number{
-    display:block;
-    color:#0757b7;
-    font-size:52px;
-    font-weight:900;
-    margin-top:5px;
-}
-
-.reporting{
-    background:#e9fff7;
-    color:#087f5b;
-    margin:0 22px 15px;
-    padding:14px;
-    border-radius:10px;
-    text-align:center;
-    font-weight:bold;
-}
-
-.reporting-time{
-    display:block;
-    font-size:27px;
-    margin-top:4px;
-}
-
-.slip-details{
-    padding:5px 22px 20px;
-}
-
-.detail{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-    padding:10px 0;
-    border-bottom:1px dashed #ccc;
-}
-
-.detail .label{
-    color:#667085;
-}
-
-.detail .value{
-    font-weight:bold;
-    text-align:right;
-    max-width:60%;
-    word-break:break-word;
-}
-
-.slip-footer{
-    text-align:center;
-    background:#f7f9fb;
-    padding:14px;
-    font-size:12px;
-    color:#667085;
-}
-
-.modal-buttons{
-    display:flex;
-    gap:8px;
-    padding:15px;
-}
-
-.modal-buttons button{
-    flex:1;
-}
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-    .layout{
-        grid-template-columns:1fr;
-    }
-
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-
-    .full{
-        grid-column:auto;
-    }
-
-}
-
-@media(max-width:500px){
-
-    .header h1{
-        font-size:19px;
-    }
-
-    .token-number{
-        font-size:43px;
-    }
-
-    .detail{
-        flex-direction:column;
-        gap:4px;
-    }
-
-    .detail .value{
-        max-width:100%;
-        text-align:left;
-    }
-
-    .modal-buttons{
-        flex-direction:column;
-    }
-
-}
-
-/* PRINT */
-
-@media print{
-
-    body *{
-        visibility:hidden !important;
-    }
-
-    .slip,
-    .slip *{
-        visibility:visible !important;
-    }
-
-    .modal{
-        display:block !important;
-        position:absolute;
-        background:white;
-        padding:0;
-    }
-
-    .slip{
-        max-width:100%;
-        border-radius:0;
-        box-shadow:none;
-    }
-
-    .modal-buttons{
-        display:none !important;
-    }
-
-}
-
 </style>
 </head>
 
-
 <body>
 
-<header>
-
 <div class="header">
-
-<div class="logo">
-ASK
+    <h1>ASK Kanjoli</h1>
+    <p>Token Booking System</p>
 </div>
-
-<div>
-
-<h1>
-Aadhaar Seva Kendra
-</h1>
-
-<p>
-Kanjoli • Online Token Booking
-</p>
-
-</div>
-
-</div>
-
-</header>
-
 
 <div class="container">
 
-
-<div class="hero">
-
-<h2>
-🎟️ Online Token Booking
-</h2>
-
-<p>
-Aadhaar Seva Kendra Kanjoli के लिए ऑनलाइन टोकन बुक करें।
-</p>
-
-</div>
-
-
-<div id="alert" class="alert"></div>
-
-
-<div class="layout">
-
-
-<!-- LEFT -->
-
-<div>
-
-
 <div class="card">
 
-<h3>
-👤 Applicant Details
-</h3>
+    <h2>Token Booking</h2>
 
+    <div id="firebaseStatus" class="status">
+        Firebase connect हो रहा है...
+    </div>
 
-<div class="form-grid">
+    <label>नाम</label>
+    <input id="name" type="text" placeholder="अपना नाम लिखें">
 
+    <label>उम्र</label>
+    <input id="age" type="number" placeholder="उम्र">
 
-<div class="full">
+    <label>लिंग</label>
+    <select id="gender">
+        <option value="">चुनें</option>
+        <option value="Male">पुरुष</option>
+        <option value="Female">महिला</option>
+        <option value="Other">अन्य</option>
+    </select>
 
-<label>
-ASK Office
-</label>
+    <label>पता</label>
+    <input id="address" type="text" placeholder="पूरा पता">
 
-<div class="office">
-Aadhaar Seva Kendra Kanjoli
-</div>
+    <label>Service</label>
+    <select id="service">
+        <option value="General">General</option>
+        <option value="New Aadhaar">New Aadhaar</option>
+        <option value="Aadhaar Update">Aadhaar Update</option>
+        <option value="Mobile Update">Mobile Update</option>
+        <option value="Other">Other</option>
+    </select>
 
-</div>
+    <div class="general">
+        <h3>General Token</h3>
+        <div>
+            आज के General Token:
+            <b id="generalCount">लोड हो रहा है...</b>
+        </div>
+        <div class="small">
+            अधिकतम 40 Token प्रतिदिन
+        </div>
+    </div>
 
+    <button id="bookBtn" onclick="bookToken()">
+        Token Book करें
+    </button>
 
-<div>
+    <div id="message"></div>
 
-<label>
-Booking Date *
-</label>
+    <div id="tokenBox" class="tokenBox">
 
-<input
-type="date"
-id="bookingDate">
+        <div class="success">
+            आपका Token सफलतापूर्वक Book हो गया
+        </div>
 
-</div>
+        <div class="token" id="tokenNumber">
+            A-001
+        </div>
 
+        <div>
+            Reporting Time:
+            <b id="reportingTime"></b>
+        </div>
 
-<div>
+        <p id="bookingDetails"></p>
 
-<label>
-Applicant Name *
-</label>
+        <button class="printBtn" onclick="window.print()">
+            Print / Download Slip
+        </button>
 
-<input
-type="text"
-id="applicantName"
-placeholder="आवेदक का नाम">
+        <button class="clearBtn" onclick="location.reload()">
+            नया Token
+        </button>
 
-</div>
-
-
-<div>
-
-<label>
-Age *
-</label>
-
-<input
-type="number"
-id="age"
-min="0"
-max="120"
-placeholder="आयु">
-
-</div>
-
-
-<div>
-
-<label>
-Gender *
-</label>
-
-<select id="gender">
-
-<option value="">
-Select Gender
-</option>
-
-<option value="Male">
-Male / पुरुष
-</option>
-
-<option value="Female">
-Female / महिला
-</option>
-
-<option value="Other">
-Other / अन्य
-</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label>
-Mobile Number *
-</label>
-
-<input
-type="tel"
-id="mobile"
-maxlength="10"
-inputmode="numeric"
-placeholder="10 अंकों का मोबाइल नंबर">
-
-</div>
-
-
-<div class="full">
-
-<label>
-Address *
-</label>
-
-<textarea
-id="address"
-placeholder="पूरा पता लिखें">
-</textarea>
-
-</div>
-
+    </div>
 
 </div>
 
 </div>
 
 
-<!-- SERVICE -->
-
-<div class="card">
-
-<h3>
-📋 Service Type
-</h3>
-
-
-<div class="services">
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="New Enrollment">
-
-New Enrollment / नया नामांकन
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Name Update">
-
-Name Update / नाम अपडेट
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Age Update">
-
-Age Update / आयु अपडेट
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Gender Update">
-
-Gender Update / लिंग अपडेट
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Address Update">
-
-Address Update / पता अपडेट
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Mobile Number Update">
-
-📱 Mobile Number Update / मोबाइल अपडेट
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Email Update">
-
-📧 Email Update / ईमेल अपडेट
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Biometric Update">
-
-Biometric Update / बायोमेट्रिक अपडेट
-
-</label>
-
-
-<label class="service">
-
-<input
-type="radio"
-name="service"
-value="Print / Download">
-
-Print / Download
-
-</label>
-
-
-</div>
-
-</div>
-
-
-<!-- DECLARATION -->
-
-<div class="card">
-
-<h3>
-📜 Declaration
-</h3>
-
-
-<div class="declaration">
-
-<label style="font-weight:normal">
-
-<input
-type="checkbox"
-id="declaration">
-
-मैं पुष्टि करता/करती हूँ कि मेरे द्वारा दी गई जानकारी सही है।
-मैं समझता/समझती हूँ कि यह token booking है और सेवा केंद्र के
-नियम लागू होंगे।
-
-</label>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="primary"
-id="generateToken">
-
-🎟️ Generate Token
-
-</button>
-
-
-<button
-class="secondary"
-id="resetForm">
-
-Reset
-
-</button>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<!-- RIGHT -->
-
-<div>
-
-
-<div class="card status-card">
-
-<h3>
-📊 Slot Status
-</h3>
-
-
-<div
-id="selectedDate"
-class="selected-date">
-
---
-
-</div>
-
-
-<div class="counter">
-
-<span id="bookedCount">
-0
-</span>
-
-/ 40
-
-</div>
-
-
-<div class="progress">
-
-<div
-id="progressBar"
-class="progress-bar">
-</div>
-
-</div>
-
-
-<div
-id="slotStatus"
-class="status available">
-
-Date select करें
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-⏰ Token Timing
-</h3>
-
-
-<div class="info-box">
-
-<b>
-Booking Time:
-</b>
-
-<br>
-
-08:00 AM से 06:00 PM
-
-<br><br>
-
-
-<b>
-हर Token:
-</b>
-
-<br>
-
-15 मिनट के अंतराल पर
-
-<br><br>
-
-
-<b>
-Total Tokens:
-</b>
-
-<br>
-
-40 Tokens Per Day
-
-</div>
-
-
-<p>
-A-0001 → <b>08:00 AM</b>
-</p>
-
-<p>
-A-0002 → <b>08:15 AM</b>
-</p>
-
-<p>
-A-0003 → <b>08:30 AM</b>
-</p>
-
-<p>
-A-0040 → <b>05:45 PM</b>
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-ℹ️ Booking Rules
-</h3>
-
-<p>
-🎟️ Daily Limit:
-<b>40 Tokens</b>
-</p>
-
-<p>
-🔢 Token:
-<b>A-0001 → A-0040</b>
-</p>
-
-<p>
-⏰ Reporting:
-<b>15 मिनट</b>
-</p>
-
-<p>
-🕗 Start:
-<b>08:00 AM</b>
-</p>
-
-<p>
-🕕 Last Token:
-<b>05:45 PM</b>
-</p>
-
-<p>
-📅 Sunday:
-<b>Holiday</b>
-</p>
-
-</div>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="footer">
-
-Aadhaar Seva Kendra Kanjoli • Online Token Booking
-
-</div>
-
-
-<!-- TOKEN SLIP -->
-
-<div
-id="tokenModal"
-class="modal">
-
-
-<div class="slip">
-
-
-<div class="slip-header">
-
-<h2>
-Aadhaar Seva Kendra
-</h2>
-
-<p>
-Kanjoli
-</p>
-
-</div>
-
-
-<div class="token-box">
-
-<small>
-TOKEN NUMBER
-</small>
-
-<span
-id="slipToken"
-class="token-number">
-
-A-0001
-
-</span>
-
-</div>
-
-
-<div class="reporting">
-
-📍 कृपया इस समय केंद्र पर पहुँचें
-
-<span
-id="slipReportingTime"
-class="reporting-time">
-
-08:00 AM
-
-</span>
-
-</div>
-
-
-<div class="slip-details">
-
-
-<div class="detail">
-
-<span class="label">
-Applicant Name
-</span>
-
-<span
-id="slipName"
-class="value">
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Age
-</span>
-
-<span
-id="slipAge"
-class="value">
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Gender
-</span>
-
-<span
-id="slipGender"
-class="value">
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Mobile
-</span>
-
-<span
-id="slipMobile"
-class="value">
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Address
-</span>
-
-<span
-id="slipAddress"
-class="value">
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Service
-</span>
-
-<span
-id="slipService"
-class="value">
-</span>
-
-</div>
-
-
-<div class="detail">
-
-<span class="label">
-Booking Date
-</span>
-
-<span
-id="slipDate"
-class="value">
-</span>
-
-</div>
-
-
-</div>
-
-
-<div class="slip-footer">
-
-कृपया निर्धारित Reporting Time पर Aadhaar Seva Kendra पहुँचें।<br>
-
-Please keep this token slip for your reference.
-
-</div>
-
-
-<div class="modal-buttons">
-
-
-<button
-class="success"
-id="printSlip">
-
-🖨️ Print
-
-</button>
-
-
-<button
-class="primary"
-id="downloadSlip">
-
-⬇️ Download
-
-</button>
-
-
-<button
-class="secondary"
-id="closeModal">
-
-Close
-
-</button>
-
-
-</div>
-
-
-</div>
-
-</div>
-
-
-
-<!-- =========================
-     FIREBASE
-========================= -->
-
+<!-- Firebase -->
 <script type="module">
 
-import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
     getAuth,
     signInAnonymously,
     onAuthStateChanged
 }
-from
-"https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
     getFirestore,
-    collection,
     doc,
+    getDoc,
+    setDoc,
+    addDoc,
+    collection,
     runTransaction,
-    getDoc
+    serverTimestamp
 }
-from
-"https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* =========================
-   FIREBASE CONFIG
-========================= */
+/* =========================================
+   YOUR FIREBASE CONFIG
+========================================= */
 
 const firebaseConfig = {
 
-    apiKey:
-    "AIzaSyCkSySC8CbP8s7QGG8fu3R-k-gIQRSW0wGyS",
-
+    apiKey: "AIzaSyCKs8CbP8s7QGG8fu3R-k-gIQR",
+    
     authDomain:
     "ask-kanjoli-token-booking.firebaseapp.com",
 
@@ -1289,471 +279,464 @@ const firebaseConfig = {
     "ask-kanjoli-token-booking.firebasestorage.app",
 
     messagingSenderId:
-    "446971905701",
+    "469671905701",
 
     appId:
-    "1:446971905701:web:1c42ff1c96a5ab728804c"
-
+    "1:469671905701:web:1c42ff1c96a5a6b728804c"
 };
 
 
-/* =========================
+/* =========================================
    INITIALIZE FIREBASE
-========================= */
+========================================= */
 
-const app =
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const auth =
-getAuth(app);
+const auth = getAuth(app);
 
-const db =
-getFirestore(app);
+const db = getFirestore(app);
 
-
-/* =========================
-   HELPERS
-========================= */
-
-const $ = id =>
-document.getElementById(id);
-
-const MAX_TOKENS = 40;
-
-const START_MINUTES = 8 * 60;
-
-const SLOT_MINUTES = 15;
+let currentUser = null;
 
 
-/* =========================
-   TODAY
-========================= */
+/* =========================================
+   DATE
+========================================= */
 
 function getToday(){
 
-    const d =
-    new Date();
+    const d = new Date();
 
-    return (
+    const year = d.getFullYear();
 
-        d.getFullYear()
-        +
-        "-"
-        +
-        String(
-            d.getMonth()+1
-        ).padStart(2,"0")
-        +
-        "-"
-        +
-        String(
-            d.getDate()
-        ).padStart(2,"0")
-
-    );
-
-}
-
-
-/* =========================
-   DATE FORMAT
-========================= */
-
-function formatDate(date){
-
-    const d =
-    new Date(
-        date +
-        "T00:00:00"
-    );
-
-    return d.toLocaleDateString(
-        "hi-IN",
-        {
-            day:"2-digit",
-            month:"long",
-            year:"numeric"
-        }
-    );
-
-}
-
-
-/* =========================
-   REPORTING TIME
-========================= */
-
-function getReportingTime(
-    tokenNumber
-){
-
-    const totalMinutes =
-    START_MINUTES +
-    (
-        (tokenNumber - 1)
-        *
-        SLOT_MINUTES
-    );
-
-    const hour =
-    Math.floor(
-        totalMinutes / 60
-    );
-
-    const minute =
-    totalMinutes % 60;
-
-    const ampm =
-    hour >= 12
-    ? "PM"
-    : "AM";
-
-    let displayHour =
-    hour % 12;
-
-    if(displayHour === 0){
-        displayHour = 12;
-    }
-
-    return (
-
-        String(
-            displayHour
-        ).padStart(2,"0")
-
-        +
-
-        ":"
-
-        +
-
-        String(
-            minute
-        ).padStart(2,"0")
-
-        +
-
-        " "
-
-        +
-
-        ampm
-
-    );
-
-}
-
-
-/* =========================
-   ERROR MESSAGE
-========================= */
-
-function showError(message){
-
-    $("alert").textContent =
-    message;
-
-    $("alert").className =
-    "alert show";
-
-}
-
-
-/* =========================
-   LOGIN
-========================= */
-
-async function ensureLogin(){
-
-    if(
-        auth.currentUser
-    ){
-
-        return auth.currentUser;
-
-    }
-
-    await signInAnonymously(
-        auth
-    );
-
-    if(
-        !auth.currentUser
-    ){
-
-        throw new Error(
-            "Anonymous Authentication नहीं हुआ।"
-        );
-
-    }
-
-    return auth.currentUser;
-
-}
-
-
-/* =========================
-   COUNTER
-========================= */
-
-async function getDailyCounter(
-    date
-){
-
-    await ensureLogin();
-
-    const counterRef =
-    doc(
-        db,
-        "counters",
-        date
-    );
-
-    const snap =
-    await getDoc(
-        counterRef
-    );
-
-    if(
-        !snap.exists()
-    ){
-
-        return 0;
-
-    }
-
-    return Number(
-        snap.data().count || 0
-    );
-
-}
-
-
-/* =========================
-   STATUS
-========================= */
-
-async function checkStatus(){
-
-    const date =
-    $("bookingDate").value;
-
-    if(!date){
-
-        $("selectedDate")
-        .textContent = "--";
-
-        $("bookedCount")
-        .textContent = "0";
-
-        $("progressBar")
-        .style.width = "0%";
-
-        $("slotStatus")
-        .className =
-        "status available";
-
-        $("slotStatus")
-        .textContent =
-        "Date select करें";
-
-        return;
-
-    }
-
-
-    $("selectedDate")
-    .textContent =
-    formatDate(date);
-
-
-    /* SUNDAY */
+    const month =
+        String(d.getMonth()+1).padStart(2,"0");
 
     const day =
-    new Date(
-        date +
-        "T00:00:00"
-    ).getDay();
+        String(d.getDate()).padStart(2,"0");
+
+    return `${year}-${month}-${day}`;
+}
 
 
-    if(day === 0){
+/* =========================================
+   REPORTING TIME
+   हर Token को 15 मिनट का slot
+========================================= */
 
-        $("bookedCount")
-        .textContent = "0";
+function getReportingTime(tokenNumber){
 
-        $("progressBar")
-        .style.width = "0%";
+    const baseHour = 9;
 
-        $("slotStatus")
-        .className =
-        "status holiday";
+    const baseMinute = 0;
 
-        $("slotStatus")
-        .textContent =
-        "🔴 Sunday Holiday — Booking Closed";
+    const minutes =
+        baseMinute + ((tokenNumber - 1) * 15);
 
-        return;
+    const hour =
+        baseHour + Math.floor(minutes / 60);
 
-    }
+    const minute =
+        minutes % 60;
 
+    const h =
+        String(hour).padStart(2,"0");
+
+    const m =
+        String(minute).padStart(2,"0");
+
+    return `${h}:${m}`;
+}
+
+
+/* =========================================
+   FIREBASE LOGIN
+========================================= */
+
+async function loginFirebase(){
 
     try{
 
-        const count =
-        await getDailyCounter(
-            date
-        );
+        await signInAnonymously(auth);
 
+        document.getElementById("firebaseStatus").innerHTML =
+            "🟢 Firebase Connected";
 
-        $("bookedCount")
-        .textContent =
-        count;
+        document.getElementById("firebaseStatus").style.color =
+            "green";
 
-
-        $("progressBar")
-        .style.width =
-        Math.min(
-            (
-                count /
-                MAX_TOKENS
-            ) * 100,
-            100
-        )
-        +
-        "%";
-
-
-        if(
-            count >= MAX_TOKENS
-        ){
-
-            $("slotStatus")
-            .className =
-            "status full-status";
-
-            $("slotStatus")
-            .textContent =
-            "🔴 Slot Full — 40/40";
-
-        }
-        else{
-
-            $("slotStatus")
-            .className =
-            "status available";
-
-            $("slotStatus")
-            .textContent =
-            "🟢 Slot Available — "
-            +
-            (
-                MAX_TOKENS -
-                count
-            )
-            +
-            " Tokens Remaining";
-
-        }
+        await loadGeneralCount();
 
     }
     catch(error){
 
-        console.error(
-            "Firebase Status Error:",
-            error
+        console.error(error);
+
+        document.getElementById("firebaseStatus").innerHTML =
+            "🔴 Firebase Connection Error";
+
+        document.getElementById("firebaseStatus").style.color =
+            "red";
+
+        showError(
+            "Firebase login नहीं हो पाया.\n\n" +
+            "Authentication → Sign-in method → Anonymous को Enable करें."
         );
-
-        $("slotStatus")
-        .className =
-        "status full-status";
-
-        $("slotStatus")
-        .textContent =
-        "Firebase connection error";
-
     }
-
 }
 
 
-/* =========================
-   DATE INITIAL
-========================= */
+onAuthStateChanged(auth, user => {
 
-$("bookingDate").min =
-getToday();
+    if(user){
 
-$("bookingDate").value =
-getToday();
+        currentUser = user;
 
-$("bookingDate").addEventListener(
-    "change",
-    checkStatus
-);
+        loadGeneralCount();
+
+    }
+
+});
 
 
-/* =========================
-   GENERATE TOKEN
-========================= */
+/* =========================================
+   LOAD TOKEN COUNT
+========================================= */
 
-$("generateToken")
-.addEventListener(
-"click",
-async function(){
+async function loadGeneralCount(){
 
-    $("alert")
-    .className =
-    "alert";
+    if(!currentUser) return;
+
+    try{
+
+        const today = getToday();
+
+        const counterRef =
+            doc(db,"counters",today);
+
+        const snap =
+            await getDoc(counterRef);
+
+        let count = 0;
+
+        if(snap.exists()){
+
+            count = snap.data().general || 0;
+
+        }
+
+        document.getElementById("generalCount")
+            .innerText =
+            `${count} / 40`;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("generalCount")
+            .innerText =
+            "Error";
+
+    }
+}
 
 
-    const date =
-    $("bookingDate").value;
+/* =========================================
+   BOOK TOKEN
+========================================= */
+
+window.bookToken = async function(){
+
+    const button =
+        document.getElementById("bookBtn");
 
     const name =
-    $("applicantName")
-    .value
-    .trim();
+        document.getElementById("name").value.trim();
 
     const age =
-    $("age").value;
+        document.getElementById("age").value.trim();
 
     const gender =
-    $("gender").value;
-
-    const mobile =
-    $("mobile")
-    .value
-    .trim();
+        document.getElementById("gender").value;
 
     const address =
-    $("address")
-    .value
-    .trim();
-
-    const serviceElement =
-    document.querySelector(
-        'input[name="service"]:checked'
-    );
+        document.getElementById("address").value.trim();
 
     const service =
-    serviceElement
-    ?
-    serviceElement.value
-    :
-    "";
+        document.getElementById("service").value;
 
 
-    const declaration =
-    $("declaration").checked;
+    /* Validation */
 
-
-    /* =========================
-       VALIDATION
-    ========================= */
-
-    if(!date){
+    if(!currentUser){
 
         showError(
-            "Booking Date select करें।"
+            "Firebase अभी connected नहीं है."
         );
- 
+
+        return;
+    }
+
+
+    if(!name){
+
+        showError("नाम भरना जरूरी है.");
+
+        return;
+    }
+
+
+    if(!age){
+
+        showError("उम्र भरना जरूरी है.");
+
+        return;
+    }
+
+
+    if(!gender){
+
+        showError("लिंग चुनें.");
+
+        return;
+    }
+
+
+    if(!address){
+
+        showError("पता भरना जरूरी है.");
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.innerText =
+        "Token बनाया जा रहा है...";
+
+
+    try{
+
+        const today = getToday();
+
+        const counterRef =
+            doc(db,"counters",today);
+
+
+        /*
+          Transaction के अंदर token count
+          सुरक्षित तरीके से बढ़ाया जाएगा
+        */
+
+        const tokenNumber =
+            await runTransaction(
+                db,
+                async transaction => {
+
+                    const counterSnap =
+                        await transaction.get(counterRef);
+
+                    let currentCount = 0;
+
+                    if(counterSnap.exists()){
+
+                        currentCount =
+                            counterSnap.data().general || 0;
+
+                    }
+
+
+                    /* Maximum 40 */
+
+                    if(currentCount >= 40){
+
+                        throw new Error(
+                            "TODAY_FULL"
+                        );
+
+                    }
+
+
+                    const nextNumber =
+                        currentCount + 1;
+
+
+                    transaction.set(
+                        counterRef,
+                        {
+                            general: nextNumber,
+                            date: today,
+                            updatedAt:
+                                serverTimestamp()
+                        },
+                        {
+                            merge:true
+                        }
+                    );
+
+
+                    return nextNumber;
+
+                }
+            );
+
+
+        /* Token */
+
+        const token =
+            "A-" +
+            String(tokenNumber)
+            .padStart(3,"0");
+
+
+        /* Reporting Time */
+
+        const reportingTime =
+            getReportingTime(tokenNumber);
+
+
+        /* Save Booking */
+
+        await addDoc(
+            collection(db,"Booking"),
+            {
+
+                token: token,
+
+                tokenNumber:
+                    tokenNumber,
+
+                date: today,
+
+                name: name,
+
+                age: age,
+
+                gender: gender,
+
+                address: address,
+
+                service: service,
+
+                reportingTime:
+                    reportingTime,
+
+                uid:
+                    currentUser.uid,
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        /* Show result */
+
+        document.getElementById(
+            "tokenNumber"
+        ).innerText = token;
+
+
+        document.getElementById(
+            "reportingTime"
+        ).innerText =
+            reportingTime;
+
+
+        document.getElementById(
+            "bookingDetails"
+        ).innerHTML =
+
+            `<b>नाम:</b> ${escapeHtml(name)}<br>
+             <b>उम्र:</b> ${escapeHtml(age)}<br>
+             <b>Service:</b> ${escapeHtml(service)}<br>
+             <b>दिनांक:</b> ${today}`;
+
+
+        document.getElementById(
+            "tokenBox"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "message"
+        ).innerHTML = "";
+
+
+        await loadGeneralCount();
+
+
+        button.style.display =
+            "none";
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        if(error.message === "TODAY_FULL"){
+
+            showError(
+                "आज के सभी 40 General Token भर चुके हैं."
+            );
+
+        }
+        else{
+
+            showError(
+                "Token Booking में समस्या हुई.\n\n" +
+                error.message
+            );
+
+        }
+
+        button.disabled = false;
+
+        button.innerText =
+            "Token Book करें";
+    }
+
+};
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+function showError(text){
+
+    document.getElementById("message")
+        .innerHTML =
+        `<p class="error">${escapeHtml(text)}</p>`;
+}
+
+
+/* =========================================
+   HTML SECURITY
+========================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+loginFirebase();
+
+</script>
+
+</body>
+</html>
