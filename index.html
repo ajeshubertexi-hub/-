@@ -7,21 +7,16 @@
 <title>ASK Kanjoli Token Booking</title>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
 
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#f3f6fb;
     color:#222;
-}
-
-.container{
-    max-width:600px;
-    margin:auto;
-    padding:15px;
 }
 
 .header{
@@ -38,7 +33,13 @@ body{
 }
 
 .header p{
-    margin:7px 0 0;
+    margin:6px 0 0;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    padding:15px;
 }
 
 .card{
@@ -49,6 +50,10 @@ body{
     box-shadow:0 3px 15px rgba(0,0,0,.08);
 }
 
+h2{
+    margin-top:0;
+}
+
 label{
     display:block;
     font-weight:bold;
@@ -56,12 +61,14 @@ label{
     margin-bottom:6px;
 }
 
-input,select{
+input,
+select{
     width:100%;
     padding:13px;
     border:1px solid #ccc;
     border-radius:9px;
     font-size:16px;
+    background:white;
 }
 
 button{
@@ -81,17 +88,48 @@ button:disabled{
     background:#999;
 }
 
+.status{
+    text-align:center;
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:8px;
+    font-size:14px;
+    background:#f5f5f5;
+}
+
 .general{
     background:#fff8e1;
     border:2px solid #ffb300;
     padding:15px;
     border-radius:12px;
-    margin-top:15px;
+    margin-top:18px;
 }
 
 .general h3{
     margin:0 0 8px;
     color:#e65100;
+}
+
+.small{
+    font-size:13px;
+    color:#666;
+    margin-top:5px;
+}
+
+.message{
+    margin-top:12px;
+}
+
+.error{
+    color:#c62828;
+    font-weight:bold;
+    white-space:pre-wrap;
+    line-height:1.5;
+}
+
+.success{
+    color:#1b5e20;
+    font-weight:bold;
 }
 
 .tokenBox{
@@ -105,170 +143,309 @@ button:disabled{
 }
 
 .token{
-    font-size:48px;
+    font-size:52px;
     font-weight:bold;
     color:#1b5e20;
-    margin:10px;
-}
-
-.success{
-    color:#1b5e20;
-    font-weight:bold;
-}
-
-.error{
-    color:#c62828;
-    font-weight:bold;
-    white-space:pre-wrap;
-}
-
-.small{
-    font-size:13px;
-    color:#666;
+    margin:15px;
 }
 
 .printBtn{
     background:#2e7d32;
 }
 
-.clearBtn{
+.newBtn{
     background:#757575;
 }
 
-.status{
-    text-align:center;
-    margin-top:10px;
-    font-size:14px;
+.slip{
+    background:white;
+    padding:15px;
+    margin-top:15px;
+    border-radius:10px;
+    text-align:left;
+    border:1px solid #ddd;
 }
+
+.loading{
+    opacity:.7;
+}
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .header,
+    .card > h2,
+    #firebaseStatus,
+    form,
+    .general,
+    #bookBtn,
+    .message,
+    .newBtn,
+    .printBtn{
+        display:none !important;
+    }
+
+    .container{
+        max-width:100%;
+        padding:0;
+    }
+
+    .card{
+        box-shadow:none;
+        margin:0;
+    }
+
+    .tokenBox{
+        display:block !important;
+        border:2px solid #000;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="header">
+
     <h1>ASK Kanjoli</h1>
+
     <p>Token Booking System</p>
+
 </div>
+
 
 <div class="container">
 
 <div class="card">
 
-    <h2>Token Booking</h2>
+<h2>Token Booking</h2>
 
-    <div id="firebaseStatus" class="status">
-        Firebase connect हो रहा है...
+
+<div id="firebaseStatus" class="status">
+    Firebase connect हो रहा है...
+</div>
+
+
+<form id="bookingForm">
+
+<label>नाम</label>
+
+<input
+    id="name"
+    type="text"
+    placeholder="अपना नाम लिखें"
+    autocomplete="name"
+    required
+>
+
+
+<label>उम्र</label>
+
+<input
+    id="age"
+    type="number"
+    min="1"
+    max="120"
+    placeholder="उम्र"
+    required
+>
+
+
+<label>लिंग</label>
+
+<select id="gender" required>
+
+    <option value="">
+        चुनें
+    </option>
+
+    <option value="Male">
+        पुरुष
+    </option>
+
+    <option value="Female">
+        महिला
+    </option>
+
+    <option value="Other">
+        अन्य
+    </option>
+
+</select>
+
+
+<label>पता</label>
+
+<input
+    id="address"
+    type="text"
+    placeholder="पूरा पता"
+    required
+>
+
+
+<label>Service</label>
+
+<select id="service">
+
+    <option value="General">
+        General
+    </option>
+
+    <option value="New Aadhaar">
+        New Aadhaar
+    </option>
+
+    <option value="Aadhaar Update">
+        Aadhaar Update
+    </option>
+
+    <option value="Mobile Update">
+        Mobile Update
+    </option>
+
+    <option value="Other">
+        Other
+    </option>
+
+</select>
+
+
+<div class="general">
+
+    <h3>General Token</h3>
+
+    <div>
+        आज के General Token:
+        <b id="generalCount">लोड हो रहा है...</b>
     </div>
 
-    <label>नाम</label>
-    <input id="name" type="text" placeholder="अपना नाम लिखें">
-
-    <label>उम्र</label>
-    <input id="age" type="number" placeholder="उम्र">
-
-    <label>लिंग</label>
-    <select id="gender">
-        <option value="">चुनें</option>
-        <option value="Male">पुरुष</option>
-        <option value="Female">महिला</option>
-        <option value="Other">अन्य</option>
-    </select>
-
-    <label>पता</label>
-    <input id="address" type="text" placeholder="पूरा पता">
-
-    <label>Service</label>
-    <select id="service">
-        <option value="General">General</option>
-        <option value="New Aadhaar">New Aadhaar</option>
-        <option value="Aadhaar Update">Aadhaar Update</option>
-        <option value="Mobile Update">Mobile Update</option>
-        <option value="Other">Other</option>
-    </select>
-
-    <div class="general">
-        <h3>General Token</h3>
-        <div>
-            आज के General Token:
-            <b id="generalCount">लोड हो रहा है...</b>
-        </div>
-        <div class="small">
-            अधिकतम 40 Token प्रतिदिन
-        </div>
+    <div class="small">
+        अधिकतम 40 Token प्रतिदिन
     </div>
 
-    <button id="bookBtn" onclick="bookToken()">
-        Token Book करें
+</div>
+
+
+<button
+    id="bookBtn"
+    type="submit"
+>
+    Token Book करें
+</button>
+
+</form>
+
+
+<div
+    id="message"
+    class="message"
+></div>
+
+
+<div
+    id="tokenBox"
+    class="tokenBox"
+>
+
+    <div class="success">
+        आपका Token सफलतापूर्वक Book हो गया
+    </div>
+
+
+    <div
+        id="tokenNumber"
+        class="token"
+    >
+        A-001
+    </div>
+
+
+    <div>
+
+        Reporting Time:
+        <b id="reportingTime"></b>
+
+    </div>
+
+
+    <div
+        id="bookingDetails"
+        class="slip"
+    ></div>
+
+
+    <button
+        class="printBtn"
+        onclick="window.print()"
+    >
+        Print / Download Slip
     </button>
 
-    <div id="message"></div>
 
-    <div id="tokenBox" class="tokenBox">
+    <button
+        class="newBtn"
+        onclick="location.reload()"
+    >
+        नया Token
+    </button>
 
-        <div class="success">
-            आपका Token सफलतापूर्वक Book हो गया
-        </div>
-
-        <div class="token" id="tokenNumber">
-            A-001
-        </div>
-
-        <div>
-            Reporting Time:
-            <b id="reportingTime"></b>
-        </div>
-
-        <p id="bookingDetails"></p>
-
-        <button class="printBtn" onclick="window.print()">
-            Print / Download Slip
-        </button>
-
-        <button class="clearBtn" onclick="location.reload()">
-            नया Token
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 </div>
 
 
-<!-- Firebase -->
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+/* =========================================
+   FIREBASE IMPORT
+========================================= */
+
+import {
+    initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 
 import {
     getAuth,
     signInAnonymously,
     onAuthStateChanged
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 
 import {
     getFirestore,
     doc,
     getDoc,
-    setDoc,
-    addDoc,
     collection,
     runTransaction,
     serverTimestamp
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 /* =========================================
-   YOUR FIREBASE CONFIG
+   FIREBASE CONFIG
 ========================================= */
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyCKs8CbP8s7QGG8fu3R-k-gIQR",
-    
+    apiKey:
+    "AIzaSyCKs8CbP8s7QGG8fu3R-k-gIQR",
+
     authDomain:
     "ask-kanjoli-token-booking.firebaseapp.com",
 
@@ -283,451 +460,742 @@ const firebaseConfig = {
 
     appId:
     "1:469671905701:web:1c42ff1c96a5a6b728804c"
+
 };
 
 
 /* =========================================
-   INITIALIZE FIREBASE
+   INITIALIZE
 ========================================= */
 
-const app = initializeApp(firebaseConfig);
+const app =
+    initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth =
+    getAuth(app);
 
-const db = getFirestore(app);
+const db =
+    getFirestore(app);
+
 
 let currentUser = null;
 
 
 /* =========================================
-   DATE
+   ELEMENTS
+========================================= */
+
+const statusBox =
+    document.getElementById(
+        "firebaseStatus"
+    );
+
+const countBox =
+    document.getElementById(
+        "generalCount"
+    );
+
+const bookBtn =
+    document.getElementById(
+        "bookBtn"
+    );
+
+const messageBox =
+    document.getElementById(
+        "message"
+    );
+
+
+/* =========================================
+   TODAY
 ========================================= */
 
 function getToday(){
 
-    const d = new Date();
+    const d =
+        new Date();
 
-    const year = d.getFullYear();
+    const year =
+        d.getFullYear();
 
     const month =
-        String(d.getMonth()+1).padStart(2,"0");
+        String(
+            d.getMonth()+1
+        ).padStart(2,"0");
 
     const day =
-        String(d.getDate()).padStart(2,"0");
+        String(
+            d.getDate()
+        ).padStart(2,"0");
 
-    return `${year}-${month}-${day}`;
+    return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day
+    );
+
 }
 
 
 /* =========================================
    REPORTING TIME
-   हर Token को 15 मिनट का slot
+   TOKEN 1 = 09:00
+   TOKEN 2 = 09:15
 ========================================= */
 
-function getReportingTime(tokenNumber){
+function getReportingTime(number){
 
-    const baseHour = 9;
-
-    const baseMinute = 0;
-
-    const minutes =
-        baseMinute + ((tokenNumber - 1) * 15);
+    const totalMinutes =
+        9 * 60 +
+        ((number - 1) * 15);
 
     const hour =
-        baseHour + Math.floor(minutes / 60);
+        Math.floor(
+            totalMinutes / 60
+        );
 
     const minute =
-        minutes % 60;
+        totalMinutes % 60;
 
-    const h =
-        String(hour).padStart(2,"0");
+    return (
+        String(hour).padStart(2,"0") +
+        ":" +
+        String(minute).padStart(2,"0")
+    );
 
-    const m =
-        String(minute).padStart(2,"0");
-
-    return `${h}:${m}`;
 }
 
 
 /* =========================================
-   FIREBASE LOGIN
+   ESCAPE HTML
+========================================= */
+
+function escapeHtml(value){
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================
+   SHOW ERROR
+========================================= */
+
+function showError(text){
+
+    messageBox.innerHTML =
+        `<div class="error">${escapeHtml(text)}</div>`;
+
+}
+
+
+/* =========================================
+   LOAD COUNT
+========================================= */
+
+async function loadGeneralCount(){
+
+    if(!currentUser){
+
+        return;
+    }
+
+
+    try{
+
+        const today =
+            getToday();
+
+        const counterRef =
+            doc(
+                db,
+                "counters",
+                today
+            );
+
+
+        const snap =
+            await getDoc(
+                counterRef
+            );
+
+
+        let count = 0;
+
+
+        if(snap.exists()){
+
+            count =
+                Number(
+                    snap.data().general || 0
+                );
+
+        }
+
+
+        countBox.innerText =
+            count + " / 40";
+
+
+    }
+    catch(error){
+
+        console.error(
+            "COUNT ERROR:",
+            error
+        );
+
+        countBox.innerText =
+            "लोड नहीं हुआ";
+
+    }
+
+}
+
+
+/* =========================================
+   LOGIN
 ========================================= */
 
 async function loginFirebase(){
 
     try{
 
-        await signInAnonymously(auth);
+        statusBox.innerText =
+            "Firebase login हो रहा है...";
 
-        document.getElementById("firebaseStatus").innerHTML =
-            "🟢 Firebase Connected";
+        statusBox.style.color =
+            "#555";
 
-        document.getElementById("firebaseStatus").style.color =
-            "green";
 
-        await loadGeneralCount();
+        await signInAnonymously(
+            auth
+        );
+
 
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "AUTH ERROR:",
+            error
+        );
 
-        document.getElementById("firebaseStatus").innerHTML =
-            "🔴 Firebase Connection Error";
 
-        document.getElementById("firebaseStatus").style.color =
+        statusBox.innerText =
+            "🔴 Firebase Login Error";
+
+
+        statusBox.style.color =
             "red";
 
+
         showError(
-            "Firebase login नहीं हो पाया.\n\n" +
-            "Authentication → Sign-in method → Anonymous को Enable करें."
+
+            "Firebase Login नहीं हो पाया.\n\n" +
+
+            "Firebase Console में जाएँ:\n" +
+
+            "Authentication → Sign-in method → Anonymous → Enable\n\n" +
+
+            "अगर Anonymous पहले से Enable है तो Firebase Console में आपका Web App सही Project से जुड़ा है या नहीं जाँचें.\n\n" +
+
+            "Error: " +
+            error.message
+
         );
+
     }
+
 }
 
 
-onAuthStateChanged(auth, user => {
-
-    if(user){
-
-        currentUser = user;
-
-        loadGeneralCount();
-
-    }
-
-});
-
-
 /* =========================================
-   LOAD TOKEN COUNT
+   AUTH STATE
 ========================================= */
 
-async function loadGeneralCount(){
+onAuthStateChanged(
+    auth,
+    async user => {
 
-    if(!currentUser) return;
+        if(user){
 
-    try{
+            currentUser =
+                user;
 
-        const today = getToday();
 
-        const counterRef =
-            doc(db,"counters",today);
+            statusBox.innerText =
+                "🟢 Firebase Connected";
 
-        const snap =
-            await getDoc(counterRef);
 
-        let count = 0;
+            statusBox.style.color =
+                "green";
 
-        if(snap.exists()){
 
-            count = snap.data().general || 0;
+            await loadGeneralCount();
 
         }
 
-        document.getElementById("generalCount")
-            .innerText =
-            `${count} / 40`;
-
     }
-    catch(error){
-
-        console.error(error);
-
-        document.getElementById("generalCount")
-            .innerText =
-            "Error";
-
-    }
-}
+);
 
 
 /* =========================================
-   BOOK TOKEN
+   BOOKING
 ========================================= */
 
-window.bookToken = async function(){
+document
+.getElementById("bookingForm")
+.addEventListener(
+    "submit",
+    async function(event){
 
-    const button =
-        document.getElementById("bookBtn");
-
-    const name =
-        document.getElementById("name").value.trim();
-
-    const age =
-        document.getElementById("age").value.trim();
-
-    const gender =
-        document.getElementById("gender").value;
-
-    const address =
-        document.getElementById("address").value.trim();
-
-    const service =
-        document.getElementById("service").value;
+        event.preventDefault();
 
 
-    /* Validation */
-
-    if(!currentUser){
-
-        showError(
-            "Firebase अभी connected नहीं है."
-        );
-
-        return;
-    }
+        messageBox.innerHTML =
+            "";
 
 
-    if(!name){
+        if(!currentUser){
 
-        showError("नाम भरना जरूरी है.");
+            showError(
+                "Firebase अभी connected नहीं है."
+            );
 
-        return;
-    }
+            return;
 
-
-    if(!age){
-
-        showError("उम्र भरना जरूरी है.");
-
-        return;
-    }
+        }
 
 
-    if(!gender){
-
-        showError("लिंग चुनें.");
-
-        return;
-    }
-
-
-    if(!address){
-
-        showError("पता भरना जरूरी है.");
-
-        return;
-    }
+        const name =
+            document
+            .getElementById("name")
+            .value
+            .trim();
 
 
-    button.disabled = true;
-
-    button.innerText =
-        "Token बनाया जा रहा है...";
-
-
-    try{
-
-        const today = getToday();
-
-        const counterRef =
-            doc(db,"counters",today);
+        const age =
+            document
+            .getElementById("age")
+            .value
+            .trim();
 
 
-        /*
-          Transaction के अंदर token count
-          सुरक्षित तरीके से बढ़ाया जाएगा
-        */
-
-        const tokenNumber =
-            await runTransaction(
-                db,
-                async transaction => {
-
-                    const counterSnap =
-                        await transaction.get(counterRef);
-
-                    let currentCount = 0;
-
-                    if(counterSnap.exists()){
-
-                        currentCount =
-                            counterSnap.data().general || 0;
-
-                    }
+        const gender =
+            document
+            .getElementById("gender")
+            .value;
 
 
-                    /* Maximum 40 */
+        const address =
+            document
+            .getElementById("address")
+            .value
+            .trim();
 
-                    if(currentCount >= 40){
 
-                        throw new Error(
-                            "TODAY_FULL"
+        const service =
+            document
+            .getElementById("service")
+            .value;
+
+
+        if(!name){
+
+            showError(
+                "नाम भरना जरूरी है."
+            );
+
+            return;
+
+        }
+
+
+        if(!age){
+
+            showError(
+                "उम्र भरना जरूरी है."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            Number(age) < 1 ||
+            Number(age) > 120
+        ){
+
+            showError(
+                "उम्र 1 से 120 के बीच होनी चाहिए."
+            );
+
+            return;
+
+        }
+
+
+        if(!gender){
+
+            showError(
+                "लिंग चुनना जरूरी है."
+            );
+
+            return;
+
+        }
+
+
+        if(!address){
+
+            showError(
+                "पता भरना जरूरी है."
+            );
+
+            return;
+
+        }
+
+
+        bookBtn.disabled =
+            true;
+
+        bookBtn.innerText =
+            "Token बनाया जा रहा है...";
+
+
+        try{
+
+            const today =
+                getToday();
+
+
+            const counterRef =
+                doc(
+                    db,
+                    "counters",
+                    today
+                );
+
+
+            /*
+             * नया Booking document पहले बनाया जाता है
+             * ताकि transaction के अंदर ही save हो सके।
+             */
+
+            const bookingRef =
+                doc(
+                    collection(
+                        db,
+                        "Booking"
+                    )
+                );
+
+
+            const tokenNumber =
+                await runTransaction(
+                    db,
+                    async transaction => {
+
+                        const counterSnap =
+                            await transaction.get(
+                                counterRef
+                            );
+
+
+                        let currentCount = 0;
+
+
+                        if(
+                            counterSnap.exists()
+                        ){
+
+                            currentCount =
+                                Number(
+                                    counterSnap
+                                    .data()
+                                    .general || 0
+                                );
+
+                        }
+
+
+                        if(
+                            currentCount >= 40
+                        ){
+
+                            throw new Error(
+                                "TODAY_FULL"
+                            );
+
+                        }
+
+
+                        const nextNumber =
+                            currentCount + 1;
+
+
+                        const token =
+                            "A-" +
+                            String(
+                                nextNumber
+                            ).padStart(
+                                3,
+                                "0"
+                            );
+
+
+                        const reportingTime =
+                            getReportingTime(
+                                nextNumber
+                            );
+
+
+                        /*
+                         * Counter update
+                         */
+
+                        transaction.set(
+
+                            counterRef,
+
+                            {
+
+                                general:
+                                    nextNumber,
+
+                                date:
+                                    today,
+
+                                updatedAt:
+                                    serverTimestamp()
+
+                            },
+
+                            {
+                                merge:true
+                            }
+
                         );
 
+
+                        /*
+                         * Booking save
+                         */
+
+                        transaction.set(
+
+                            bookingRef,
+
+                            {
+
+                                token:
+                                    token,
+
+                                tokenNumber:
+                                    nextNumber,
+
+                                date:
+                                    today,
+
+                                name:
+                                    name,
+
+                                age:
+                                    age,
+
+                                gender:
+                                    gender,
+
+                                address:
+                                    address,
+
+                                service:
+                                    service,
+
+                                reportingTime:
+                                    reportingTime,
+
+                                uid:
+                                    currentUser.uid
+
+                            }
+
+                        );
+
+
+                        return nextNumber;
+
                     }
+                );
 
 
-                    const nextNumber =
-                        currentCount + 1;
+            const token =
+                "A-" +
+                String(
+                    tokenNumber
+                ).padStart(
+                    3,
+                    "0"
+                );
 
 
-                    transaction.set(
-                        counterRef,
-                        {
-                            general: nextNumber,
-                            date: today,
-                            updatedAt:
-                                serverTimestamp()
-                        },
-                        {
-                            merge:true
-                        }
-                    );
+            const reportingTime =
+                getReportingTime(
+                    tokenNumber
+                );
 
 
-                    return nextNumber;
+            /*
+             * Result show
+             */
 
-                }
+            document
+            .getElementById(
+                "tokenNumber"
+            )
+            .innerText =
+                token;
+
+
+            document
+            .getElementById(
+                "reportingTime"
+            )
+            .innerText =
+                reportingTime;
+
+
+            document
+            .getElementById(
+                "bookingDetails"
+            )
+            .innerHTML =
+
+                "<b>नाम:</b> " +
+                escapeHtml(name) +
+
+                "<br><b>उम्र:</b> " +
+                escapeHtml(age) +
+
+                "<br><b>लिंग:</b> " +
+                escapeHtml(gender) +
+
+                "<br><b>पता:</b> " +
+                escapeHtml(address) +
+
+                "<br><b>Service:</b> " +
+                escapeHtml(service) +
+
+                "<br><b>दिनांक:</b> " +
+                escapeHtml(today);
+
+
+            document
+            .getElementById(
+                "tokenBox"
+            )
+            .style.display =
+                "block";
+
+
+            messageBox.innerHTML =
+                "";
+
+
+            await loadGeneralCount();
+
+
+            bookBtn.style.display =
+                "none";
+
+
+        }
+        catch(error){
+
+            console.error(
+                "BOOKING ERROR:",
+                error
             );
 
 
-        /* Token */
+            if(
+                error.message ===
+                "TODAY_FULL"
+            ){
 
-        const token =
-            "A-" +
-            String(tokenNumber)
-            .padStart(3,"0");
-
-
-        /* Reporting Time */
-
-        const reportingTime =
-            getReportingTime(tokenNumber);
-
-
-        /* Save Booking */
-
-        await addDoc(
-            collection(db,"Booking"),
-            {
-
-                token: token,
-
-                tokenNumber:
-                    tokenNumber,
-
-                date: today,
-
-                name: name,
-
-                age: age,
-
-                gender: gender,
-
-                address: address,
-
-                service: service,
-
-                reportingTime:
-                    reportingTime,
-
-                uid:
-                    currentUser.uid,
-
-                createdAt:
-                    serverTimestamp()
+                showError(
+                    "आज के सभी 40 General Token भर चुके हैं."
+                );
 
             }
-        );
+            else if(
+                error.code ===
+                "permission-denied"
+            ){
+
+                showError(
+
+                    "Firebase Permission Denied.\n\n" +
+
+                    "Firestore → Rules में नया Rules Code Publish करें."
+
+                );
+
+            }
+            else{
+
+                showError(
+
+                    "Token Booking नहीं हुई.\n\n" +
+
+                    "Error: " +
+                    error.message
+
+                );
+
+            }
 
 
-        /* Show result */
+            bookBtn.disabled =
+                false;
 
-        document.getElementById(
-            "tokenNumber"
-        ).innerText = token;
-
-
-        document.getElementById(
-            "reportingTime"
-        ).innerText =
-            reportingTime;
-
-
-        document.getElementById(
-            "bookingDetails"
-        ).innerHTML =
-
-            `<b>नाम:</b> ${escapeHtml(name)}<br>
-             <b>उम्र:</b> ${escapeHtml(age)}<br>
-             <b>Service:</b> ${escapeHtml(service)}<br>
-             <b>दिनांक:</b> ${today}`;
-
-
-        document.getElementById(
-            "tokenBox"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "message"
-        ).innerHTML = "";
-
-
-        await loadGeneralCount();
-
-
-        button.style.display =
-            "none";
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        if(error.message === "TODAY_FULL"){
-
-            showError(
-                "आज के सभी 40 General Token भर चुके हैं."
-            );
-
-        }
-        else{
-
-            showError(
-                "Token Booking में समस्या हुई.\n\n" +
-                error.message
-            );
+            bookBtn.innerText =
+                "Token Book करें";
 
         }
 
-        button.disabled = false;
-
-        button.innerText =
-            "Token Book करें";
     }
-
-};
-
-
-/* =========================================
-   ERROR
-========================================= */
-
-function showError(text){
-
-    document.getElementById("message")
-        .innerHTML =
-        `<p class="error">${escapeHtml(text)}</p>`;
-}
-
-
-/* =========================================
-   HTML SECURITY
-========================================= */
-
-function escapeHtml(value){
-
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
+);
 
 
 /* =========================================
