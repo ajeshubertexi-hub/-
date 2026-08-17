@@ -2,886 +2,773 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>ASK Kanjoli Token Booking</title>
+<title>ASK Kanjoli - Token Booking</title>
 
 <style>
-
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#eef3f8;
-    color:#172033;
+margin:0;
+font-family:Arial,"Noto Sans Devanagari",sans-serif;
+background:#eef3f8;
+color:#10233f
+}
+
+.header{
+background:linear-gradient(135deg,#063b82,#0a65b7);
+color:#fff;
+padding:28px 18px;
+text-align:center
+}
+
+.header h1{
+margin:0;
+font-size:30px
+}
+
+.header p{
+margin:8px 0
 }
 
 .container{
-    width:94%;
-    max-width:900px;
-    margin:25px auto;
+max-width:1050px;
+margin:25px auto;
+padding:0 15px
 }
 
-.page{
-    background:white;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 8px 30px rgba(0,0,0,.12);
-}
-
-.hidden{
-    display:none !important;
+.card{
+background:#fff;
+border-radius:18px;
+padding:25px;
+box-shadow:0 5px 20px #0001;
+margin-bottom:20px
 }
 
 .title{
-    text-align:center;
-    color:#063b82;
-    font-size:30px;
-    font-weight:bold;
+font-size:28px;
+text-align:center;
+margin:5px 0 8px;
+font-weight:800
 }
 
 .subtitle{
-    text-align:center;
-    color:#63758b;
-    margin-bottom:30px;
+text-align:center;
+color:#50627a;
+margin-bottom:25px
 }
 
 label{
-    display:block;
-    font-weight:bold;
-    margin:15px 0 7px;
+display:block;
+font-weight:700;
+margin:12px 0 7px
 }
 
-select,
-input{
-    width:100%;
-    padding:15px;
-    border:1px solid #c5d3e2;
-    border-radius:12px;
-    font-size:16px;
-    background:white;
+input,select{
+width:100%;
+padding:14px;
+border:1.5px solid #b9c9dc;
+border-radius:12px;
+background:#fff;
+color:#172033;
+outline:none
 }
 
-select:focus,
-input:focus{
-    outline:none;
-    border-color:#0757b8;
+input:focus,select:focus{
+border-color:#0866bd;
+box-shadow:0 0 0 3px #0866bd18
 }
 
-button{
-    width:100%;
-    border:0;
-    padding:15px;
-    border-radius:12px;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:20px;
+.btn{
+border:0;
+border-radius:12px;
+padding:14px 22px;
+font-weight:800;
+cursor:pointer
 }
 
-.blue{
-    background:#0757b8;
-    color:white;
+.primary{
+background:#0866bd;
+color:#fff
 }
 
-.green{
-    background:#159447;
-    color:white;
+.success{
+background:#19a447;
+color:#fff
 }
 
-.black{
-    background:#111827;
-    color:white;
+.dark{
+background:#101c2e;
+color:#fff
 }
 
-.info{
-    background:#eef8ff;
-    border-left:5px solid #0876db;
-    padding:15px;
-    border-radius:8px;
-    margin-top:20px;
-    line-height:1.6;
+.btn:disabled{
+opacity:.5;
+cursor:not-allowed
 }
 
-/* DATE */
-
-.date-grid{
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:10px;
-    margin-top:25px;
+.office-box{
+background:#f7fbff;
+border:1px solid #c9d9ec;
+border-radius:14px;
+padding:16px
 }
 
-.date{
-    border:2px solid #7bc58b;
-    border-radius:13px;
-    padding:15px 5px;
-    text-align:center;
-    cursor:pointer;
-    background:white;
+.days{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px
 }
 
-.date:hover{
-    background:#f0fff3;
+.day{
+border:2px solid #86c98e;
+border-radius:14px;
+background:#f7fff8;
+padding:14px 8px;
+text-align:center;
+cursor:pointer;
+min-height:110px;
+font-weight:700
 }
 
-.date.selected{
-    background:#071b3b;
-    color:white;
-    border-color:#071b3b;
+.day.off{
+border-color:#b7c3d2;
+background:#f2f4f7;
+color:#687589;
+cursor:not-allowed
 }
 
-.date.off{
-    background:#eeeeee;
-    border-color:#ccc;
-    color:#777;
-    cursor:not-allowed;
+.day.selected{
+background:#111d31;
+color:#fff;
+border-color:#111d31
 }
 
-.date-day{
-    font-weight:bold;
+.day small{
+display:block;
+margin-top:7px;
+font-size:12px
 }
-
-.date-number{
-    font-size:18px;
-    font-weight:bold;
-    margin:8px 0;
-}
-
-.available{
-    color:#159447;
-    font-size:13px;
-    font-weight:bold;
-}
-
-.off-text{
-    color:#777;
-    font-size:13px;
-}
-
-/* SLOT */
 
 .slot{
-    max-width:400px;
-    margin:30px auto;
-    border:2px solid #74c487;
-    border-radius:15px;
-    padding:22px;
-    text-align:center;
+text-align:center;
+border:1px solid #b9dfbd;
+background:#f7fff8;
+border-radius:16px;
+padding:22px;
+margin:20px auto;
+max-width:380px
 }
 
-.slot h3{
-    color:#159447;
-    font-size:25px;
+.slot strong{
+display:block;
+font-size:25px;
+color:#08783b;
+margin-top:8px
 }
 
-/* FORM */
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px 18px
+}
+
+.full{
+grid-column:1/-1
+}
 
 .section{
-    border-left:5px solid #0757b8;
-    padding-left:18px;
-    margin-top:25px;
+border-left:5px solid #0a65b7;
+padding-left:15px;
+margin:22px 0
 }
 
-.row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
+.actions{
+display:flex;
+gap:12px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:25px
 }
 
-/* CHECK */
-
-.check{
-    background:#f3f9ff;
-    border:1px solid #bdd5ec;
-    padding:18px;
-    border-radius:12px;
-    margin-top:25px;
+.hidden{
+display:none!important
 }
 
-.check label{
-    display:flex;
-    gap:10px;
-    font-weight:normal;
-    margin:0;
+.error{
+color:#c62828;
+font-weight:700;
+margin-top:10px
 }
 
-.check input{
-    width:auto;
+.notice{
+background:#e8f6ff;
+border-left:4px solid #087cc1;
+padding:12px;
+border-radius:8px;
+margin-top:12px
 }
-
-/* SLIP */
 
 .slip{
-    max-width:600px;
-    margin:20px auto;
-    border:2px solid #7ca9cf;
-    border-radius:18px;
-    padding:25px;
+max-width:600px;
+margin:auto;
+border:2px solid #bcd1e7;
+border-radius:18px;
+padding:25px;
+background:#fff
 }
 
-.slip-head{
-    text-align:center;
-    border-bottom:2px dashed #aaa;
-    padding-bottom:15px;
+.slip h2{
+text-align:center;
+margin:0 0 5px
 }
 
-.slip-head h2{
-    color:#063b82;
-    margin:5px;
+.slip h3{
+text-align:center;
+margin:0 0 20px;
+color:#38516d
 }
 
 .token{
-    text-align:center;
-    background:#eef8ff;
-    border:2px dashed #72a7d3;
-    border-radius:14px;
-    padding:20px;
-    margin:20px 0;
+background:#edf7ff;
+border:2px dashed #1682c4;
+border-radius:14px;
+text-align:center;
+padding:18px;
+margin:15px 0 20px
 }
 
-.token-number{
-    font-size:48px;
-    font-weight:bold;
-    color:#063b82;
-    margin-top:5px;
+.token span{
+display:block;
+font-size:38px;
+font-weight:900;
+color:#072d6a
 }
 
-.time{
-    text-align:center;
-    color:#0757b8;
-    font-size:23px;
-    font-weight:bold;
-    margin:20px 0;
+.row{
+display:flex;
+justify-content:space-between;
+gap:15px;
+border-bottom:1px dashed #c9d3df;
+padding:9px 0
 }
 
-.details{
-    line-height:1.9;
+.row b{
+color:#182b43
 }
 
-.warning{
-    background:#fff8df;
-    border-left:5px solid #f0ad00;
-    padding:15px;
-    margin-top:20px;
+.footer{
+text-align:center;
+color:#687789;
+font-size:13px;
+padding:20px
 }
 
-@media(max-width:750px){
+@media(max-width:700px){
 
-    .date-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
+.days{
+grid-template-columns:repeat(2,1fr)
+}
 
-    .row{
-        grid-template-columns:1fr;
-    }
+.form-grid{
+grid-template-columns:1fr
+}
 
-    .title{
-        font-size:25px;
-    }
+.full{
+grid-column:auto
+}
+
+.title{
+font-size:23px
+}
 
 }
 
 @media print{
 
-    .no-print{
-        display:none !important;
-    }
-
-    body{
-        background:white;
-    }
-
-    .page{
-        box-shadow:none;
-    }
-
+body{
+background:#fff
 }
 
+.header,
+.footer,
+.actions{
+display:none!important
+}
+
+.card{
+box-shadow:none;
+padding:0
+}
+
+.slip{
+border:0
+}
+
+}
 </style>
 </head>
 
-
 <body>
+
+<header class="header">
+
+<h1>ASK KANJOLI</h1>
+
+<p>
+Aadhaar Seva Kendra Kanjoli • Appointment Token Portal
+</p>
+
+</header>
 
 
 <div class="container">
 
 
-<!-- ================================================= -->
-<!-- PAGE 1 -->
-<!-- ================================================= -->
+<!-- HOME PAGE -->
 
-<div id="page1" class="page">
+<section id="home" class="card">
 
-    <div class="title">
-        Generate Token
-    </div>
+<div class="title">
+Generate Token
+</div>
 
-    <div class="subtitle">
-        Book your free appointment token in seconds.
-    </div>
+<div class="subtitle">
+Book your free appointment token in seconds.
+</div>
 
 
-    <label>
-        Select ASK Office / ASK कार्यालय चुनें
-    </label>
+<label>
+Select ASK Office / कार्यालय चुनें
+</label>
 
 
-    <select id="office">
+<div class="office-box">
 
-        <option value="">
-            -- Select ASK Office / कार्यालय चुनें --
-        </option>
+<select id="office">
 
-        <option value="Aadhaar Seva Kendra Kanjoli">
-            Aadhaar Seva Kendra Kanjoli
-        </option>
+<option value="">
+-- Select ASK Office / कार्यालय चुनें --
+</option>
 
-    </select>
+<option value="ASK Kanjoli">
+Aadhaar Seva Kendra Kanjoli
+</option>
 
+</select>
 
-    <div class="info">
-
-        <b>Aadhaar Seva Kendra Kanjoli</b>
-
-        <br>
-
-        यहाँ आप अपना Appointment Token
-        ऑनलाइन बुक कर सकते हैं।
-
-    </div>
+</div>
 
 
-    <button
-        id="generateButton"
-        class="blue">
+<div class="actions">
 
-        Generate Token / टोकन बनाएं
+<button
+class="btn primary"
+onclick="startBooking()">
 
-    </button>
+Generate Token / टोकन बनाएं
+
+</button>
+
+</div>
+
+
+<div id="homeError" class="error"></div>
+
+
+<div class="notice">
+
+<b>महत्वपूर्ण:</b>
+
+यह एक स्थानीय/demo appointment-booking HTML है।
+यह UIDAI का आधिकारिक पोर्टल नहीं है।
+
+</div>
+
+</section>
+
+
+
+<!-- DATE PAGE -->
+
+<section id="datePage" class="card hidden">
+
+
+<button
+class="btn dark"
+onclick="showPage('home')">
+
+← Back / पीछे जाएँ
+
+</button>
+
+
+<div class="title">
+
+Book New Token / नया टोकन बुक करें
+
+</div>
+
+
+<div class="subtitle">
+
+Appointment can be booked 7 days in advance.
+
+</div>
+
+
+<div id="days" class="days"></div>
+
+
+<div id="selectedInfo"></div>
+
+
+<div class="actions">
+
+<button
+class="btn success"
+id="proceedBtn"
+disabled
+onclick="goForm()">
+
+Proceed to Book / बुकिंग आगे बढ़ाएँ
+
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- FORM PAGE -->
+
+<section id="formPage" class="card hidden">
+
+
+<button
+class="btn dark"
+onclick="showPage('datePage')">
+
+← Back / पीछे जाएँ
+
+</button>
+
+
+<div class="title">
+
+Applicant Details / आवेदक विवरण
+
+</div>
+
+
+<div class="subtitle">
+
+Please enter the applicant's correct details.
 
 </div>
 
 
 
-<!-- ================================================= -->
-<!-- PAGE 2 -->
-<!-- ================================================= -->
+<!-- APPLICANT -->
 
-<div id="page2" class="page hidden">
+<div class="section">
 
-    <button
-        id="backHome"
-        class="black">
-
-        ← Back / पीछे जाएँ
-
-    </button>
+<h3>
+👤 Applicant Identity (आवेदक की पहचान)
+</h3>
 
 
-    <div class="title">
-
-        Book New Token
-
-    </div>
+<div class="form-grid">
 
 
-    <div class="subtitle">
+<div class="full">
 
-        नया टोकन बुक करें
+<label>
+Full Name / पूरा नाम *
+</label>
 
-    </div>
-
-
-    <p style="text-align:center">
-
-        Appointment can be booked 7 days in advance.
-
-    </p>
-
-
-    <div
-        id="dateGrid"
-        class="date-grid">
-
-    </div>
-
-
-    <div
-        id="slotSection"
-        class="hidden">
-
-
-        <div class="slot">
-
-            <div>
-                Selected Date / चुनी गई तारीख
-            </div>
-
-            <h3 id="selectedDate"></h3>
-
-            <div>
-                AVAILABLE
-            </div>
-
-            <div class="available"
-                 style="font-size:25px">
-
-                50 / 50
-
-            </div>
-
-            <div>
-                LEFT / शेष
-            </div>
-
-        </div>
-
-
-        <button
-            id="proceedButton"
-            class="green">
-
-            Proceed to Book /
-            बुकिंग के लिए आगे बढ़ें
-
-        </button>
-
-    </div>
+<input
+id="name"
+placeholder="Enter full name">
 
 </div>
 
 
 
-<!-- ================================================= -->
-<!-- PAGE 3 -->
-<!-- ================================================= -->
+<div>
 
-<div id="page3" class="page hidden">
+<label>
+Gender / लिंग *
+</label>
 
+<select id="gender">
 
-    <button
-        id="backDate"
-        class="black">
+<option value="">
+-- Select Gender --
+</option>
 
-        ← Back / पीछे जाएँ
+<option>
+Male / पुरुष
+</option>
 
-    </button>
+<option>
+Female / महिला
+</option>
 
+<option>
+Other / अन्य
+</option>
 
-    <div class="title">
-
-        Applicant Details
-
-    </div>
-
-
-    <div class="subtitle">
-
-        आवेदक विवरण
-
-    </div>
-
-
-    <!-- NAME -->
-
-    <div class="section">
-
-        <h3>
-            👤 Applicant Identity
-        </h3>
-
-        <label>
-            Full Name / पूरा नाम
-        </label>
-
-        <input
-            id="name"
-            type="text"
-            placeholder="पूरा नाम दर्ज करें">
-
-    </div>
-
-
-
-    <!-- DETAILS -->
-
-    <div class="section">
-
-        <h3>
-            📍 Demographics / जनसांख्यिकी
-        </h3>
-
-
-        <div class="row">
-
-
-            <div>
-
-                <label>
-                    Gender / लिंग
-                </label>
-
-                <select id="gender">
-
-                    <option value="">
-                        -- Select Gender --
-                    </option>
-
-                    <option>
-                        Male / पुरुष
-                    </option>
-
-                    <option>
-                        Female / महिला
-                    </option>
-
-                    <option>
-                        Other / अन्य
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    Age / आयु
-                </label>
-
-                <input
-                    id="age"
-                    type="number"
-                    min="0"
-                    max="125"
-                    placeholder="आयु">
-
-            </div>
-
-
-        </div>
-
-
-        <div class="row">
-
-
-            <div>
-
-                <label>
-                    State / राज्य
-                </label>
-
-                <select id="state">
-
-                    <option value="">
-                        -- Select State --
-                    </option>
-
-                    <option value="Rajasthan">
-                        Rajasthan / राजस्थान
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    District / जिला
-                </label>
-
-                <select id="district">
-
-                    <option value="">
-                        -- Select District --
-                    </option>
-
-                    <option value="Karauli">
-                        Karauli / करौली
-                    </option>
-
-                    <option value="Jaipur">
-                        Jaipur / जयपुर
-                    </option>
-
-                    <option value="Dausa">
-                        Dausa / दौसा
-                    </option>
-
-                    <option value="Bharatpur">
-                        Bharatpur / भरतपुर
-                    </option>
-
-                </select>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-
-    <!-- SERVICE -->
-
-    <div class="section">
-
-        <h3>
-            📍 Service Request / सेवा अनुरोध
-        </h3>
-
-
-        <label>
-            Service Type / सेवा प्रकार
-        </label>
-
-
-        <select id="service">
-
-            <option value="">
-                -- Select Service --
-            </option>
-
-            <option>
-                New Aadhaar Enrollment / नया आधार नामांकन
-            </option>
-
-            <option>
-                Name Update / नाम अपडेट
-            </option>
-
-            <option>
-                Date of Birth Update / जन्म तिथि अपडेट
-            </option>
-
-            <option>
-                Gender Update / लिंग अपडेट
-            </option>
-
-            <option>
-                Address Update / पता अपडेट
-            </option>
-
-            <option>
-                Mobile Number Update / मोबाइल नंबर अपडेट
-            </option>
-
-            <option>
-                Email Update / ईमेल अपडेट
-            </option>
-
-            <option>
-                Biometric Update / बायोमेट्रिक अपडेट
-            </option>
-
-            <option>
-                Aadhaar Print / आधार प्रिंट
-            </option>
-
-        </select>
-
-
-        <label>
-            14-Digit SRN Number (Optional)
-        </label>
-
-        <input
-            id="srn"
-            maxlength="14"
-            placeholder="SRN Number">
-
-    </div>
-
-
-
-    <!-- DECLARATION -->
-
-    <div class="check">
-
-        <label>
-
-            <input
-                id="declaration"
-                type="checkbox">
-
-            <span>
-
-                मैं पुष्टि करता/करती हूँ कि मेरे द्वारा
-                दी गई जानकारी सही है।
-
-            </span>
-
-        </label>
-
-    </div>
-
-
-    <button
-        id="submitButton"
-        class="green">
-
-        Generate Token / टोकन जनरेट करें
-
-    </button>
-
+</select>
 
 </div>
 
 
 
-<!-- ================================================= -->
-<!-- PAGE 4 TOKEN -->
-<!-- ================================================= -->
+<div>
 
-<div id="page4" class="page hidden">
+<label>
+Age / आयु *
+</label>
 
+<input
+id="age"
+type="number"
+min="0"
+max="125"
+placeholder="Enter age (0-125)">
 
-    <div class="no-print">
-
-        <button
-            id="homeAgain"
-            class="black">
-
-            🏠 Home
-
-        </button>
-
-    </div>
+</div>
 
 
-    <div
-        class="slip"
-        id="printArea">
+
+<div>
+
+<label>
+State / राज्य *
+</label>
+
+<select id="state">
+
+<option value="">
+-- Select State / राज्य चुनें --
+</option>
+
+<option>
+Rajasthan / राजस्थान
+</option>
+
+</select>
+
+</div>
 
 
-        <div class="slip-head">
 
-            <h2>
-                AADHAAR SEVA KENDRA KANJOLI
-            </h2>
+<div>
 
-            <b>
-                APPOINTMENT TOKEN SLIP
-            </b>
+<label>
+District / जिला *
+</label>
 
-        </div>
+<select id="district">
 
+<option value="">
+-- Select District / जिला चुनें --
+</option>
 
-        <div class="token">
+<option>
+Karauli / करौली
+</option>
 
-            <div>
-                TOKEN NUMBER
-            </div>
+</select>
 
-            <div
-                id="tokenNumber"
-                class="token-number">
-
-                001-A
-
-            </div>
-
-        </div>
-
-
-        <div class="time">
-
-            Expected Service Time
-
-            <br>
-
-            <span id="tokenTime">
-                09:30 AM - 10:30 AM
-            </span>
-
-        </div>
-
-
-        <div class="details">
-
-            <b>Token Date:</b>
-            <span id="outDate"></span>
-
-            <br>
-
-            <b>Office:</b>
-            Aadhaar Seva Kendra Kanjoli
-
-            <br>
-
-            <b>Name:</b>
-            <span id="outName"></span>
-
-            <br>
-
-            <b>Age:</b>
-            <span id="outAge"></span>
-
-            <br>
-
-            <b>Gender:</b>
-            <span id="outGender"></span>
-
-            <br>
-
-            <b>State:</b>
-            <span id="outState"></span>
-
-            <br>
-
-            <b>District:</b>
-            <span id="outDistrict"></span>
-
-            <br>
-
-            <b>SRN:</b>
-            <span id="outSRN"></span>
-
-            <br>
-
-            <b>Service:</b>
-            <span id="outService"></span>
-
-        </div>
-
-
-        <div class="warning">
-
-            <b>
-                Important / महत्वपूर्ण
-            </b>
-
-            <br><br>
-
-            कृपया निर्धारित समय से पहले
-            Aadhaar Seva Kendra Kanjoli
-            पर पहुँचें।
-
-        </div>
-
-    </div>
-
-
-    <button
-        class="blue no-print"
-        id="printButton">
-
-        🖨 Print / Save PDF
-
-    </button>
+</div>
 
 
 </div>
 
+</div>
+
+
+
+<!-- SERVICE -->
+
+<div class="section">
+
+<h3>
+📍 Service Request (सेवा अनुरोध)
+</h3>
+
+
+<label>
+Service Type / सेवा प्रकार *
+</label>
+
+
+<select id="service">
+
+<option value="">
+-- Select Service Type / सेवा प्रकार चुनें --
+</option>
+
+<option>
+New Aadhaar Enrollment / नया आधार नामांकन
+</option>
+
+<option>
+Name Update / नाम अपडेट
+</option>
+
+<option>
+Date of Birth Update / जन्म तिथि अपडेट
+</option>
+
+<option>
+Gender Update / लिंग अपडेट
+</option>
+
+<option>
+Address Update / पता अपडेट
+</option>
+
+<option>
+Mobile Number Update / मोबाइल नंबर अपडेट
+</option>
+
+<option>
+Email Update / ईमेल अपडेट
+</option>
+
+<option>
+Biometric Update / बायोमेट्रिक अपडेट
+</option>
+
+<option>
+Aadhaar Print / आधार प्रिंट
+</option>
+
+</select>
+
+
+
+<label>
+SRN Number (Optional) / SRN नंबर (वैकल्पिक)
+</label>
+
+
+<input
+id="srn"
+placeholder="SXXXXXXXXX000">
+
+
+<div class="notice">
+
+SRN उपलब्ध नहीं है तो इस बॉक्स को खाली छोड़ सकते हैं।
+
+</div>
+
+</div>
+
+
+
+<!-- DECLARATION -->
+
+<div class="section">
+
+<h3>
+☑ Declaration / घोषणा
+</h3>
+
+
+<label style="font-weight:500">
+
+<input
+id="declaration"
+type="checkbox"
+style="width:auto;margin-right:8px">
+
+मैं पुष्टि करता/करती हूँ कि मेरे द्वारा दी गई जानकारी सही है।
+
+</label>
+
+</div>
+
+
+
+<div id="formError" class="error"></div>
+
+
+<div class="actions">
+
+<button
+class="btn success"
+onclick="generateToken()">
+
+Generate Token / टोकन जनरेट करें
+
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- SUCCESS PAGE -->
+
+<section id="successPage" class="card hidden">
+
+
+<div
+class="slip"
+id="slip">
+</div>
+
+
+<div class="actions">
+
+
+<button
+class="btn dark"
+onclick="window.print()">
+
+🖨 Print Slip / स्लिप प्रिंट
+
+</button>
+
+
+<button
+class="btn primary"
+onclick="downloadSlip()">
+
+⬇ Download HTML Slip
+
+</button>
+
+
+<button
+class="btn success"
+onclick="newBooking()">
+
+🏠 Back to Home
+
+</button>
+
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<div class="footer">
+
+Aadhaar Seva Kendra Kanjoli •
+Local Demo Token Booking System
 
 </div>
 
@@ -889,441 +776,808 @@ button{
 
 <script>
 
-/* =========================================
-   VARIABLES
-========================================= */
 
-let selectedDate = "";
-
-let tokenNumber = 1;
+const OFFICE =
+'Aadhaar Seva Kendra Kanjoli';
 
 
-/* =========================================
-   HELPER
-========================================= */
+let selectedDate = null;
 
-function openPage(id){
-
-    document
-    .getElementById("page1")
-    .classList
-    .add("hidden");
-
-    document
-    .getElementById("page2")
-    .classList
-    .add("hidden");
-
-    document
-    .getElementById("page3")
-    .classList
-    .add("hidden");
-
-    document
-    .getElementById("page4")
-    .classList
-    .add("hidden");
+let selectedDateText = '';
 
 
-    document
-    .getElementById(id)
-    .classList
-    .remove("hidden");
 
+function showPage(id){
 
-    window.scrollTo(0,0);
+[
+'home',
+'datePage',
+'formPage',
+'successPage'
 
-}
-
-
-/* =========================================
-   PAGE 1 -> PAGE 2
-========================================= */
+].forEach(x => {
 
 document
-.getElementById("generateButton")
-.addEventListener("click",function(){
-
-    const office =
-    document
-    .getElementById("office")
-    .value;
-
-
-    if(office === ""){
-
-        alert(
-            "कृपया Aadhaar Seva Kendra Kanjoli चुनें।"
-        );
-
-        return;
-
-    }
-
-
-    createDates();
-
-    openPage("page2");
+.getElementById(x)
+.classList
+.add('hidden');
 
 });
 
 
-/* =========================================
-   CREATE DATES
-========================================= */
-
-function createDates(){
-
-    const grid =
-    document
-    .getElementById("dateGrid");
+document
+.getElementById(id)
+.classList
+.remove('hidden');
 
 
-    grid.innerHTML = "";
-
-
-    const today =
-    new Date();
-
-
-    for(let i=0;i<7;i++){
-
-        const d =
-        new Date(today);
-
-
-        d.setDate(
-            today.getDate()+i
-        );
-
-
-        const dayNames = [
-            "Sun",
-            "Mon",
-            "Tue",
-            "Wed",
-            "Thu",
-            "Fri",
-            "Sat"
-        ];
-
-
-        const day =
-        dayNames[d.getDay()];
-
-
-        const dateText =
-        d.toLocaleDateString(
-            "en-IN",
-            {
-                day:"numeric",
-                month:"short"
-            }
-        );
-
-
-        const fullDate =
-        d.toLocaleDateString(
-            "en-IN",
-            {
-                day:"numeric",
-                month:"long",
-                year:"numeric"
-            }
-        );
-
-
-        const box =
-        document.createElement("div");
-
-
-        box.className =
-        "date";
-
-
-        /* SUNDAY */
-
-        if(d.getDay() === 0){
-
-            box.classList
-            .add("off");
-
-
-            box.innerHTML = `
-
-                <div class="date-day">
-                    ${day}
-                </div>
-
-                <div class="date-number">
-                    ${dateText}
-                </div>
-
-                <div class="off-text">
-                    Center OFF
-                </div>
-
-            `;
-
-        }
-
-        /* AVAILABLE */
-
-        else{
-
-            box.innerHTML = `
-
-                <div class="date-day">
-                    ${day}
-                </div>
-
-                <div class="date-number">
-                    ${dateText}
-                </div>
-
-                <div class="available">
-                    Available
-                </div>
-
-            `;
-
-
-            box.addEventListener(
-                "click",
-                function(){
-
-                    document
-                    .querySelectorAll(".date")
-                    .forEach(function(x){
-
-                        x.classList
-                        .remove("selected");
-
-                    });
-
-
-                    box.classList
-                    .add("selected");
-
-
-                    selectedDate =
-                    fullDate;
-
-
-                    document
-                    .getElementById(
-                        "selectedDate"
-                    )
-                    .textContent =
-                    selectedDate;
-
-
-                    document
-                    .getElementById(
-                        "slotSection"
-                    )
-                    .classList
-                    .remove("hidden");
-
-                }
-            );
-
-        }
-
-
-        grid.appendChild(box);
-
-    }
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
 
 }
 
 
-/* =========================================
-   BACK HOME
-========================================= */
+
+function startBooking(){
+
+let error =
+document.getElementById('homeError');
+
+error.textContent = '';
+
+
+let office =
+document.getElementById('office').value;
+
+
+if(office !== 'ASK Kanjoli'){
+
+error.textContent =
+'कृपया Aadhaar Seva Kendra Kanjoli चुनें।';
+
+return;
+
+}
+
+
+buildDays();
+
+showPage('datePage');
+
+}
+
+
+
+function dateKey(d){
+
+return d.toISOString().slice(0,10);
+
+}
+
+
+
+function getBookings(key){
+
+return JSON.parse(
+
+localStorage.getItem(
+'ASK_KANJOLI_' + key
+) || '[]'
+
+);
+
+}
+
+
+
+function buildDays(){
+
+let wrapper =
+document.getElementById('days');
+
+wrapper.innerHTML = '';
+
+
+selectedDate = null;
+
 
 document
-.getElementById("backHome")
-.addEventListener(
-    "click",
-    function(){
+.getElementById('proceedBtn')
+.disabled = true;
 
-        openPage("page1");
 
-    }
+let today = new Date();
+
+
+for(let i=0;i<7;i++){
+
+let d = new Date(today);
+
+d.setDate(today.getDate()+i);
+
+
+let key = dateKey(d);
+
+
+let sunday =
+d.getDay() === 0;
+
+
+let full =
+getBookings(key).length >= 50;
+
+
+let available =
+!sunday && !full;
+
+
+let div =
+document.createElement('div');
+
+
+div.className =
+'day ' +
+(!available ? 'off' : '');
+
+
+div.innerHTML = `
+
+<div>
+
+${d.toLocaleDateString(
+'en-IN',
+{weekday:'short'}
+)}
+
+</div>
+
+<div>
+
+${d.toLocaleDateString(
+'en-IN',
+{day:'numeric',month:'short'}
+)}
+
+</div>
+
+<small>
+
+${
+sunday
+?
+'Center OFF'
+:
+full
+?
+'Full / पूरा'
+:
+'Available / उपलब्ध'
+}
+
+</small>
+
+`;
+
+
+if(available){
+
+div.onclick = function(){
+
+document
+.querySelectorAll('.day')
+.forEach(x =>
+x.classList.remove('selected')
 );
 
 
-/* =========================================
-   PAGE 2 -> PAGE 3
-========================================= */
+div.classList.add('selected');
+
+
+selectedDate = key;
+
+
+selectedDateText =
+d.toLocaleDateString(
+'en-IN',
+{
+day:'numeric',
+month:'long',
+year:'numeric'
+});
+
+
+let left =
+50 - getBookings(key).length;
+
 
 document
-.getElementById("proceedButton")
-.addEventListener(
-    "click",
-    function(){
+.getElementById('selectedInfo')
+.innerHTML = `
 
-        if(selectedDate === ""){
+<div class="slot">
 
-            alert(
-                "कृपया पहले तारीख चुनें।"
-            );
+<span>
+SLOT STATUS / स्थिति
+</span>
 
-            return;
+<strong>
+AVAILABLE - ${left}/50
+</strong>
 
-        }
+<small>
+${left} / 50 LEFT (शेष)
+</small>
+
+</div>
+
+`;
 
 
-        openPage("page3");
+document
+.getElementById('proceedBtn')
+.disabled = false;
 
-    }
+};
+
+}
+
+
+wrapper.appendChild(div);
+
+}
+
+}
+
+
+
+function goForm(){
+
+if(selectedDate){
+
+showPage('formPage');
+
+}
+
+}
+
+
+
+function generateToken(){
+
+let name =
+document.getElementById('name')
+.value.trim();
+
+
+let gender =
+document.getElementById('gender')
+.value;
+
+
+let age =
+document.getElementById('age')
+.value;
+
+
+let state =
+document.getElementById('state')
+.value;
+
+
+let district =
+document.getElementById('district')
+.value;
+
+
+let service =
+document.getElementById('service')
+.value;
+
+
+let srn =
+document.getElementById('srn')
+.value.trim();
+
+
+let declaration =
+document.getElementById('declaration')
+.checked;
+
+
+let error =
+document.getElementById('formError');
+
+
+error.textContent = '';
+
+
+if(!selectedDate){
+
+error.textContent =
+'कृपया पहले तारीख चुनें।';
+
+showPage('datePage');
+
+return;
+
+}
+
+
+if(
+!name ||
+!gender ||
+age === '' ||
+!state ||
+!district ||
+!service
+){
+
+error.textContent =
+'कृपया सभी आवश्यक (*) जानकारी भरें।';
+
+return;
+
+}
+
+
+if(
+Number(age) < 0 ||
+Number(age) > 125
+){
+
+error.textContent =
+'आयु 0 से 125 के बीच होनी चाहिए।';
+
+return;
+
+}
+
+
+if(!declaration){
+
+error.textContent =
+'कृपया घोषणा स्वीकार करें।';
+
+return;
+
+}
+
+
+
+let bookings =
+getBookings(selectedDate);
+
+
+if(bookings.length >= 50){
+
+error.textContent =
+'इस तारीख के सभी 50 टोकन बुक हो चुके हैं।';
+
+buildDays();
+
+showPage('datePage');
+
+return;
+
+}
+
+
+
+let tokenNumber =
+String(bookings.length + 1)
+.padStart(3,'0')
++
+'-A';
+
+
+
+let startMinutes =
+8 * 60 +
+(bookings.length * 10);
+
+
+let endMinutes =
+startMinutes + 10;
+
+
+
+let data = {
+
+token: tokenNumber,
+
+dateText:
+selectedDateText,
+
+name:name,
+
+gender:gender,
+
+age:age,
+
+state:state,
+
+district:district,
+
+service:service,
+
+srn:srn,
+
+time:
+formatTime(startMinutes)
++
+' – ' +
+formatTime(endMinutes),
+
+generated:
+new Date().toLocaleString('en-IN')
+
+};
+
+
+
+bookings.push(data);
+
+
+localStorage.setItem(
+
+'ASK_KANJOLI_' +
+selectedDate,
+
+JSON.stringify(bookings)
+
 );
 
 
-/* =========================================
-   PAGE 3 -> PAGE 2
-========================================= */
+renderSlip(data);
+
+
+showPage('successPage');
+
+}
+
+
+
+function formatTime(minutes){
+
+let h =
+Math.floor(minutes/60) % 24;
+
+
+let min =
+minutes % 60;
+
+
+let ap =
+h >= 12 ? 'PM' : 'AM';
+
+
+h = h % 12 || 12;
+
+
+return String(h)
+.padStart(2,'0')
++
+':'
++
+String(min)
+.padStart(2,'0')
++
+' '
++
+ap;
+
+}
+
+
+
+function escapeHtml(value){
+
+return String(value)
+.replace(
+/[&<>"']/g,
+
+function(s){
+
+return {
+
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+
+}[s];
+
+});
+
+}
+
+
+
+function renderSlip(data){
 
 document
-.getElementById("backDate")
-.addEventListener(
-    "click",
-    function(){
+.getElementById('slip')
+.innerHTML = `
 
-        openPage("page2");
+<h2>
+ASK KANJOLI
+</h2>
 
-    }
+<h3>
+AADHAAR SEVA KENDRA
+<br>
+APPOINTMENT TOKEN SLIP
+</h3>
+
+
+<div class="token">
+
+<div>
+TOKEN NUMBER
+</div>
+
+<span>
+${data.token}
+</span>
+
+<b>
+Expected Service Time /
+अपेक्षित सेवा समय:
+</b>
+
+<br>
+
+${data.time}
+
+</div>
+
+
+
+${row(
+'Token Date / टोकन दिनांक',
+data.dateText
+)}
+
+
+${row(
+'Office / कार्यालय',
+OFFICE
+)}
+
+
+${row(
+'Office Address / कार्यालय का पता',
+'Kanjoli, Karauli, Rajasthan'
+)}
+
+
+${row(
+'Name / नाम',
+escapeHtml(data.name)
+)}
+
+
+${row(
+'Age / आयु',
+data.age
+)}
+
+
+${row(
+'Gender / लिंग',
+escapeHtml(data.gender)
+)}
+
+
+${row(
+'State / राज्य',
+escapeHtml(data.state)
+)}
+
+
+${row(
+'District / जिला',
+escapeHtml(data.district)
+)}
+
+
+${row(
+'Service Type / सेवा',
+escapeHtml(data.service)
+)}
+
+
+${row(
+'SRN Number',
+escapeHtml(
+data.srn || 'Not Provided'
+)
+)}
+
+
+${row(
+'Generated On',
+escapeHtml(data.generated)
+)}
+
+
+<div class="notice">
+
+<b>
+Important / महत्वपूर्ण:
+</b>
+
+<br>
+
+कृपया निर्धारित समय से कम से कम
+30 मिनट पहले केंद्र पर पहुँचें।
+आवश्यक दस्तावेज साथ लाएँ।
+
+</div>
+
+`;
+
+}
+
+
+
+function row(title,value){
+
+return `
+
+<div class="row">
+
+<b>
+${title}:
+</b>
+
+<span>
+${value}
+</span>
+
+</div>
+
+`;
+
+}
+
+
+
+function downloadSlip(){
+
+let content = `
+
+<!doctype html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8">
+
+<title>
+ASK Kanjoli Token Slip
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:30px
+}
+
+.slip{
+max-width:600px;
+margin:auto;
+border:2px solid #aac;
+padding:25px;
+border-radius:15px
+}
+
+.token{
+text-align:center;
+background:#eef8ff;
+padding:20px
+}
+
+.token span{
+display:block;
+font-size:40px;
+font-weight:bold;
+color:#063b82
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+border-bottom:1px dashed #aaa;
+padding:9px 0
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="slip">
+
+${document.getElementById('slip').innerHTML}
+
+</div>
+
+</body>
+
+</html>
+
+`;
+
+
+let blob =
+new Blob(
+[content],
+{type:'text/html'}
 );
 
 
-/* =========================================
-   PAGE 3 -> PAGE 4
-========================================= */
-
-document
-.getElementById("submitButton")
-.addEventListener(
-    "click",
-    function(){
-
-        const name =
-        document
-        .getElementById("name")
-        .value
-        .trim();
+let a =
+document.createElement('a');
 
 
-        const gender =
-        document
-        .getElementById("gender")
-        .value;
+a.href =
+URL.createObjectURL(blob);
 
 
-        const age =
-        document
-        .getElementById("age")
-        .value;
+a.download =
+'ASK-Kanjoli-Token-Slip.html';
 
 
-        const state =
-        document
-        .getElementById("state")
-        .value;
+a.click();
+
+}
 
 
-        const district =
-        document
-        .getElementById("district")
-        .value;
+
+function newBooking(){
+
+document.getElementById('name')
+.value = '';
+
+document.getElementById('age')
+.value = '';
+
+document.getElementById('srn')
+.value = '';
 
 
-        const service =
-        document
-        .getElementById("service")
-        .value;
+document.getElementById('office')
+.value = '';
+
+document.getElementById('gender')
+.value = '';
+
+document.getElementById('state')
+.value = '';
+
+document.getElementById('district')
+.value = '';
+
+document.getElementById('service')
+.value = '';
 
 
-        const srn =
-        document
-        .getElementById("srn")
-        .value;
+document.getElementById('declaration')
+.checked = false;
 
 
-        const declaration =
-        document
-        .getElementById(
-            "declaration"
-        )
-        .checked;
+showPage('home');
 
+}
 
-        /* VALIDATION */
+</script>
 
-        if(name === ""){
-
-            alert(
-                "कृपया नाम दर्ज करें।"
-            );
-
-            return;
-
-        }
-
-
-        if(gender === ""){
-
-            alert(
-                "कृपया Gender चुनें।"
-            );
-
-            return;
-
-        }
-
-
-        if(age === ""){
-
-            alert(
-                "कृपया Age दर्ज करें।"
-            );
-
-            return;
-
-        }
-
-
-        if(state === ""){
-
-            alert(
-                "कृपया State चुनें।"
-            );
-
-            return;
-
-        }
-
-
-        if(district === ""){
-
-            alert(
-                "कृपया District चुनें।"
-            );
-
-            return;
-
-        }
-
-
-        if(service === ""){
-
-            alert(
-                "कृपया Service Type चुनें।"
-            );
-
-            return;
-
-        }
-
-
-        
+</body>
+</html>
