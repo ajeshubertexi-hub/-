@@ -2,243 +2,271 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ASK Kanjoli Token Booking</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Token Portal</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
-    font-family:Arial,sans-serif;
-    background:#f3f6fb;
-    color:#172033;
+    font-family:Arial,"Noto Sans Devanagari",sans-serif;
+    background:linear-gradient(135deg,#eaf2ff,#f7fbff);
+    color:#12213a;
 }
 
-header{
-    background:linear-gradient(135deg,#063b82,#1976d2);
-    color:#fff;
+.container{
+    max-width:1050px;
+    margin:28px auto;
     padding:18px;
-    text-align:center;
-}
-
-header h1{
-    margin:0 0 5px;
-    font-size:24px;
-}
-
-main{
-    max-width:700px;
-    margin:18px auto;
-    padding:12px;
 }
 
 .card{
     background:#fff;
-    border-radius:15px;
-    padding:20px;
-    box-shadow:0 4px 18px #0001;
-    margin-bottom:15px;
+    border-radius:22px;
+    padding:28px;
+    box-shadow:0 10px 35px rgba(0,40,100,.12);
+    margin-bottom:22px;
 }
 
-h2,h3{
-    color:#0757b7;
+h1,h2{
+    text-align:center;
+    margin:8px 0 10px;
+}
+
+h1{
+    font-size:32px;
+    color:#0752a8;
+}
+
+.subtitle{
+    text-align:center;
+    color:#52647c;
+    font-size:17px;
 }
 
 label{
+    font-weight:700;
     display:block;
-    font-weight:bold;
-    margin:12px 0 5px;
+    margin:15px 0 7px;
 }
 
 input,
-select,
-textarea{
+select{
     width:100%;
-    padding:12px;
-    border:1px solid #ccd5df;
-    border-radius:8px;
+    padding:15px;
+    border:1.5px solid #c9d8ea;
+    border-radius:13px;
     font-size:16px;
+    background:#fff;
 }
 
-textarea{
-    min-height:80px;
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#0876db;
 }
 
-button{
-    width:100%;
-    padding:13px;
+.btn{
     border:0;
-    border-radius:9px;
-    background:#0757b7;
-    color:#fff;
-    font-weight:bold;
+    border-radius:13px;
+    padding:14px 22px;
     font-size:16px;
+    font-weight:700;
+    cursor:pointer;
     margin-top:15px;
 }
 
-button:disabled{
-    background:#999;
+.primary{
+    background:#0752a8;
+    color:#fff;
+}
+
+.success{
+    background:#22a447;
+    color:#fff;
+}
+
+.dark{
+    background:#07152b;
+    color:#fff;
+}
+
+.hidden{
+    display:none;
+}
+
+.office-select{
+    font-size:17px;
+}
+
+.office-list-note{
+    padding:13px;
+    background:#edf7ff;
+    border-left:5px solid #0876db;
+    border-radius:8px;
+    margin-top:15px;
+}
+
+.days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:12px;
+    margin-top:25px;
+}
+
+.day{
+    border:2px solid #9bd19f;
+    border-radius:16px;
+    padding:14px 8px;
+    text-align:center;
+    cursor:pointer;
+    background:#fff;
+    font-weight:700;
+}
+
+.day.off{
+    border-color:#c9d3df;
+    color:#68788d;
+    background:#f2f5f8;
+    cursor:not-allowed;
+}
+
+.day.selected{
+    background:#07152b;
+    color:#fff;
+    border-color:#07152b;
 }
 
 .status{
+    color:#15913a;
+    margin-top:7px;
+}
+
+.off .status{
+    color:#6d7a88;
+}
+
+.slot-box{
+    max-width:430px;
+    margin:28px auto;
+    padding:22px;
+    border:2px solid #a9dcae;
+    border-radius:18px;
     text-align:center;
-    padding:11px;
-    border-radius:8px;
-    margin-bottom:12px;
-    background:#eef2f6;
 }
 
-.info{
-    background:#eef7ff;
-    padding:13px;
-    border-radius:9px;
-    line-height:1.8;
+.available{
+    font-size:25px;
+    color:#087b43;
+    font-weight:800;
 }
 
-.error{
-    display:none;
-    background:#fff0f0;
-    color:#b42318;
-    padding:12px;
-    border-radius:8px;
-    font-weight:bold;
-    margin-bottom:12px;
+.form-section{
+    border-left:5px solid #1d9a4b;
+    padding:10px 20px;
+    margin:22px 0;
 }
 
-.error.show{
-    display:block;
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
 }
 
-.services label{
-    font-weight:normal;
-    border:1px solid #ddd;
-    padding:10px;
-    border-radius:8px;
+.declaration{
+    background:#f5fbff;
+    border:1px solid #b8d9ee;
+    padding:18px;
+    border-radius:15px;
 }
 
-.services input{
-    width:auto;
-}
-
-.green{
-    background:#079669;
-}
-
-.gray{
-    background:#777;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:#000a;
-    align-items:center;
-    justify-content:center;
-    padding:12px;
-    z-index:9999;
-}
-
-.modal.show{
+.declaration label{
+    font-weight:500;
     display:flex;
+    gap:10px;
+    align-items:flex-start;
+}
+
+.declaration input{
+    width:auto;
+    margin-top:4px;
+}
+
+.actions{
+    text-align:center;
 }
 
 .slip{
-    background:white;
-    max-width:520px;
-    width:100%;
-    border-radius:15px;
-    overflow:hidden;
-}
-
-.sliphead{
-    background:#0757b7;
-    color:#fff;
+    max-width:600px;
+    margin:20px auto;
+    background:#fff;
+    border:2px solid #9ec6ea;
+    border-radius:20px;
+    padding:28px;
     text-align:center;
-    padding:20px;
-}
-
-.sliphead h2{
-    color:#fff;
-    margin:0;
 }
 
 .token{
-    text-align:center;
-    font-size:52px;
-    font-weight:900;
-    color:#0757b7;
+    border:1px dashed #74a8d7;
+    background:#f1f8ff;
+    border-radius:14px;
     padding:20px;
+    margin:20px 0;
+}
+
+.token-number{
+    font-size:46px;
+    font-weight:900;
+    color:#061b57;
 }
 
 .time{
-    margin:0 20px 15px;
-    background:#e9fff7;
-    color:#087f5b;
+    font-size:25px;
+    color:#0752a8;
+    font-weight:800;
+}
+
+.info{
+    text-align:left;
+    line-height:1.7;
+}
+
+.notice{
+    background:#fff7df;
+    border-left:5px solid #f0ad00;
     padding:14px;
+    text-align:left;
+}
+
+footer{
     text-align:center;
-    border-radius:9px;
-    font-weight:bold;
-    font-size:24px;
-}
-
-.details{
-    padding:10px 20px;
-}
-
-.row{
-    display:flex;
-    justify-content:space-between;
-    padding:9px 0;
-    border-bottom:1px dashed #ccc;
-}
-
-.buttons{
-    display:flex;
-    gap:8px;
+    color:#68788d;
     padding:15px;
 }
 
-.buttons button{
-    margin:0;
-}
+@media(max-width:760px){
 
-@media(max-width:600px){
-
-    .row{
-        display:block;
+    .container{
+        padding:10px;
     }
 
-    .row b{
-        display:block;
-        margin-top:3px;
+    .card{
+        padding:18px;
     }
 
-    .buttons{
-        flex-direction:column;
-    }
-}
-
-@media print{
-
-    body *{
-        visibility:hidden;
+    .days{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .slip,
-    .slip *{
-        visibility:visible;
+    .grid{
+        grid-template-columns:1fr;
     }
 
-    .modal{
-        display:block;
-        position:absolute;
-        background:#fff;
-    }
-
-    .buttons{
-        display:none;
+    .token-number{
+        font-size:38px;
     }
 }
 </style>
@@ -246,1175 +274,1206 @@ button:disabled{
 
 <body>
 
-<header>
+<div class="container">
 
-<h1>ASK Kanjoli</h1>
+<!-- HOME PAGE -->
+
+<section id="home" class="card">
+
+<h1>
+Generate Token / नया टोकन बुक करें
+</h1>
+
+<p class="subtitle">
+Book your free appointment token in seconds.
+</p>
+
+<label>
+Select your UIDAI Office / कार्यालय चुनें
+</label>
+
+<select id="office" class="office-select">
+
+<option value="">
+-- Select Office / कार्यालय चुनें --
+</option>
+
+<option>
+Regional Office Delhi
+</option>
+
+<option>
+State Office Bhopal
+</option>
+
+<option>
+Regional Office Chandigarh
+</option>
+
+<option>
+State Office Ahmedabad
+</option>
+
+<option>
+Regional Office Mumbai
+</option>
+
+<option>
+Regional Office Guwahati
+</option>
+
+<option>
+State Office Patna
+</option>
+
+<option>
+Regional Office Bengaluru
+</option>
+
+<option>
+State Office Thiruvananthapuram
+</option>
+
+</select>
+
+<div class="office-list-note">
+
+Welcome to the Unified Token Portal.
+This is a demo appointment-booking interface.
+
+</div>
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="goDays()">
+
+Generate Token / आगे बढ़ें
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- DATE PAGE -->
+
+<section id="daysPage" class="card hidden">
+
+<button
+class="btn dark"
+onclick="show('home')">
+
+← Back / पीछे जाएँ
+
+</button>
+
+<h2>
+Book New Token / नया टोकन बुक करें
+</h2>
+
+<p class="subtitle">
+Appointment can be booked 7 days in advance.
+</p>
+
+<div id="days" class="days"></div>
+
+<div id="slotArea" class="hidden">
+
+<div class="slot-box">
 
 <div>
-Aadhaar Seva Kendra • Online Token Booking
+📅 Selected Date / चुना गया दिन
 </div>
 
-</header>
+<h3 id="selectedDate"></h3>
 
+<div class="available">
 
-<main>
+AVAILABLE —
+<span id="left">50</span>/50
 
-<div class="card">
-
-<h2>🎟️ Token Booking</h2>
-
-<div id="firebase" class="status">
-⏳ Firebase connect हो रहा है...
 </div>
 
-<div id="error" class="error"></div>
+<small>
+50 / 50 LEFT (शेष)
+</small>
+
+</div>
+
+<div class="actions">
+
+<button
+class="btn success"
+onclick="showForm()">
+
+Proceed to Book /
+बुकिंग के लिए आगे बढ़ें
+
+</button>
+
+</div>
+
+</div>
+
+</section>
 
 
-<label>Booking Date</label>
+<!-- FORM PAGE -->
 
-<input
-type="date"
-id="date"
->
+<section id="formPage" class="card hidden">
+
+<button
+class="btn dark"
+onclick="show('daysPage')">
+
+← Back / पीछे जाएँ
+
+</button>
+
+<h2>
+Applicant Details / आवेदक विवरण
+</h2>
 
 
-<label>Applicant Name</label>
+<!-- APPLICANT -->
+
+<div class="form-section">
+
+<h3>
+👤 Applicant Identity (आवेदक की पहचान)
+</h3>
+
+<label>
+Full Name / पूरा नाम
+</label>
 
 <input
 id="name"
-type="text"
-placeholder="आवेदक का नाम"
+placeholder="Enter full name"
 >
 
-
-<label>Age</label>
-
-<input
-id="age"
-type="number"
-min="0"
-max="120"
-placeholder="उम्र"
->
+</div>
 
 
-<label>Gender</label>
+<!-- DEMOGRAPHICS -->
+
+<div class="form-section">
+
+<h3>
+📍 Demographics (जनसांख्यिकी)
+</h3>
+
+<div class="grid">
+
+<div>
+
+<label>
+Gender / लिंग
+</label>
 
 <select id="gender">
 
 <option value="">
-चुनें
+-- Select Gender --
 </option>
 
-<option value="Male">
+<option>
 Male / पुरुष
 </option>
 
-<option value="Female">
+<option>
 Female / महिला
 </option>
 
-<option value="Other">
+<option>
 Other / अन्य
 </option>
 
 </select>
 
+</div>
 
-<label>Address</label>
 
-<textarea
-id="address"
-placeholder="पूरा पता"
-></textarea>
+<div>
 
+<label>
+Age / आयु
+</label>
+
+<input
+id="age"
+type="number"
+min="0"
+max="125"
+placeholder="Enter age (0-125)"
+>
+
+</div>
+
+
+<div>
+
+<label>
+State / Union Territory / राज्य
+</label>
+
+<select
+id="state"
+onchange="loadDistricts()"
+>
+
+<option value="">
+-- Select State / Union Territory --
+</option>
+
+<option>
+Rajasthan
+</option>
+
+<option>
+Delhi
+</option>
+
+<option>
+Maharashtra
+</option>
+
+<option>
+Madhya Pradesh
+</option>
+
+<option>
+Uttar Pradesh
+</option>
+
+<option>
+Gujarat
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+District / जिला
+</label>
+
+<select id="district">
+
+<option value="">
+-- Select District / जिला चुनें --
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SERVICE -->
+
+<div class="form-section">
 
 <h3>
-📋 Service
+📍 Service Request (सेवा अनुरोध)
 </h3>
 
-
-<div class="services">
-
 <label>
-<input
-type="radio"
-name="service"
-value="New Enrollment"
->
-New Enrollment / नया नामांकन
+Service Type / सेवा प्रकार
 </label>
 
+<select id="service">
 
-<label>
-<input
-type="radio"
-name="service"
-value="Name Update"
->
-Name Update / नाम अपडेट
-</label>
+<option value="">
+-- Select Service Type / सेवा प्रकार चुनें --
+</option>
 
+<option>
+New Enrolment / नया नामांकन
+</option>
 
-<label>
-<input
-type="radio"
-name="service"
-value="Age Update"
->
-Age Update / आयु अपडेट
-</label>
+<option>
+Name Change / नाम परिवर्तन
+</option>
 
+<option>
+Date of Birth Update / जन्मतिथि अपडेट
+</option>
 
-<label>
-<input
-type="radio"
-name="service"
-value="Gender Update"
->
+<option>
 Gender Update / लिंग अपडेट
-</label>
+</option>
 
-
-<label>
-<input
-type="radio"
-name="service"
-value="Address Update"
->
+<option>
 Address Update / पता अपडेट
-</label>
+</option>
 
+<option>
+Mobile Number Update / मोबाइल नंबर अपडेट
+</option>
 
-<label>
-<input
-type="radio"
-name="service"
-value="Mobile Number Update"
->
-📱 Mobile Number Update
-</label>
+<option>
+Email Update / ईमेल अपडेट
+</option>
 
-
-<label>
-<input
-type="radio"
-name="service"
-value="Email Update"
->
-📧 Email Update
-</label>
-
-
-<label>
-<input
-type="radio"
-name="service"
-value="Biometric Update"
->
+<option>
 Biometric Update / बायोमेट्रिक अपडेट
-</label>
+</option>
+
+<option>
+Document Update / दस्तावेज अपडेट
+</option>
+
+</select>
 
 
 <label>
+14-Digit SRN Number (Optional) /
+SRN नंबर (वैकल्पिक)
+</label>
+
 <input
-type="radio"
-name="service"
-value="Print / Download"
+id="srn"
+maxlength="14"
+placeholder="SXXXXXXXXX0000"
 >
-Print / Download
+
+<div class="office-list-note">
+
+Don't have a SRN?
+Call 1947 to register your complaint
+and obtain your SRN number.
+
+</div>
+
+</div>
+
+
+<!-- DECLARATION -->
+
+<div class="declaration">
+
+<h3>
+Declaration / घोषणापत्र
+</h3>
+
+<label>
+
+<input
+id="declare"
+type="checkbox"
+>
+
+I confirm that the information provided
+by me is correct and I agree to the
+appointment terms.
+
 </label>
 
 </div>
 
 
-<label>
-
-<input
-type="checkbox"
-id="agree"
-style="width:auto"
->
-
-मैं पुष्टि करता/करती हूँ कि मेरे द्वारा दी गई जानकारी सही है।
-
-</label>
-
+<div class="actions">
 
 <button
-id="book"
-onclick="bookToken()"
->
+class="btn success"
+onclick="generateToken()">
 
-🎟️ Generate Token
+Submit & Generate Token /
+टोकन बनाएं
 
 </button>
 
 </div>
 
-
-<!-- TOKEN STATUS -->
-
-<div class="card">
-
-<h3>
-📊 General Token Status
-</h3>
-
-<div id="selected">
---
-</div>
-
-<h2>
-<span id="count">0</span> / 40
-</h2>
-
-
-<div class="info">
-
-⏰ पहला Token: <b>08:00 AM</b>
-<br>
-
-⏱️ हर Token: <b>15 मिनट</b>
-<br>
-
-🎟️ कुल: <b>40 Token प्रतिदिन</b>
-<br>
-
-🕕 अंतिम Token: <b>05:45 PM</b>
-
-</div>
-
-</div>
-
-</main>
+</section>
 
 
 <!-- TOKEN SLIP -->
 
-<div
-id="modal"
-class="modal"
->
+<section id="slipPage" class="card hidden">
 
-<div class="slip">
+<div class="actions">
+
+<button
+class="btn dark"
+onclick="show('home')">
+
+🏠 Back to Home
+
+</button>
+
+<button
+class="btn primary"
+onclick="window.print()">
+
+🖨 Print Slip
+
+</button>
+
+</div>
 
 
-<div class="sliphead">
+<div class="slip" id="slip">
 
-<h2>
-Aadhaar Seva Kendra
+<h2 id="slipOffice">
+UIDAI REGIONAL OFFICE
 </h2>
 
-Kanjoli
+<h3>
+APPOINTMENT TOKEN SLIP
+</h3>
 
+
+<div class="token">
+
+<div>
+TOKEN NUMBER
 </div>
-
 
 <div
-id="stoken"
-class="token"
->
-A-0001
+class="token-number"
+id="tokenNumber">
+
+002-A
+
+</div>
+
 </div>
 
 
-<div class="time">
+<div>
+Expected Service Time /
+अपेक्षित सेवा समय:
+</div>
 
-Reporting Time
+<div
+class="time"
+id="timeRange">
+
+09:30 AM – 10:30 AM
+
+</div>
+
+
+<div class="info">
+
+<p>
+<b>
+Token Date / टोकन दिनांक:
+</b>
+
+<span id="slipDate"></span>
+
+</p>
+
+
+<p>
+
+<b>
+Office / कार्यालय:
+</b>
+
+<span id="slipOffice2"></span>
+
+</p>
+
+
+<p>
+
+<b>
+Name:
+</b>
+
+<span id="slipName"></span>
+
+</p>
+
+
+<p>
+
+<b>
+Age / आयु:
+</b>
+
+<span id="slipAge"></span>
+
+</p>
+
+
+<p>
+
+<b>
+Gender / लिंग:
+</b>
+
+<span id="slipGender"></span>
+
+</p>
+
+
+<p>
+
+<b>
+State / राज्य:
+</b>
+
+<span id="slipState"></span>
+
+</p>
+
+
+<p>
+
+<b>
+District / जिला:
+</b>
+
+<span id="slipDistrict"></span>
+
+</p>
+
+
+<p>
+
+<b>
+SRN Number / एसआरएन नंबर:
+</b>
+
+<span id="slipSRN"></span>
+
+</p>
+
+
+<p>
+
+<b>
+Service Type:
+</b>
+
+<span id="slipService"></span>
+
+</p>
+
+</div>
+
+
+<div class="notice">
+
+<b>
+Important / महत्वपूर्ण:
+</b>
 
 <br>
 
-<span id="stime">
-08:00 AM
-</span>
+कृपया निर्धारित कार्यालय पर समय से पहले
+पहुँचें।
+
+<br><br>
+
+यह एक demo token portal है और वास्तविक
+UIDAI appointment system नहीं है।
+
+</div>
 
 </div>
 
 
-<div class="details">
-
-
-<div class="row">
-
-नाम
-
-<b id="sname"></b>
-
-</div>
-
-
-<div class="row">
-
-उम्र
-
-<b id="sage"></b>
-
-</div>
-
-
-<div class="row">
-
-लिंग
-
-<b id="sgender"></b>
-
-</div>
-
-
-<div class="row">
-
-पता
-
-<b id="saddress"></b>
-
-</div>
-
-
-<div class="row">
-
-Service
-
-<b id="sservice"></b>
-
-</div>
-
-
-<div class="row">
-
-दिनांक
-
-<b id="sdate"></b>
-
-</div>
-
-
-</div>
-
-
-<div class="buttons">
+<div class="actions">
 
 <button
-class="green"
-onclick="window.print()"
->
+class="btn primary"
+onclick="downloadSlip()">
 
-🖨️ Print
-
-</button>
-
-
-<button
-class="gray"
-onclick="closeSlip()"
->
-
-Close
+⬇ Download PDF / PDF डाउनलोड
 
 </button>
 
 </div>
 
-</div>
+</section>
+
+
+<footer>
+
+Unified Token Portal • Demo Interface
+
+</footer>
 
 </div>
 
 
-<!-- FIREBASE -->
+<script>
 
-<script type="module">
+let selectedDate = "";
 
-import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+let tokenCount = 2;
 
 
-import {
-    getAuth,
-    signInAnonymously,
-    onAuthStateChanged
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+/* PAGE CHANGE */
 
+function show(id){
 
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    runTransaction,
-    serverTimestamp,
-    setDoc
-}
-from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    [
+        "home",
+        "daysPage",
+        "formPage",
+        "slipPage"
+    ].forEach(function(x){
 
+        document
+        .getElementById(x)
+        .classList
+        .add("hidden");
 
-/* =====================================
-   FIREBASE CONFIG
-===================================== */
+    });
 
-const firebaseConfig = {
+    document
+    .getElementById(id)
+    .classList
+    .remove("hidden");
 
-    apiKey:
-    "AIzaSyCkyS8CbP8s7QGG8fu3R-k-gIQRSWV0wGYs",
-
-    authDomain:
-    "ask-kanjoli-token-booking.firebaseapp.com",
-
-    projectId:
-    "ask-kanjoli-token-booking",
-
-    storageBucket:
-    "ask-kanjoli-token-booking.firebasestorage.app",
-
-    messagingSenderId:
-    "469671905701",
-
-    appId:
-    "1:469671905701:web:1c42ffC96a5ab728804c"
-};
-
-
-/* =====================================
-   FIREBASE START
-===================================== */
-
-const app =
-    initializeApp(firebaseConfig);
-
-const auth =
-    getAuth(app);
-
-const db =
-    getFirestore(app);
-
-
-let currentUser = null;
-
-
-/* =====================================
-   SETTINGS
-===================================== */
-
-const MAX_TOKENS = 40;
-
-const START_HOUR = 8;
-
-const SLOT_MINUTES = 15;
-
-
-/* =====================================
-   ELEMENT HELPER
-===================================== */
-
-function $(id){
-
-    return document.getElementById(id);
-
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 
-/* =====================================
-   TODAY
-===================================== */
+/* OFFICE */
 
-function getToday(){
-
-    const d =
-        new Date();
-
-    const year =
-        d.getFullYear();
-
-    const month =
-        String(
-            d.getMonth()+1
-        ).padStart(2,"0");
-
-    const day =
-        String(
-            d.getDate()
-        ).padStart(2,"0");
-
-    return (
-        year +
-        "-" +
-        month +
-        "-" +
-        day
-    );
-
-}
-
-
-/* =====================================
-   SUNDAY
-===================================== */
-
-function isSunday(date){
-
-    const d =
-        new Date(
-            date +
-            "T00:00:00"
-        );
-
-    return d.getDay() === 0;
-
-}
-
-
-/* =====================================
-   REPORTING TIME
-===================================== */
-
-function getReportingTime(number){
-
-    const totalMinutes =
-        START_HOUR * 60 +
-        (
-            number - 1
-        ) *
-        SLOT_MINUTES;
-
-
-    let hour =
-        Math.floor(
-            totalMinutes / 60
-        );
-
-
-    const minute =
-        totalMinutes % 60;
-
-
-    const ampm =
-        hour >= 12
-        ? "PM"
-        : "AM";
-
-
-    hour =
-        hour % 12;
-
-
-    if(hour === 0){
-
-        hour = 12;
-
-    }
-
-
-    return (
-        String(hour).padStart(2,"0") +
-        ":" +
-        String(minute).padStart(2,"0") +
-        " " +
-        ampm
-    );
-
-}
-
-
-/* =====================================
-   ERROR
-===================================== */
-
-function showError(message){
-
-    $("error").innerText =
-        message;
-
-    $("error").className =
-        "error show";
-
-}
-
-
-function clearError(){
-
-    $("error").innerText =
-        "";
-
-    $("error").className =
-        "error";
-
-}
-
-
-/* =====================================
-   FIREBASE AUTH
-===================================== */
-
-signInAnonymously(auth)
-
-.then(() => {
-
-    console.log(
-        "Anonymous Login Started"
-    );
-
-})
-
-.catch(error => {
-
-    console.error(error);
-
-    $("firebase").innerText =
-        "🔴 Firebase Authentication Error";
-
-    showError(
-        "Firebase Anonymous Authentication चालू नहीं है। Firebase Console में Authentication → Sign-in method → Anonymous → Enable करें।"
-    );
-
-});
-
-
-onAuthStateChanged(
-    auth,
-    user => {
-
-        currentUser =
-            user;
-
-
-        if(user){
-
-            $("firebase").innerText =
-                "🟢 Firebase Connected";
-
-            $("firebase").style.background =
-                "#e9fff7";
-
-            loadCount();
-
-        }
-
-    }
-);
-
-
-/* =====================================
-   COUNTER
-===================================== */
-
-async function getCounter(date){
-
-    const ref =
-        doc(
-            db,
-            "counters",
-            date
-        );
-
-
-    const snap =
-        await getDoc(ref);
-
+function goDays(){
 
     if(
-        !snap.exists()
+        !document
+        .getElementById("office")
+        .value
     ){
 
-        return 0;
+        alert(
+            "कृपया कार्यालय चुनें।"
+        );
 
+        return;
     }
 
+    renderDays();
 
-    return Number(
-        snap.data().general || 0
-    );
-
+    show("daysPage");
 }
 
 
-/* =====================================
-   LOAD COUNT
-===================================== */
+/* DAYS */
 
-async function loadCount(){
+function renderDays(){
 
-    const date =
-        $("date").value;
+    const box =
+    document.getElementById("days");
 
+    box.innerHTML = "";
 
-    if(!date){
+    const now = new Date();
 
-        return;
-
-    }
-
-
-    try{
-
-        const count =
-            await getCounter(date);
-
-
-        $("count").innerText =
-            count;
-
-
-        $("selected").innerText =
-            new Date(
-                date +
-                "T00:00:00"
-            ).toLocaleDateString(
-                "hi-IN",
-                {
-                    day:"2-digit",
-                    month:"long",
-                    year:"numeric"
-                }
-            );
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        $("count").innerText =
-            "Error";
-
-    }
-
-}
-
-
-/* =====================================
-   DATE SET
-===================================== */
-
-$("date").min =
-    getToday();
-
-$("date").value =
-    getToday();
-
-
-$("date").addEventListener(
-    "change",
-    loadCount
-);
-
-
-/* =====================================
-   BOOK TOKEN
-===================================== */
-
-window.bookToken =
-async function(){
-
-    clearError();
-
-
-    if(!currentUser){
-
-        showError(
-            "Firebase अभी connected नहीं है।"
-        );
-
-        return;
-
-    }
-
-
-    const date =
-        $("date").value;
-
-
-    const name =
-        $("name").value.trim();
-
-
-    const age =
-        $("age").value;
-
-
-    const gender =
-        $("gender").value;
-
-
-    const address =
-        $("address").value.trim();
-
-
-    const service =
-        document.querySelector(
-            'input[name="service"]:checked'
-        );
-
-
-    const agree =
-        $("agree").checked;
-
-
-    /* VALIDATION */
-
-
-    if(!date){
-
-        showError(
-            "Booking Date चुनें।"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        isSunday(date)
+    for(
+        let i=0;
+        i<7;
+        i++
     ){
 
-        showError(
-            "Sunday Holiday है। दूसरा दिन चुनें।"
+        const d = new Date(now);
+
+        d.setDate(
+            now.getDate()+i
         );
 
-        return;
-
-    }
-
-
-    if(!name){
-
-        showError(
-            "Applicant Name भरें।"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        age === "" ||
-        Number(age) < 0 ||
-        Number(age) > 120
-    ){
-
-        showError(
-            "सही उम्र भरें।"
-        );
-
-        return;
-
-    }
-
-
-    if(!gender){
-
-        showError(
-            "Gender चुनें।"
-        );
-
-        return;
-
-    }
-
-
-    if(!address){
-
-        showError(
-            "Address भरें।"
-        );
-
-        return;
-
-    }
-
-
-    if(!service){
-
-        showError(
-            "Service चुनें।"
-        );
-
-        return;
-
-    }
-
-
-    if(!agree){
-
-        showError(
-            "Declaration स्वीकार करें।"
-        );
-
-        return;
-
-    }
-
-
-    $("book").disabled =
-        true;
-
-
-    $("book").innerText =
-        "⏳ Token बन रहा है...";
-
-
-    try{
-
-        /*
-        COUNTER TRANSACTION
-        */
-
-        const counterRef =
-            doc(
-                db,
-                "counters",
-                date
-            );
-
-
-        const tokenNumber =
-            await runTransaction(
-                db,
-                async transaction => {
-
-                    const snap =
-                        await transaction.get(
-                            counterRef
-                        );
-
-
-                    let current =
-                        0;
-
-
-                    if(
-                        snap.exists()
-                    ){
-
-                        current =
-                            Number(
-                                snap.data().general || 0
-                            );
-
-                    }
-
-
-                    if(
-                        current >=
-                        MAX_TOKENS
-                    ){
-
-                        throw new Error(
-                            "FULL"
-                        );
-
-                    }
-
-
-                    const next =
-                        current + 1;
-
-
-                    transaction.set(
-                        counterRef,
-                        {
-
-                            general:
-                                next,
-
-                            date:
-                                date,
-
-                            updatedAt:
-                                serverTimestamp()
-
-                        },
-                        {
-                            merge:true
-                        }
-                    );
-
-
-                    return next;
-
-                }
-            );
-
-
-        /* TOKEN */
-
-
-        const token =
-            "A-" +
-            String(
-                tokenNumber
-            ).padStart(
-                4,
-                "0"
-            );
-
-
-        const reportingTime =
-            getReportingTime(
-                tokenNumber
-            );
-
-
-        /*
-        BOOKING DOCUMENT
-        */
-
-
-        const bookingId =
-            date +
-            "_" +
-            token;
-
-
-        const bookingRef =
-            doc(
-                db,
-                "Booking",
-                bookingId
-            );
-
-
-        await setDoc(
-            bookingRef,
+        const day =
+        d.toLocaleDateString(
+            "en-US",
             {
-
-                token:
-                    token,
-
-                tokenNumber:
-                    tokenNumber,
-
-                date:
-                    date,
-
-                name:
-                    name,
-
-                age:
-                    Number(age),
-
-                gender:
-                    gender,
-
-                address:
-                    address,
-
-                service:
-                    service.value,
-
-                reportingTime:
-                    reportingTime,
-
-                uid:
-                    currentUser.uid,
-
-                createdAt:
-                    serverTimestamp()
-
+                weekday:"short"
             }
         );
 
-
-        /*
-        SHOW SLIP
-        */
-
-
-        $("stoken").innerText =
-            token;
-
-
-        $("stime").innerText =
-            reportingTime;
-
-
-        $("sname").innerText =
-            name;
-
-
-        $("sage").innerText =
-            age;
-
-
-        $("sgender").innerText =
-            gender;
-
-
-        $("saddress").innerText =
-            address;
-
-
-        $("sservice").innerText =
-            service.value;
-
-
-        $("sdate").innerText =
-            date;
-
-
-        $("modal").classList.add(
-            "show"
+        const date =
+        d.toLocaleDateString(
+            "en-US",
+            {
+                day:"numeric",
+                month:"short"
+            }
         );
 
+        const iso =
+        d.toISOString()
+        .slice(0,10);
 
-        await loadCount();
+        const off =
+        d.getDay() === 0;
 
-    }
+        const div =
+        document.createElement("div");
 
-    catch(error){
+        div.className =
+        "day" +
+        (off ? " off" : "");
 
-        console.error(error);
+        div.innerHTML = `
 
+        <div>
+        ${day}
+        </div>
 
-        if(
-            error.message ===
-            "FULL"
-        ){
+        <div>
+        ${date}
+        </div>
 
-            showError(
-                "आज के सभी 40 General Token पूरे हो चुके हैं।"
-            );
+        <div class="status">
+        ${
+            off
+            ?
+            "Center OFF"
+            :
+            "Available / उपलब्ध"
+        }
+        </div>
+
+        `;
+
+        if(!off){
+
+            div.onclick =
+            function(){
+
+                selectDay(
+                    iso,
+                    date,
+                    div
+                );
+
+            };
 
         }
 
-        else{
+        box.appendChild(div);
 
-            showError(
-                "Token generate नहीं हुआ। Firebase Authentication और Firestore Rules जाँचें।"
-            );
+    }
 
-        }
+}
+
+
+/* SELECT DATE */
+
+function selectDay(
+    iso,
+    date,
+    el
+){
+
+    document
+    .querySelectorAll(".day")
+    .forEach(function(x){
+
+        x.classList
+        .remove("selected");
+
+    });
+
+    el.classList
+    .add("selected");
+
+    selectedDate = iso;
+
+    document
+    .getElementById("selectedDate")
+    .textContent = date;
+
+    document
+    .getElementById("slotArea")
+    .classList
+    .remove("hidden");
+
+}
+
+
+/* FORM */
+
+function showForm(){
+
+    show("formPage");
+
+}
+
+
+/* DISTRICT */
+
+function loadDistricts(){
+
+    const state =
+    document
+    .getElementById("state")
+    .value;
+
+    const district =
+    document
+    .getElementById("district");
+
+    const map = {
+
+        "Rajasthan":[
+            "Karauli",
+            "Jaipur",
+            "Dausa",
+            "Bharatpur",
+            "Alwar"
+        ],
+
+        "Delhi":[
+            "Central Delhi",
+            "East Delhi",
+            "North Delhi",
+            "South Delhi"
+        ],
+
+        "Maharashtra":[
+            "Mumbai City",
+            "Mumbai Suburban",
+            "Pune",
+            "Thane"
+        ],
+
+        "Madhya Pradesh":[
+            "Bhopal",
+            "Indore",
+            "Gwalior"
+        ],
+
+        "Uttar Pradesh":[
+            "Agra",
+            "Mathura",
+            "Lucknow"
+        ],
+
+        "Gujarat":[
+            "Ahmedabad",
+            "Gandhinagar",
+            "Vadodara"
+        ]
+
+    };
+
+
+    district.innerHTML =
+    `
+    <option value="">
+    -- Select District / जिला चुनें --
+    </option>
+    `;
+
+
+    (
+        map[state] || []
+    ).forEach(function(x){
+
+        district.innerHTML +=
+        `<option>${x}</option>`;
+
+    });
+
+}
+
+
+/* GENERATE TOKEN */
+
+function generateToken(){
+
+    const fields = [
+
+        "name",
+        "gender",
+        "age",
+        "state",
+        "district",
+        "service"
+
+    ];
+
+
+    if(
+        fields.some(function(id){
+
+            return !
+            document
+            .getElementById(id)
+            .value;
+
+        })
+    ){
+
+        alert(
+            "कृपया सभी आवश्यक जानकारी भरें।"
+        );
+
+        return;
 
     }
 
 
-    $("book").disabled =
-        false;
+    if(
+        !document
+        .getElementById("declare")
+        .checked
+    ){
+
+        alert(
+            "कृपया Declaration स्वीकार करें।"
+        );
+
+        return;
+
+    }
 
 
-    $("book").innerText =
-        "🎟️ Generate Token";
+    const office =
+    document
+    .getElementById("office")
+    .value;
 
-};
+
+    const token =
+    String(tokenCount++)
+    .padStart(3,"0")
+    + "-A";
 
 
-/* =====================================
-   CLOSE SLIP
-===================================== */
-
-window.closeSlip =
-function(){
-
-    $("modal").classList.remove(
-        "show"
+    const dateObj =
+    new Date(
+        selectedDate +
+        "T00:00:00"
     );
 
-};
+
+    const dateText =
+    dateObj.toLocaleDateString(
+        "en-IN",
+        {
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+
+    const times = [
+
+        "09:30 AM – 10:30 AM",
+
+        "10:30 AM – 11:30 AM",
+
+        "11:30 AM – 12:30 PM",
+
+        "12:30 PM – 01:30 PM"
+
+    ];
+
+
+    document
+    .getElementById("slipOffice")
+    .textContent =
+    office.toUpperCase();
+
+
+    document
+    .getElementById("slipOffice2")
+    .textContent =
+    office;
+
+
+    document
+    .getElementById("tokenNumber")
+    .textContent =
+    token;
+
+
+    document
+    .getElementById("timeRange")
+    .textContent =
+    times[
+        (tokenCount-3)
+        %
+        times.length
+    ];
+
+
+    document
+    .getElementById("slipDate")
+    .textContent =
+    dateText;
+
+
+    document
+    .getElementById("slipName")
+    .textContent =
+    document
+    .getElementById("name")
+    .value;
+
+
+    document
+    .getElementById("slipAge")
+    .textContent =
+    document
+    .getElementById("age")
+    .value;
+
+
+    document
+    .getElementById("slipGender")
+    .textContent =
+    document
+    .getElementById("gender")
+    .value;
+
+
+    document
+    .getElementById("slipState")
+    .textContent =
+    document
+    .getElementById("state")
+    .value;
+
+
+    document
+    .getElementById("slipDistrict")
+    .textContent =
+    document
+    .getElementById("district")
+    .value;
+
+
+    document
+    .getElementById("slipSRN")
+    .textContent =
+
+    document
+    .getElementById("srn")
+    .value
+
+    ||
+
+    "Not Provided";
+
+
+    document
+    .getElementById("slipService")
+    .textContent =
+    document
+    .getElementById("service")
+    .value;
+
+
+    show("slipPage");
+
+}
+
+
+/* PRINT / PDF */
+
+function downloadSlip(){
+
+    const html =
+    document
+    .getElementById("slip")
+    .outerHTML;
+
+
+    const win =
+    window.open(
+        "",
+        "_blank"
+    );
+
+
+    win.document.write(`
+
+    <html>
+
+    <head>
+
+    <title>
+    Appointment Token Slip
+    </title>
+
+    <style>
+
+    body{
+        font-family:Arial,sans-serif;
+        padding:30px;
+    }
+
+    .slip{
+        max-width:600px;
+        margin:auto;
+        border:2px solid #9ec6ea;
+        border-radius:20px;
+        padding:28px;
+        text-align:center;
+    }
+
+    .token{
+        border:1px dashed #74a8d7;
+        padding:20px;
+    }
+
+    .token-number{
+        font-size:45px;
+        font-weight:900;
+    }
+
+    .time{
+        font-size:24px;
+        color:#0752a8;
+        font-weight:800;
+    }
+
+    .info{
+        text-align:left;
+        line-height:1.7;
+    }
+
+    .notice{
+        padding:14px;
+        background:#fff7df;
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+    ${html}
+
+    </body>
+
+    </html>
+
+    `);
+
+
+    win.document.close();
+
+    win.print();
+
+}
 
 </script>
 
